@@ -888,6 +888,31 @@ committing to video:
    "fewer clients, same money, but prettier." The level is the instrument; the
    glow is decoration.
 
+## Final frames — all six locked
+
+| Beat | File | Blocks | Piggy |
+| --- | --- | --- | --- |
+| 1 | `Gemini_Generated_Image_pvx2x4pvx2x4pvx2.png` | 4 tan | ~8% |
+| 2 | `Gemini_Generated_Image_dkks7mdkks7mdkks.png` | 4 tan | ~8% |
+| 3 | `Gemini_Generated_Image_5bmwxc5bmwxc5bmw.png` | ~12 tan | ~20% |
+| 4 | `Gemini_Generated_Image_xbu6ouxbu6ouxbu6.png` | ~30 tan | ~45% |
+| 5 | `Gemini_Generated_Image_8mk19s8mk19s8mk1.png` | ~13, 5 gold | ~45% |
+| 6 | `Gemini_Generated_Image_kt7hlakt7hlakt7h.png` | ~10, all gold | ~75%, glowing |
+
+**Accepted deviation:** the intended shape was 30 → 10 → 14, a dip and partial
+recovery. Actual is 30 → 13 → 10, a monotonic decline. Not worth re-rolling —
+the difference between thirteen blocks and ten is imperceptible at phone scale,
+and the comparison the page rests on (beat 4 against beat 6: a third of the
+bookings, roughly double the money) is fully intact. Another generation would
+risk what is now correct for something no viewer can read.
+
+**Also accepted:** beat 5 reads as mildly hopeful rather than as held breath, so
+the emotional dip is softer than designed. Safer commercially, and far better
+than the funeral the first attempt produced.
+
+**Minor drift, unresolved:** an upholstered pouffe appears in beat 6 that is in
+no earlier frame. Watch it on the 5 → 6 interpolation.
+
 ## Counting the instruments
 
 The rooms are the easy part and they distract from the checks that matter. When
@@ -903,6 +928,30 @@ judging any frame, ignore the room first and read only these two:
 | 6 | ~14, **all** gold, one row empty | ~85% |
 
 ---
+
+# Safe-area pass — do this before rendering
+
+The two instruments sit too close to the frame edges to survive
+`object-fit: cover` on a phone, and this must be fixed for all six frames in one
+compositing pass.
+
+The stage is 100vh and the video covers it. On a 390×844 phone the viewport is
+2.16 tall against renders at 1.65, so cover scales to height and crops **~12%
+off each side**. The piggy bank's left edge sits at 5.6% and the calendar's
+right edge at 94.8% — both get clipped, and the calendar loses roughly its
+seventh column, which carries gold blocks at beat 6.
+
+**Fix: pad vertically with matching near-black.** Roughly +550px above and
++250px below, taking every frame to about 1600×3450 (~2.15). A typical phone
+then crops almost nothing horizontally.
+
+The padding is **sacrificial by design**: on a wider mobile viewport (640px, a
+proportionally shorter stage) cover crops *vertically* instead, eating the dark
+space rather than the picture. Whatever the viewport ratio, the padding absorbs
+the crop.
+
+This same pass resolves the canvas mismatch — beats 1–2 are 1536×2752 and
+beats 3–6 are 1600×2642. Normalise all six to one size while padding.
 
 # Video pipeline
 
