@@ -6,6 +6,8 @@ import { Container, buttonStyles } from "@foundation/ui";
 
 import type { SiteContent } from "@/content";
 import { siteUrl } from "@/lib/site-url";
+import { LeadLink } from "@/components/lead/lead-link";
+import { localeHref } from "@/lib/locale-href";
 
 import { SocialIcon } from "./social-icons";
 
@@ -48,7 +50,7 @@ export function SiteHeader({ content }: { content: SiteContent }) {
         <a
           aria-label={content.brand.name}
           className="brand"
-          href={siteUrl(`/${content.locale}`)}
+          href={localeHref()}
         >
           <img
             alt=""
@@ -107,9 +109,9 @@ export function SiteHeader({ content }: { content: SiteContent }) {
             ))}
           </ul>
 
-          <a className={buttonStyles({ className: "site-header__cta" })} href={siteUrl("#contact")}>
+          <LeadLink className={buttonStyles({ className: "site-header__cta" })}>
             {content.shortCta}
-          </a>
+          </LeadLink>
 
           <button
             aria-expanded={open}

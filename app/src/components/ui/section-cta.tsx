@@ -1,7 +1,7 @@
 import { buttonStyles } from "@foundation/ui";
 
+import { LeadLink } from "@/components/lead/lead-link";
 import type { SectionCta as SectionCtaContent } from "@/content";
-import { siteUrl } from "@/lib/site-url";
 
 /**
  * The call to action that closes a section.
@@ -41,12 +41,15 @@ import { siteUrl } from "@/lib/site-url";
 export function SectionCta({ cta }: { cta: SectionCtaContent }) {
   return (
     <div className="section__cta">
-      <a
-        className={buttonStyles({ className: "section__cta-button" })}
-        href={siteUrl(cta.href)}
-      >
+      {/* ⚠️ `cta.href` IS NO LONGER READ HERE, AND THAT IS DELIBERATE. Every
+          entry points at `#contact` (O-18) and now opens the popup instead of
+          scrolling there. The field stays in the content type because it is
+          what a second conversion path — a booking link, a WhatsApp flow —
+          would use, and `LeadLink` keeps `#contact` as its no-JavaScript
+          fallback either way. */}
+      <LeadLink className={buttonStyles({ className: "section__cta-button" })}>
         {cta.label}
-      </a>
+      </LeadLink>
     </div>
   );
 }

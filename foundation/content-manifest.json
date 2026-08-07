@@ -118,7 +118,7 @@
     },
     {
       "path": "app/src/app/[locale]/layout.tsx",
-      "sha256": "17c7d3501b1110580a15a2c9b386f5a2f38e6e67bc00f1407a530b507f9f443e"
+      "sha256": "896e8d638544afe7cfbf15e3d4906bc603001a8a4b11070f6eaff447d41e88cb"
     },
     {
       "path": "app/src/app/[locale]/page.tsx",
@@ -134,7 +134,11 @@
     },
     {
       "path": "app/src/app/globals.css",
-      "sha256": "f3c54c3e1ecf6abd06252336547d9f5e1786341056f7ddde96df4f980817f009"
+      "sha256": "bac5b2371aee3907bd2661d4ae1e47ae678d3f554bff4451901b06d730e79956"
+    },
+    {
+      "path": "app/src/app/icon.png",
+      "sha256": "21cf62c379665723be59bea46b54b9ebb17ab1cc91d8a6e221805634a43b67a9"
     },
     {
       "path": "app/src/app/robots.ts",
@@ -142,7 +146,7 @@
     },
     {
       "path": "app/src/app/sitemap.ts",
-      "sha256": "9962e3f39018abc17ab94b822dabf2c795b76738e8912a6fba0ed89edb42d2f2"
+      "sha256": "61e9824a251ebda845498eaf17b07ece5f714b76b5b236ed2fd9f5c455d9018f"
     },
     {
       "path": "app/src/components/layout/accessibility-panel.tsx",
@@ -150,7 +154,7 @@
     },
     {
       "path": "app/src/components/layout/cookie-notice.tsx",
-      "sha256": "0b6cf26c83b90d69cc0ba130b62337744fe10598ee1acdf44673e372f3df542b"
+      "sha256": "f6f854dc2b6678ce8005af9a9db063a9b7be3dce7031af9e81d4b183f3f3bf47"
     },
     {
       "path": "app/src/components/layout/floating-whatsapp.tsx",
@@ -166,15 +170,23 @@
     },
     {
       "path": "app/src/components/layout/site-footer.tsx",
-      "sha256": "8e78ace8d3e1944ab6c968638a4791fb5a1fb13a85561769d258c0ca5b8c0c2f"
+      "sha256": "3dae8826840f44119efc8e8354f85fd1b269c485e8f25eb0c7ed8a2c87352498"
     },
     {
       "path": "app/src/components/layout/site-header.tsx",
-      "sha256": "a720d8695ba6f760320467f87f2aba6599bf2bf7bb4f59849ccc21302e3e3689"
+      "sha256": "0138bae7209084574ea3620b6bdf271739b0225f1c0a68dcd8d1ab9316cd31cf"
     },
     {
       "path": "app/src/components/layout/social-icons.tsx",
       "sha256": "549baae34932a752602e2238d0b222139b35faa12bf7040516c93958ae309cae"
+    },
+    {
+      "path": "app/src/components/lead/lead-dialog.tsx",
+      "sha256": "f6f3145ab53b594e02549d89e0adba442f16caf5a063d9e940b24f6b9a1d1988"
+    },
+    {
+      "path": "app/src/components/lead/lead-link.tsx",
+      "sha256": "a6fa8f36e7588d38461bd4ae1f516a0d82b2b0e343b646b1338324a12e211a18"
     },
     {
       "path": "app/src/components/motion/cursor-surface.tsx",
@@ -230,7 +242,7 @@
     },
     {
       "path": "app/src/components/sections/hero.tsx",
-      "sha256": "933492e6ffe6828527c97bd3c54e6529df5a4d298dcc4658f604e73cae252efd"
+      "sha256": "4328697d7371ad960d46d5e9b49b8f32962b447dbca05c1173028e3a505f0e6c"
     },
     {
       "path": "app/src/components/sections/index.ts",
@@ -238,7 +250,7 @@
     },
     {
       "path": "app/src/components/sections/legal-page.tsx",
-      "sha256": "abad0e67f1ce9f4ee970b8af50ea9f908039f63b9beb4b4621adbac1d1387ed7"
+      "sha256": "ff0020696161be6363495f6fc591786c5a02ef9f871c1f5c4550b7a4f2ef806f"
     },
     {
       "path": "app/src/components/sections/method.tsx",
@@ -246,7 +258,7 @@
     },
     {
       "path": "app/src/components/sections/offer.tsx",
-      "sha256": "5abec0572381467d624c8b23dbfa65a80288ed585acb47f6d33b0f1f28f09cbe"
+      "sha256": "f2ac84bdab865428cdf03c574075262f345edf90ef2f630876ee2ba78da96b66"
     },
     {
       "path": "app/src/components/sections/pain.tsx",
@@ -278,7 +290,7 @@
     },
     {
       "path": "app/src/components/ui/section-cta.tsx",
-      "sha256": "5d991a9ee2d0afd693d626dec947dab467b107dd11e6c05ccc439459402183e5"
+      "sha256": "93ee4a8f45d1c33a6c4d3a082f2ff68c7524accc9b44a822e0f9ed6213860e1a"
     },
     {
       "path": "app/src/components/ui/section-heading.tsx",
@@ -286,7 +298,7 @@
     },
     {
       "path": "app/src/components/ui/wave-text.tsx",
-      "sha256": "d1145d389ddc98d360fc2ffde0dc96a2f782d48956da8de6b055d06f721e4369"
+      "sha256": "8e8aef2c082cdc661e80565d0e2b81d97e69c14794d778edcb095c25fc1f1279"
     },
     {
       "path": "app/src/config/analytics.ts",
@@ -335,6 +347,10 @@
     {
       "path": "app/src/lib/intake-handler.ts",
       "sha256": "a9c72a80419d736250a968e9bba5f14f31eee13b80b7a53408d1b5f91ee843a0"
+    },
+    {
+      "path": "app/src/lib/locale-href.ts",
+      "sha256": "062fd72fd5249f3e3751c88a93a0eb3547f7e15dee2d71c96b9355b071a7c064"
     },
     {
       "path": "app/src/lib/reveal-class.ts",

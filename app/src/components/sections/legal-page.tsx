@@ -2,6 +2,7 @@ import { Container } from "@foundation/ui";
 
 import type { SiteContent } from "@/content";
 import { siteUrl } from "@/lib/site-url";
+import { localeHref } from "@/lib/locale-href";
 
 type LegalKey = keyof SiteContent["legal"]["pages"];
 
@@ -29,7 +30,7 @@ export function LegalPage({
   return (
     <main className="section legal" id="main-content" tabIndex={-1}>
       <Container className="ui-container--narrow">
-        <a className="legal__back" href={siteUrl(`/${content.locale}`)}>
+        <a className="legal__back" href={localeHref()}>
           {legal.backLabel}
         </a>
 

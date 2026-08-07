@@ -5,6 +5,7 @@ import { stripTerminal } from "@/components/ui/section-heading";
 import { WaveText } from "@/components/ui/wave-text";
 import type { SiteContent } from "@/content";
 import { siteUrl } from "@/lib/site-url";
+import { LeadLink } from "@/components/lead/lead-link";
 
 import { Showreel } from "./showreel";
 
@@ -70,9 +71,7 @@ export function Hero({ content }: { content: SiteContent }) {
 
         <div className="hero__foot">
           <OneShotCta className="hero__actions">
-            <a className={buttonStyles()} href={siteUrl("#contact")}>
-              {hero.primaryCta}
-            </a>
+            <LeadLink className={buttonStyles()}>{hero.primaryCta}</LeadLink>
             <a
               className={buttonStyles({ variant: "secondary" })}
               href={siteUrl("#proof")}

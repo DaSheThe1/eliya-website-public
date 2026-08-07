@@ -3,6 +3,8 @@ import { Container, buttonStyles } from "@foundation/ui";
 import { headlineText } from "@/components/ui/section-heading";
 import type { SiteContent } from "@/content";
 import { siteUrl } from "@/lib/site-url";
+import { LeadLink } from "@/components/lead/lead-link";
+import { localeHref } from "@/lib/locale-href";
 
 import { SocialIcon } from "./social-icons";
 
@@ -90,12 +92,9 @@ export function SiteFooter({ content }: { content: SiteContent }) {
 
           <div className="site-footer__close">
             <p className="site-footer__close-line">{headlineText(content.contact.titleLines)}</p>
-            <a
-              className={buttonStyles({ className: "site-footer__cta" })}
-              href={siteUrl("#contact")}
-            >
+            <LeadLink className={buttonStyles({ className: "site-footer__cta" })}>
               {content.shortCta}
-            </a>
+            </LeadLink>
           </div>
         </div>
 
@@ -111,7 +110,7 @@ export function SiteFooter({ content }: { content: SiteContent }) {
           >
             {(["privacy", "terms", "accessibility"] as const).map((key) => (
               <a
-                href={siteUrl(`/${content.locale}/${content.legal.pages[key].slug}`)}
+                href={localeHref(`/${content.legal.pages[key].slug}`)}
                 key={key}
               >
                 {content.legal.pages[key].title}

@@ -14,7 +14,9 @@ import {
   generatedSiteConfig,
   isFixtureContent,
 } from "@/config/generated-site";
+import { LeadDialogProvider } from "@/components/lead/lead-dialog";
 import { enabledLocales, getSiteContent, isLocale, type Locale } from "@/content";
+import { localeRootPath } from "@/lib/locale-href";
 
 import "../globals.css";
 
@@ -39,7 +41,8 @@ export async function generateMetadata({
     siteName: generatedSiteConfig.identityName,
     siteUrl: generatedSiteConfig.siteUrl,
     basePath: generatedSiteConfig.basePath,
-    path: generatedLocalePath(locale),
+    // Hebrew-only, served from the root — see lib/locale-href.ts.
+    path: localeRootPath(),
     title: content.meta.title,
     description: content.meta.description,
     locale,
@@ -82,7 +85,10 @@ export default async function LocaleLayout({
           <span className="site-glow__orb site-glow__orb--sea" />
           <span className="site-glow__grain" />
         </div>
-        {children}
+        {/* Mounted once, here, so every call to action on every route can open
+            the same popup — including the ones on the legal pages. See the note
+            in `lead/lead-dialog.tsx` for why the CTAs stopped being scrolls. */}
+        <LeadDialogProvider content={content}>{children}</LeadDialogProvider>
       </body>
     </html>
   );

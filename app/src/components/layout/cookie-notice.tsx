@@ -77,7 +77,7 @@ export function CookieNotice({ content }: { content: SiteContent }) {
         <a
           className="cookie-notice__link"
           href={siteUrl(
-            `/${content.locale}/${content.legal.pages.privacy.slug}`,
+            `/${content.legal.pages.privacy.slug}`,
           )}
         >
           {content.cookies.privacyLabel}

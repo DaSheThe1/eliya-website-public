@@ -3,7 +3,7 @@ import { Container, buttonStyles } from "@foundation/ui";
 import { FreeCallAnchor } from "@/components/motion/free-call-anchor";
 import { SectionHeading } from "@/components/ui/section-heading";
 import type { SiteContent } from "@/content";
-import { siteUrl } from "@/lib/site-url";
+import { LeadLink } from "@/components/lead/lead-link";
 
 /**
  * The funnel beat. Both prices are struck because neither applies: nothing is
@@ -32,9 +32,7 @@ export function Offer({ content }: { content: SiteContent }) {
             freeLabel={offer.freeLabel}
             rungs={offer.rungs}
           >
-            <a className={buttonStyles()} href={siteUrl("#contact")}>
-              {offer.cta}
-            </a>
+            <LeadLink className={buttonStyles()}>{offer.cta}</LeadLink>
           </FreeCallAnchor>
         </div>
       </Container>

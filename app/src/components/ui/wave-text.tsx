@@ -56,6 +56,93 @@ import { useSiteMotionPreference } from "@foundation/accessibility";
  * a valid `aria-labelledby` target, because its accessible name still comes from
  * its own text content.
  */
+/*
+ * ⚠️ ONE CREST ON THE PAGE, NOT ONE PER HEADING.
+ *
+ * Daniel, 2026-08-07, on the live site: *"I see the glow of the header. There
+ * are two glows at the same time that are going on instead of a single one."*
+ *
+ * He was right and it was worse than two. Measured on the deployed page before
+ * this: **three** headings glowing at once at 2560x1440 (pain, method,
+ * process), two at 1440x900 (about, pain), two at 390x844 (offer, faq).
+ *
+ * The cause was structural rather than a bug in the sweep. Note 2 above solved
+ * "nine always-on rAF loops" by giving each instance an IntersectionObserver
+ * that starts ITS OWN clock on entry — which is correct for cost and wrong for
+ * appearance, because on any screen tall enough to show two headings, two
+ * clocks run, started at different moments and therefore out of phase. The
+ * fault was invisible on the h1 alone, which is where it kept being checked.
+ *
+ * This registry is the missing half. Instances report whether they are on
+ * screen; exactly one — the one nearest the middle of the viewport — is active,
+ * and a single shared rAF drives it. Everything else rests.
+ *
+ * ── WHY THE ACTIVE ONE IS NOT RE-PICKED ON EVERY SCROLL ──
+ * Handing the crest to whichever heading is closest at each frame would restart
+ * the sweep constantly while scrolling, which reads as flicker. An active
+ * instance keeps the crest for as long as it stays on screen, and the handoff
+ * happens only when it leaves — a moment the reader is not looking at it
+ * anyway.
+ */
+interface Glow {
+  el: HTMLElement;
+  visible: boolean;
+  draw: (now: number) => void;
+  rest: () => void;
+  reset: () => void;
+}
+
+const glows = new Set<Glow>();
+let activeGlow: Glow | null = null;
+let sharedRaf = 0;
+
+function glowFrame(now: number) {
+  if (!activeGlow) {
+    sharedRaf = 0;
+    return;
+  }
+  activeGlow.draw(now);
+  sharedRaf = window.requestAnimationFrame(glowFrame);
+}
+
+/** Keep the current crest if it is still on screen; otherwise take the nearest. */
+function electGlow() {
+  if (activeGlow && (!glows.has(activeGlow) || !activeGlow.visible)) {
+    activeGlow.rest();
+    activeGlow = null;
+  }
+
+  if (!activeGlow) {
+    const middle = window.innerHeight / 2;
+    let nearest: Glow | null = null;
+    let nearestDistance = Number.POSITIVE_INFINITY;
+    for (const glow of glows) {
+      if (!glow.visible) continue;
+      const box = glow.el.getBoundingClientRect();
+      const distance = Math.abs((box.top + box.bottom) / 2 - middle);
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
+        nearest = glow;
+      }
+    }
+    if (nearest) {
+      nearest.reset();
+      activeGlow = nearest;
+    }
+  }
+
+  // Anything not holding the crest must be sitting at its resting colour, or a
+  // heading keeps whatever tint it happened to be wearing when it lost it.
+  for (const glow of glows) if (glow !== activeGlow) glow.rest();
+
+  if (activeGlow && !sharedRaf) {
+    sharedRaf = window.requestAnimationFrame(glowFrame);
+  } else if (!activeGlow && sharedRaf) {
+    window.cancelAnimationFrame(sharedRaf);
+    sharedRaf = 0;
+  }
+}
+
 export function WaveText({
   text,
   label,
@@ -126,10 +213,9 @@ export function WaveText({
     const sweepDuration = cycle * sweep;
     const sigma = 1.15; // crest half-width, in letters
     const previous = new Array<number>(count).fill(-1);
-    let raf = 0;
     let start = 0;
 
-    const frame = (now: number) => {
+    const draw = (now: number) => {
       if (!start) start = now;
       const phase = ((now - start) / 1000) % cycle;
       // The crest head sweeps from just before the first letter to just past
@@ -155,26 +241,30 @@ export function WaveText({
         const b = Math.round(restRgb[2] + (cb - restRgb[2]) * intensity);
         chars[index].style.color = `rgb(${r}, ${g}, ${b})`;
       }
-
-      raf = window.requestAnimationFrame(frame);
     };
 
-    // See note 2 above: the clock only runs while the phrase is on screen.
+    /*
+     * This instance no longer owns a clock. It registers what it can do and the
+     * page-wide registry decides whether it is the one drawing — see the note
+     * above `interface Glow`. The observer's only job now is to report
+     * visibility, which is what the election reads.
+     */
+    const glow: Glow = {
+      el: root,
+      visible: false,
+      draw,
+      rest,
+      reset: () => {
+        start = 0;
+        previous.fill(-1);
+      },
+    };
+    glows.add(glow);
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          if (!raf) {
-            start = 0;
-            previous.fill(-1);
-            raf = window.requestAnimationFrame(frame);
-          }
-          return;
-        }
-        if (raf) {
-          window.cancelAnimationFrame(raf);
-          raf = 0;
-          rest();
-        }
+        glow.visible = entry.isIntersecting;
+        electGlow();
       },
       { rootMargin: "10% 0px" },
     );
@@ -182,8 +272,10 @@ export function WaveText({
 
     return () => {
       observer.disconnect();
-      if (raf) window.cancelAnimationFrame(raf);
+      glows.delete(glow);
       rest();
+      // Releases the crest to the next-nearest heading if this one held it.
+      electGlow();
     };
   }, [text, cycle, sweep, reduced]);
 

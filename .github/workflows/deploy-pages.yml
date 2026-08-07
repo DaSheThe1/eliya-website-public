@@ -79,11 +79,20 @@ jobs:
       - name: Drop server-only API routes
         run: rm -rf app/src/app/api
 
-      # Emits app/out. The root index.html is a redirect to ./he/ and carries
-      # noindex; the indexable page is /he/. app/public/CNAME is copied through
-      # by the export, which is what binds the deployment to the host above.
+      # Emits app/out, with every page under app/out/he/ — the next step
+      # hoists it. app/public/CNAME is copied through by the export, which is
+      # what binds the deployment to the host above.
       - name: Build static export
         run: pnpm --dir app build:static
+
+      # ⚠️ HEBREW AT THE ROOT, NOT AT /he/. The App Router needs the [locale]
+      # segment, so the export always lands in app/out/he/ — this hoists it up,
+      # rewrites the canonicals Next derived from the route, and leaves /he/ as
+      # a redirect for the URL that was already live. Its pair is
+      # app/src/lib/locale-href.ts, which makes the links unprefixed; run one
+      # without the other and every link on the site 404s.
+      - name: Serve Hebrew from the root
+        run: node scripts/flatten-locale-export.mjs
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

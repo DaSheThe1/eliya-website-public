@@ -3,8 +3,8 @@
 Working log for the scroll-story animation that replaces the placeholder
 footage in the `process` section (closes O-14).
 
-All prompts below are **beat 1** (the "before" state). Beats 2–5 get added
-once beat 1 is locked.
+The **v1–v5 prompts** below are for beat 1 (the "before" state), kept as a
+version log. The **six locked beats and their prompts** start further down.
 
 ---
 
@@ -20,22 +20,28 @@ mistake, not a variation.
   sign on the banknotes is the only symbol permitted** — it says *money*
   without stating an amount.
 - **Calendar marks are small filled blocks inside cells, never handwriting.**
-  Handwriting cannot scale to "wall to wall booked" at beat 3, and cannot
-  change weight or colour to show the price rise at beat 4.
+  Handwriting cannot scale to "wall to wall booked" at beat 4, and cannot
+  change colour to show the price rise at beat 5.
+- **Blocks are FLAT TAN through beat 4 and DEEP SATURATED GOLD from beat 5.**
+  Gold is the only signal that the price changed, so it must not appear one
+  frame early. Beat 3 came back with gold blocks in it and had to be redone.
 - **Calendar on the right, piggy bank on the left.** RTL reading order: how
   full is she first, what it is worth second.
 - **The storefront must be wide enough to hold three or four people standing
-  outside looking in.** Needed at beat 5. Cheap now, a redraw later.
+  outside looking in.** Needed at beat 6. Cheap now, a redraw later.
 - **The room never upgrades.** Same furniture, same camera, same positions in
-  all five beats. What changes is her posture, who is in the room, the light,
+  all six beats. What changes is her posture, who is in the room, the light,
   the calendar and the piggy bank. Nothing else.
+- **Every frame is exactly 1536×2752.** Video interpolation needs pixel-identical
+  canvases. Generations drift (one beat 2 candidate came back 1536×2784) — check
+  the dimensions on every accepted frame before locking it.
 
 ## Production rule
 
-Once beat 1 is locked, **stop prompting from scratch.** Generate beats 2–5 as
-edits of the locked frame, changing only what the beat changes. Fresh
-generations drift the furniture and the scrub will look like five different
-salons instead of one room over a month.
+Once beat 1 is locked, **stop prompting from scratch.** Each beat is an edit of
+the beat before it, changing only what that beat changes. Fresh generations
+drift the furniture and the scrub will look like six different salons instead
+of one room over time.
 
 ---
 
@@ -392,54 +398,70 @@ a bright cream calendar carrying four small beige blocks.
 
 ---
 
-# The five beats
+# The six beats
 
 The story, from `pain` and `method`: she is a professional nobody knows about;
-she becomes visible; she gets busy at the wrong price; she raises it and holds
-her nerve; she ends up with fewer hours and more money.
+she becomes visible; it starts working; it works too well at the wrong price;
+she raises it and holds her nerve; she ends up with fewer hours and more money.
 
-| Beat | What happens | Piggy bank | Calendar |
+| Beat | Room | Calendar | Piggy |
 | --- | --- | --- | --- |
-| 1 | Quiet. Good work, empty chair, silent phone | ~10% | 4 small pale blocks |
-| 2 | She gets on camera | ~10% *unchanged* | 4 small pale blocks *unchanged* |
-| 3 | Full — but the wrong full. Crammed, cheap, running late | ~30% | nearly every cell filled, small pale blocks |
-| 4 | She raises the price. Gaps open. The held breath | ~35% *barely moved* | ~10 blocks, some now large and gold, several cells visibly emptied |
-| 5 | Fewer hours, better week | ~85% | ~14 large gold blocks with clear empty gaps |
+| 1 | Empty chair, alone, silent phone | 4 tan | ~8% |
+| 2 | Filming, Eliya guiding | 4 tan — **unchanged** | ~8% — **unchanged** |
+| 3 | First clients. One in the chair, Eliya present | ~12 tan | ~20% |
+| 4 | Packed. Four clients, hectic, Eliya at the wall | ~30 tan, nearly full | ~45% |
+| 5 | Price raised. One client, quiet, Eliya at her shoulder | ~10, some **gold**, obvious holes | ~45% — **unchanged** |
+| 6 | Calm, one client, daylight, crowd outside, Eliya gone | ~14 all **gold**, big gaps | ~85% |
 
-Two things carry the whole argument and must not be softened:
+## The three things that carry the argument
 
-- **Beat 2 pays off nothing.** The calendar and the piggy bank do not move. She
-  does the work and gets nothing yet. That honesty is what makes beat 3 land.
-- **Beat 4's piggy bank barely moves.** The nerve is at 4, the reward is at 5.
-  If the money jumps the moment she raises the price, the tension evaporates
-  and the risk looks free.
+**Beat 2 pays off nothing.** Calendar and piggy bank do not move. She does the
+work and gets nothing yet. That honesty is what makes beat 3 land.
 
-**Time of day:** the interior lighting stays constant in all five. Only what is
-visible *through the glass* changes — night for beats 1 to 4 (she is still
-working late, which is the point at beat 3), golden late afternoon at beat 5.
-That carries "she no longer works nights" without relighting the room, and
-keeps the change local for the interpolation.
+**Beat 5's piggy bank does not move either.** This is the most important frame
+in the sequence and the easiest to get wrong. The calendar collapses from ~30
+blocks to ~10 and the money stays exactly where it was. A third of the work,
+identical income — there is no other explanation for that, and the viewer does
+the arithmetic without being told. It is also her own promise word for word:
+`method.pricing` says **לעבוד פחות שעות על אותה הכנסה**.
+
+**The piggy levels must be arithmetically honest.** At a constant price the
+money scales with bookings, which is why beat 3 is ~20% and beat 4 ~45%. The
+whole argument lives in the two places where that proportionality *breaks*:
+
+- **4 → 5:** bookings collapse, money holds. Only a price rise explains it.
+- **4 → 6:** half the bookings, roughly double the money. That is נ.ש's
+  testimonial exactly — *מרוויחה פי 2 בפחות שעות*.
+
+If beat 4's piggy is too high the packed month looks fine and there is no
+reason to change anything. If it is too low the arithmetic stops working.
+
+**Time of day:** interior lighting is constant in all six. Only what is visible
+*through the glass* changes — night for beats 1 to 5 (still working late, which
+is the point at beat 4), golden late afternoon at beat 6. That carries "she no
+longer works nights" without relighting the room, and keeps the change local
+for the interpolation.
 
 **Wardrobe and camera never change.** Same cream top, same dark trousers, same
-angle, same furniture in the same places, all five beats.
+angle, same furniture in the same places, all six beats.
 
-## Eliya is in the room, beats 2 to 4
+## Eliya is in the room, beats 2 to 5
 
 Daniel's decision. She is physically present, not a call on a screen.
 
-**Absent at beat 1, present at beats 2, 3 and 4, absent at beat 5.** One
-entrance and one exit, which is the whole reason she stays through beat 3
-rather than appearing only at the two decisions: a body that appears, vanishes,
-returns and vanishes again is four entrances and exits for the video model to
-invent, and every one of them is a place the interpolation can break.
+**Absent at beat 1, present at beats 2 to 5, absent at beat 6.** One entrance
+and one exit, which is the whole reason she stays through the middle rather
+than appearing only at the decisions: a body that appears, vanishes, returns
+and vanishes again is four entrances and exits for the video model to invent,
+and every one of them is a place the interpolation can break.
 
-It also reads better. Beat 1 is before the help, beats 2 to 4 are the work
-together, beat 5 is after — she is gone and the business remains. And her being
-present at beat 3 makes beat 4 causal rather than arbitrary: she is standing
+It also reads better. Beat 1 is before the help, beats 2 to 5 are the work
+together, beat 6 is after — she is gone and the business remains. And her being
+present at beat 4 makes beat 5 causal rather than arbitrary: she is standing
 there watching the woman drown in cheap appointments, which is *why* the price
 goes up in the next frame.
 
-**Her exit is covered by the time change.** Beat 4 is night, beat 5 is golden
+**Her exit is covered by the time change.** Beat 5 is night, beat 6 is golden
 late afternoon. Days have passed, so nobody expects the same people in the
 room. That jump is the licence for her absence and it needs no walking-out shot.
 
@@ -458,9 +480,40 @@ At beat 2 the ring light pools cold white on the **studio owner** while Eliya
 stands outside that pool in the warm room light. The spotlight is literally on
 the viewer's stand-in; Eliya is support.
 
-**Likeness:** recognisable type, not a portrait. Dark hair, black blazer, to
-match `eliya-phone-blazer.jpg` elsewhere on the page. An accurate drawn face
-sitting near her real photographs is where illustrated likenesses go wrong.
+### Likeness — attach the photo, but recognition comes from silhouette
+
+**Attach `assets/portrait/eliya-phone-blazer.jpg` to every generation that
+contains her.** The full-resolution original, not a screenshot. It is the same
+photo already used elsewhere on the page, which is the whole point.
+
+**The face will not be recognisable and that is fine.** In the locked frame the
+studio owner's head is about 75px in a 2752px-tall render — roughly 15 pixels
+on a 390px phone viewport. There is no face at that scale, for anyone. The
+style is flat editorial illustration where a face is three or four simplified
+shapes, and that is why it looks good.
+
+What survives stylisation and small scale, and what to actually ask for:
+
+- The **oversized boxy double-breasted black blazer** with wide lapels. A
+  strong, unusual silhouette that reads long after facial detail is gone.
+- The **long dark hair**, centre-parted, swept back on one side with a heavy
+  wave falling forward over one shoulder.
+
+Recognition then happens by **rhyme, not by portraiture**: a visitor who
+scrolled past that photograph and then sees an illustrated woman in the same
+blazer with the same hair makes the connection immediately.
+
+⚠️ **The failure mode is succeeding too hard.** Feeding a photograph to an image
+model drags realism in with it. A semi-realistic detailed face among figures
+made of four flat shapes looks far worse than a generic figure, and reads as a
+mistake rather than as her. Every prompt containing her must cap it explicitly:
+same level of simplification as every other figure, no extra detail, no
+photographic rendering.
+
+Making her face genuinely readable would require her to be large in frame,
+which contradicts the rule holding the whole piece together — she is never
+centre frame, because the story is the viewer's business and not Eliya's. Not
+worth the trade.
 
 ⚠️ She first appears between beat 1 and beat 2, which is the transition most
 likely to break. If it does, the fallback is to have her already stepping
@@ -486,12 +539,23 @@ She is standing in front of the ring light, facing the camera on the
 tripod, filming herself. Upright, a little self-conscious but doing it
 anyway. Her stool is empty behind her.
 
-A SECOND WOMAN is now in the room, off to one side: her coach, in her
-thirties, dark hair, wearing a structured BLACK BLAZER so she is
-instantly distinguishable from the studio owner in her cream top. She
-is standing beside the tripod, one hand raised mid-gesture, directing
-and encouraging her. She is not touching anything and not working. She
-is clearly the helper, not the subject.
+A SECOND WOMAN is now in the room, off to one side: her coach. Match
+her to the attached reference photograph — her colouring, her long dark
+hair centre-parted and swept back with a heavy wave falling forward
+over one shoulder, and her oversized boxy double-breasted BLACK BLAZER
+with wide lapels over a black top. The blazer and the hair are what
+matter; she must be instantly distinguishable from the studio owner in
+her cream top.
+
+Render her in EXACTLY the same flat illustrated style and at exactly
+the same level of simplification as every other figure in the picture.
+Do not give her a more detailed, more realistic or more photographic
+face than the others. Do not shift the illustration style towards
+photography.
+
+She is standing beside the tripod, one hand raised mid-gesture,
+directing and encouraging her. She is not touching anything and not
+working. She is clearly the helper, not the subject.
 
 A cool white pool of light from the ring light falls on the STUDIO
 OWNER, who remains the centre of the picture. The coach stands outside
@@ -506,9 +570,155 @@ has exactly the same few notes lying in the bottom of its belly,
 unchanged. No text anywhere.
 ```
 
-## Beat 3 — full, but the wrong full
+### Beat 2 variant — FACE TEST
 
-Edit from **beat 2**.
+One-off experiment: push for an actual facial likeness instead of relying on
+silhouette. Run this alongside the standard beat 2 and compare. Edit from
+**beat 1**, with `assets/portrait/eliya-phone-blazer.jpg` attached.
+
+```
+Using this image, keep the room, the camera angle, the furniture, the
+lighting and the woman's clothing exactly as they are. Change only the
+following:
+
+The ring light on its tripod is now set up and switched on, glowing
+white, turned to face into the room. Her phone is mounted on the
+tripod inside the ring, no longer in her hand.
+
+She is standing in front of the ring light, facing the camera on the
+tripod, filming herself. Upright, a little self-conscious but doing it
+anyway. Her stool is empty behind her.
+
+A SECOND WOMAN is now in the room, off to one side: her coach. She is
+the woman in the attached reference photograph and her FACE MUST BE
+RECOGNISABLY HERS. Reproduce her actual features as faithfully as the
+illustration style allows: oval face with high cheekbones, warm olive
+skin, strong well-defined dark eyebrows, dark brown eyes, a straight
+nose, full lips. Her long dark hair is centre-parted and swept back,
+with a heavy wave falling forward over one shoulder. She wears the same
+oversized boxy double-breasted black blazer with wide lapels over a
+black top.
+
+Her face may carry more detail and definition than the other figures in
+the scene if that is what it takes to make her recognisable. Keep the
+rendering illustrated rather than photographic, but prioritise the
+likeness.
+
+She is standing beside the tripod, one hand raised mid-gesture,
+directing and encouraging her. She is not touching anything and not
+working. She remains off to one side and the studio owner stays the
+centre of the picture.
+
+A cool white pool of light from the ring light falls on the STUDIO
+OWNER. The coach stands outside that pool in the warmer room light.
+
+EVERYTHING ELSE IS IDENTICAL. The treatment chair is still empty. The
+waiting bench is still empty. The street outside is still dark and
+empty with nobody passing. The calendar still has exactly the same four
+small beige blocks in the same cells, unchanged. The piggy bank still
+has exactly the same few notes lying in the bottom of its belly,
+unchanged. No text anywhere.
+```
+
+**How to judge it — two tests, both required:**
+
+1. **Scale it down to about 390px wide** and look again. That is the phone
+   viewport, and it is the only size that matters. A likeness that only works
+   at full resolution has not worked.
+2. **Does she look like she belongs?** A face with more definition than
+   everyone else reads as pasted in. If she looks like a different illustration
+   standing in the room, the test has failed even if it looks like her.
+
+⚠️ **If it passes, it has a cost.** A detailed face on Eliya makes the studio
+owner's blank simplified face look wrong beside her — so the detail level would
+have to come up across *all* figures, in all five beats, which means re-locking
+beat 1. Decide whether the likeness is worth that before falling in love with
+the result.
+
+**Optional diagnostic.** If the face comes out illegible but well drawn, the
+limit is scale, not the model. To confirm, generate one throwaway frame with
+the camera much closer on her. If the likeness works there and not at
+production scale, the only fix is making her large in frame — which contradicts
+her never being the subject, and is the trade to refuse.
+
+### Beat 2 — LOCKED
+
+`Gemini_Generated_Image_dkks7mdkks7mdkks.png` — generated from the FACE TEST
+variant, with the screenshot of `eliya-phone-blazer.jpg` attached as reference.
+
+**The face test resolved in favour of keeping the likeness.** At full resolution
+she reads as Eliya; at phone scale she reads as "dark-haired woman in a black
+blazer," exactly as predicted. Crucially the model did **not** over-detail her —
+both faces sit at the same level of simplification, so she does not look pasted
+in. That means no cascade: beat 1 stays locked and the other figures do not need
+re-rendering.
+
+Why this candidate over `Gemini_Generated_Image_fkg0uhfkg0uhfkg0.png`: she is
+centred inside the ring and clearly being filmed rather than standing beside the
+rig; the hierarchy is right (she is the brightest thing, Eliya is secondary in
+warm light off to the side); the treatment chair is back in its beat 1 position;
+and the canvas is 1536×2752, matching beat 1, where the other candidate came
+back 1536×2784.
+
+Both critical invariants survived the edit: calendar blocks in the same four
+cells, piggy bank at the same level.
+
+**Known minor drift, accepted:** her trousers read grey-blue here against black
+in beat 1, and her posture is stiff. Both are invisible at phone scale and under
+the page's dark wash. Not worth re-rolling — another generation risks the
+calendar cells, the piggy level and the canvas size, all of which are currently
+correct.
+
+⚠️ For the 2 → 3 transition: the ring light is now centre-frame on a tall
+tripod and has to move back to the side and switch off. That is the largest
+object move in the sequence — check it when the video is interpolated.
+
+## Beat 3 — first clients
+
+Edit from **beat 2**. Attach `assets/portrait/eliya-phone-blazer.jpg`.
+
+Superseded candidate: `Gemini_Generated_Image_t9iguvt9iguvt9ig.png` — right
+composition, but it came back with three bright **gold** blocks in the calendar.
+Gold cannot appear before the price rise at beat 5 or the hinge of the whole
+story is spent early. Regenerate with the prompt below.
+
+```
+Using this image, keep the room, the camera angle, the furniture, the
+lighting and the woman's clothing exactly as they are. Change only the
+following:
+
+She is no longer filming. The ring light is switched OFF, dark, and
+stays where it is on its tripod. Her phone is off the tripod.
+
+A client is now lying in the treatment chair, relaxed, being worked on.
+The woman who owns the studio, in the cream top, is standing beside the
+chair working on her, calm and focused. The waiting bench is still
+empty.
+
+The coach in the black blazer is standing off to one side, a little
+back, watching and quietly pleased. Not touching anyone, not working.
+
+The calendar has filled up somewhat: about TWELVE blocks now, scattered
+across the grid, with more than half of the cells still empty. EVERY
+block is the same FLAT PALE TAN as before. There is NO gold, NO amber
+and NO bright block anywhere in the calendar.
+
+The piggy bank has risen a little — banknotes now filling roughly the
+bottom fifth of its belly. Still clearly low.
+
+EVERYTHING ELSE IS IDENTICAL. Same room, same angle, same furniture in
+the same places. The street outside is still dark and it is still
+night. No text anywhere.
+```
+
+## Beat 4 — packed, and it is the wrong kind of full
+
+Edit from **beat 3**. Attach the portrait reference.
+
+Superseded candidate: `Gemini_Generated_Image_9dnwlq9dnwlq9dnw.png` — the room
+is right, but its piggy bank sat at roughly the same level as beat 3's, which
+would say she doubled her workload for nothing. Regenerate with the money
+clearly higher.
 
 ```
 Using this image, keep the room, the camera angle, the furniture, the
@@ -516,33 +726,39 @@ lighting and the woman's clothing exactly as they are. Change only the
 following:
 
 The studio is crowded and hectic. A client is lying in the treatment
-chair being worked on. Two more women are sitting waiting on the
-bench, and one more is just coming through the door from the street.
+chair being worked on. Two more women are sitting waiting on the bench,
+and one more is just coming through the door from the street.
 
 The woman who owns the studio is standing over the treatment chair
-working, hurried and tense, hair coming loose, not smiling. The ring
-light is switched off and pushed aside.
+working, hurried and tense, hair coming loose, not smiling. She is
+visibly overworked rather than unhappy with the clients.
 
-The coach in the black blazer is still in the room but pushed to the
-edge of it, standing back against the near wall out of the way,
-watching the chaos. Arms folded, not helping, not working on anyone,
-just observing what is happening. She is small in the frame.
+The coach in the black blazer is pushed to the edge of the room,
+standing back against the near wall out of the way, arms folded,
+watching the chaos. Not helping, not working on anyone. Small in the
+frame.
 
 The calendar is now almost completely full: nearly every cell carries a
-small pale beige block, the same small size and same pale colour as
-before, just many more of them.
+block. EVERY block is still the same FLAT PALE TAN as before — many
+more of them, but no change in colour. There is NO gold and NO amber
+anywhere in the calendar.
 
-The piggy bank has risen a little but is still low — notes filling
-roughly the bottom third of its belly.
+The piggy bank has risen clearly and is now a little under HALF full,
+banknotes filling the lower half of its belly. Noticeably more than the
+previous frame.
 
 EVERYTHING ELSE IS IDENTICAL. Same room, same angle, same furniture in
 the same places. The street outside is still dark and it is still
 night. No text anywhere.
 ```
 
-## Beat 4 — she raises the price
+## Beat 5 — she raises the price
 
-Edit from **beat 3**.
+Edit from **beat 4**. Attach the portrait reference.
+
+**The most important frame in the sequence.** The calendar collapses and the
+money does not move. If the piggy bank rises here, the risk looks free and the
+beat means nothing.
 
 ```
 Using this image, keep the room, the camera angle, the furniture, the
@@ -552,30 +768,32 @@ following:
 The studio has emptied out. Only one client remains in the treatment
 chair. The waiting bench is empty. Nobody is at the door.
 
-The woman is standing still, arms at her sides, looking towards the
-calendar. Uncertain, holding her breath. Not sad, not happy — waiting.
+The woman who owns the studio is standing still, arms at her sides,
+looking towards the calendar. Uncertain, holding her breath. Not sad,
+not happy — waiting.
 
-The coach in the black blazer is standing next to her, at her shoulder,
+The coach in the black blazer is standing next to her at her shoulder,
 both of them facing the calendar together. Calm and steady, not
-gesturing. The two women side by side, looking at the same thing. The
-studio owner is still the one closest to the centre of the picture.
+gesturing. The studio owner stays closest to the centre of the picture.
 
-The calendar has changed character. Most of the small pale blocks are
-gone, leaving visibly empty cells. About ten blocks remain and some of
-them are now noticeably LARGER and GOLD instead of small and pale. The
-grid reads emptier than it did, with clear holes in it.
+The calendar has changed character completely. Most of the blocks are
+gone, leaving large visibly EMPTY areas in the grid. About TEN blocks
+remain, and several of them are now DEEP SATURATED GOLD — an obviously
+richer, brighter colour than the flat pale tan of the remaining ones.
+The two kinds of block must be distinguishable at a glance.
 
-The piggy bank is almost exactly where it was — barely any more money
-than the previous frame. It has NOT filled up.
+The piggy bank is at EXACTLY the same level as the previous frame. The
+banknotes fill it to precisely the same height. It has NOT risen. Do
+not add any money.
 
 EVERYTHING ELSE IS IDENTICAL. Same room, same angle, same furniture in
 the same places. The street outside is still dark and it is still
 night. No text anywhere.
 ```
 
-## Beat 5 — fewer hours, better week
+## Beat 6 — fewer hours, more money
 
-Edit from **beat 4**.
+Edit from **beat 5**.
 
 ```
 Using this image, keep the room, the camera angle, the furniture and
@@ -583,8 +801,8 @@ the woman's clothing exactly as they are. Change only the following:
 
 Through the storefront glass it is now golden late afternoon instead of
 night — warm daylight outside. Three or four women are standing on the
-pavement outside the glass, stopped, looking in. They are outside, not
-inside. The room stays calm.
+pavement outside the glass, stopped, looking in. They are OUTSIDE, not
+inside. The room itself stays calm and uncrowded.
 
 One client is lying in the treatment chair, relaxed, being worked on
 unhurried. The waiting bench is empty.
@@ -594,13 +812,16 @@ calm and unhurried, quietly pleased. Hair tidy.
 
 The coach in the black blazer is GONE. There is no second woman
 anywhere in the room. The studio owner is the only person working here.
-She is doing this on her own now.
 
-The calendar now carries about fourteen blocks, all of them LARGE and
-GOLD. They are spread out with clear empty gaps between them — whole
-cells and at least one full row left deliberately empty.
+The calendar now carries about FOURTEEN blocks, and every single one of
+them is DEEP SATURATED GOLD. No pale tan blocks remain. They are spread
+out with large, unmistakable empty areas between them — at least one
+entire row and a clear run of days left completely empty. The emptiness
+must be obvious at a glance, not subtle: that white space is the point
+of the picture.
 
 The piggy bank is nearly full, banknotes stacked up to its shoulders.
+Far more than the previous frame.
 
 EVERYTHING ELSE IS IDENTICAL. Same room, same angle, same furniture in
 the same places, same interior lamps still on. No text anywhere.
@@ -614,21 +835,26 @@ Chaining each beat from the previous one keeps adjacent frames consistent,
 which is what the interpolation needs — but small changes accumulate. Before
 committing to video:
 
-1. Put **beat 1 and beat 5 side by side.** The room must be the same room —
+1. Put **beat 1 and beat 6 side by side.** The room must be the same room —
    same chair position, same bench, same door, same mirror, same plants. If it
    has drifted, regenerate the tail from an earlier locked frame.
-2. Check the **piggy bank and calendar are in identical positions** in all five.
+2. Check the **piggy bank and calendar are in identical positions** in all six.
    Their levels are only comparable if they do not move.
-3. Check the **calendar block sizes** actually read as two distinct kinds:
-   small pale (beats 1–3) versus large gold (beats 4–5). If they look the same,
-   the price rise is invisible and beat 4 means nothing.
+3. Check the **two kinds of block are unmistakably different colours**: flat
+   pale tan through beat 4, deep saturated gold from beat 5. If they look alike,
+   the price rise is invisible and beats 5 and 6 mean nothing.
+4. Put **beats 4 and 5 side by side and check the piggy bank has not moved.**
+   This is the one the model will get wrong, because "she raised her price"
+   reads to it as "add money."
+5. Check **no gold appears before beat 5.** One beat 3 candidate arrived with
+   gold blocks already in it.
 
 ---
 
 # Video pipeline
 
-Five stills become four transitions, generated as first-frame / last-frame
-interpolations (beat 1 → 2, 2 → 3, 3 → 4, 4 → 5), then concatenated into one
+Six stills become five transitions, generated as first-frame / last-frame
+interpolations (1 → 2, 2 → 3, 3 → 4, 4 → 5, 5 → 6), then concatenated into one
 clip that the scrub seeks through.
 
 Constraints the clip must satisfy, because it is scrubbed rather than played:
@@ -636,22 +862,30 @@ Constraints the clip must satisfy, because it is scrubbed rather than played:
 - **No camera movement and no cuts.** One fixed frame throughout. A scroller
   can stop anywhere, including mid-transition.
 - **No motion blur or fast whips.** Every intermediate frame has to look right
-  held still, not just the five beats.
+  held still, not just the six beats.
 - **Each beat must hold.** The copy rail moves between 34% and 66% of each
   interval, so the picture should rest at each state and do its changing in the
   middle third of each segment.
 - Equal-length segments, unless the beat weighting change goes in — see below.
 
+Transitions to watch:
+
+- **2 → 3** — the ring light is centre-frame on a tall tripod in beat 2 and has
+  to switch off. Largest single object change in the sequence.
+- **5 → 6** — night to golden afternoon, and Eliya exits. The biggest jump, but
+  the time change is what licences her absence.
+
 Two open implementation items:
 
-- **Beat weighting.** Beats 3 and 4 deserve more scroll than 1 and 2. That
+- **Beat weighting.** Beats 4 and 5 deserve more scroll than 1 and 2. That
   needs a code change, not a longer segment: video time and copy position must
   both derive from one weighted position value, or the picture desyncs from the
-  words. Currently the seek uses raw progress and the rail assumes four equal
-  quarters.
-- **Five beats, not four.** `process-scrub.tsx` has `STATIONS = 4` and the copy
+  words. Currently the seek uses raw progress and the rail assumes equal
+  intervals.
+- **Six beats, not four.** `process-scrub.tsx` has `STATIONS = 4` and the copy
   rail is `width: 400%` translating by `-position * 100 / 4`. Both need to
-  become five, along with five steps of copy in `site-content.ts`.
+  become six (`width: 600%`, `/ 6`), along with six steps of copy in
+  `site-content.ts`.
 
 ---
 
