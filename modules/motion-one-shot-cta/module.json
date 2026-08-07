@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0",
+  "id": "motion-one-shot-cta",
+  "version": "1.0.0",
+  "status": "beta",
+  "summary": "Optional one-shot CTA emphasis with a finished static base state, full-exit re-arm, jump watchdog, and no pressure loops.",
+  "owners": [
+    "frontend"
+  ],
+  "requires": [
+    "baseline-core"
+  ],
+  "conflicts": [],
+  "deploymentProfiles": [
+    "vps-local-build",
+    "ghcr-vps-pull",
+    "static-pages-worker"
+  ],
+  "files": [
+    "modules/motion-one-shot-cta/**"
+  ],
+  "readiness": {
+    "status": "client-implementation-required",
+    "implementationPaths": [
+      "app/src/components/motion/one-shot-cta.tsx"
+    ],
+    "browserTestPaths": [
+      "app/e2e/modules/motion-one-shot-cta.spec.ts"
+    ]
+  },
+  "validation": [
+    "pnpm --dir app typecheck",
+    "pnpm --dir app test:e2e:module e2e/modules/motion-one-shot-cta.spec.ts"
+  ]
+}

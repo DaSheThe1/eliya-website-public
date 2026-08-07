@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://foundation.local/schemas/generation-record.schema.json",
+  "title": "Immutable generated-site provenance record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "foundation",
+    "brief",
+    "moduleContracts",
+    "fixtureContentFingerprints"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "foundation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "commit", "sourceState"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "sourceState": {
+          "enum": ["clean", "uncommitted"]
+        }
+      }
+    },
+    "brief": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sha256"],
+      "properties": {
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "moduleContracts": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "version", "readiness", "validation"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+          },
+          "readiness": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "status",
+              "implementationPaths",
+              "browserTestPaths"
+            ],
+            "properties": {
+              "status": {
+                "enum": ["prebuilt", "client-implementation-required"]
+              },
+              "implementationPaths": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^(?:app/src|worker/src)/[A-Za-z0-9._/-]+$"
+                }
+              },
+              "browserTestPaths": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^app/e2e/[A-Za-z0-9._/-]+\\.spec\\.[cm]?[jt]sx?$"
+                }
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "status": {
+                      "const": "client-implementation-required"
+                    }
+                  },
+                  "required": ["status"]
+                },
+                "then": {
+                  "properties": {
+                    "implementationPaths": {
+                      "type": "array",
+                      "minItems": 1
+                    },
+                    "browserTestPaths": {
+                      "type": "array",
+                      "minItems": 1
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "implementationPaths": {
+                      "type": "array",
+                      "maxItems": 0
+                    },
+                    "browserTestPaths": {
+                      "type": "array",
+                      "maxItems": 0
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "validation": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "fixtureContentFingerprints": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["sha256", "tokenCount"],
+        "properties": {
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "tokenCount": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    }
+  }
+}

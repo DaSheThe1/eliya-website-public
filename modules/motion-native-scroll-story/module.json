@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0",
+  "id": "motion-native-scroll-story",
+  "version": "1.0.0",
+  "status": "beta",
+  "summary": "Native-scroll media story with stable server geometry, local poster/static fallback, bounded post-scroll settling, and zero-request motion/data gates.",
+  "owners": [
+    "frontend",
+    "coordinator"
+  ],
+  "requires": [
+    "baseline-core"
+  ],
+  "conflicts": [],
+  "deploymentProfiles": [
+    "vps-local-build",
+    "ghcr-vps-pull",
+    "static-pages-worker"
+  ],
+  "files": [
+    "modules/motion-native-scroll-story/**",
+    "schemas/motion-native-scroll-story.schema.json",
+    "scripts/motion-reference.test.mjs"
+  ],
+  "readiness": {
+    "status": "client-implementation-required",
+    "implementationPaths": [
+      "app/src/components/motion/native-scroll-story.tsx"
+    ],
+    "browserTestPaths": [
+      "app/e2e/modules/motion-native-scroll-story.spec.ts"
+    ]
+  },
+  "validation": [
+    "node --test scripts/motion-reference.test.mjs",
+    "pnpm --dir app typecheck",
+    "pnpm --dir app test:e2e:module e2e/modules/motion-native-scroll-story.spec.ts"
+  ]
+}

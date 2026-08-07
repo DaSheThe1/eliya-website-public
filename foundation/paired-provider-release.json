@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "1.0",
+  "status": "blocked-unconfigured",
+  "candidate": {
+    "state": "required",
+    "privateSourceCommit": "REQUIRED_PRIVATE_SOURCE_COMMIT",
+    "publicCommit": "REQUIRED_PUBLIC_COMMIT",
+    "publicWorkflowRef": "REQUIRED_PUBLIC_WORKFLOW_REF",
+    "pagesArtifactId": "REQUIRED_GITHUB_PAGES_ARTIFACT_ID",
+    "pagesDeploymentId": "REQUIRED_GITHUB_PAGES_DEPLOYMENT_ID",
+    "staticProvenanceSha256": "REQUIRED_STATIC_PROVENANCE_SHA256",
+    "workerPackageProvenanceSha256": "REQUIRED_WORKER_PACKAGE_PROVENANCE_SHA256",
+    "workerVersionId": "REQUIRED_CLOUDFLARE_WORKER_VERSION_ID",
+    "workerScriptName": "eliya-thebeautybrand-intake",
+    "workerRoute": "https://eliya.trickticmedia.com/api/contact"
+  },
+  "previousRelease": {
+    "state": "required",
+    "resolution": "REQUIRED_EXISTING_RELEASE_OR_FIRST_RELEASE"
+  },
+  "compatibility": {
+    "contractVersion": "1.0",
+    "activationOrder": [
+      "cloudflare-worker-upload-nonactivating",
+      "github-pages-deploy",
+      "cloudflare-worker-activate-100-percent",
+      "provider-authenticated-verification"
+    ],
+    "workerTrafficPercent": 100,
+    "failurePolicy": "stop-and-rollback-or-forward-fix-before-next-step"
+  },
+  "approvals": {
+    "candidateReview": {
+      "status": "pending",
+      "owner": "Daniel Shedrinsky",
+      "approvedAt": null
+    },
+    "workerUpload": {
+      "status": "pending",
+      "owner": "Daniel Shedrinsky",
+      "approvedAt": null
+    },
+    "pagesActivation": {
+      "status": "pending",
+      "owner": "Daniel Shedrinsky",
+      "approvedAt": null
+    },
+    "workerActivation": {
+      "status": "pending",
+      "owner": "Daniel Shedrinsky",
+      "approvedAt": null
+    },
+    "rollbackOrForwardFix": {
+      "status": "pending",
+      "owner": "Daniel Shedrinsky",
+      "approvedAt": null
+    }
+  },
+  "recovery": {
+    "pagesRollback": {
+      "strategy": "redeploy-previous-reviewed-pages-artifact",
+      "commandTemplates": [
+        "gh workflow run pages-release.yml --ref <previousPublicWorkflowRef> -f public_commit=<previousPublicCommit> -f private_source_commit=<previousPrivateSourceCommit> -f static_provenance_sha256=<previousStaticProvenanceSha256>"
+      ],
+      "stopCondition": "Do not continue until authenticated GitHub evidence identifies the previous deployment and exact artifact."
+    },
+    "workerRollback": {
+      "strategy": "restore-previous-worker-version-at-100-percent",
+      "commandTemplates": [
+        "pnpm --dir worker exec wrangler versions deploy <previousWorkerVersionId>@100%"
+      ],
+      "stopCondition": "Do not continue until authenticated Cloudflare evidence reports only the previous version at 100% on the exact route."
+    },
+    "forwardFix": {
+      "strategy": "prepare-and-approve-a-new-paired-candidate",
+      "commandTemplates": [
+        "pnpm --dir worker exec wrangler versions upload",
+        "gh workflow run pages-release.yml --ref <forwardPublicWorkflowRef> -f public_commit=<forwardPublicCommit> -f private_source_commit=<forwardPrivateSourceCommit> -f static_provenance_sha256=<forwardStaticProvenanceSha256>",
+        "pnpm --dir worker exec wrangler versions deploy <forwardWorkerVersionId>@100%",
+        "pnpm release:check -- foundation/site-brief.json"
+      ],
+      "stopCondition": "Do not activate a forward fix until this manifest contains its exact new provider IDs and every approval is renewed."
+    }
+  },
+  "verification": {
+    "status": "required-provider-authenticated",
+    "task": "docs/PROVIDER-VERIFIER-TASK.md",
+    "verifiedAt": null,
+    "requiredBindings": [
+      "private-source-commit",
+      "public-commit",
+      "public-workflow-ref",
+      "pages-artifact-id",
+      "pages-deployment-id",
+      "static-provenance-sha256",
+      "worker-package-provenance-sha256",
+      "worker-version-id",
+      "worker-route-ownership",
+      "worker-traffic-100-percent",
+      "protected-environment-approvals"
+    ]
+  }
+}

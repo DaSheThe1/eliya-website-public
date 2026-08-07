@@ -1,0 +1,4299 @@
+@import "tailwindcss";
+
+/*
+ * Dark-only luxury system for eliya.trickticmedia.com.
+ *
+ * There is no light theme and no toggle. `color-scheme: dark` is declared so the
+ * browser paints form controls, scrollbars and the canvas dark from the first
+ * frame, and so extensions that force dark mode recognise the page as already
+ * dark and leave it alone rather than inverting it.
+ *
+ * ══════════════════════════════════════════════════════════════════════════
+ *  WHY THIS PALETTE WAS REPLACED (2026-08-05)
+ * ══════════════════════════════════════════════════════════════════════════
+ *
+ * Daniel: *"The color palette is not really color complementary."* He was
+ * right about the result and the cause was not where it looks. The old pairing
+ * was base hue 210° against gold 42° — 168° apart, which IS near-complementary.
+ * The hue relationship was never the problem. Three other things were:
+ *
+ * 1. ⚠️ THE BODY INK WAS THE SAME HUE AS THE ACCENT. `--color-ink` was
+ *    #f0e9dc, hue 39°, against a gold at hue 42°. Every word on the page was a
+ *    desaturated copy of the accent, so the accent had no job left: nothing can
+ *    pop out of a page that is already uniformly warm. THE RULE, and the reason
+ *    the ink below is hue 216°: neutrals inherit the DOMINANT hue, the accent
+ *    is its complement, and nothing sits in between.
+ *
+ * 2. ⚠️ THERE WAS NO ELEVATION. canvas→surface measured 1.09:1 and
+ *    surface→raised 1.14:1. Both are invisible. Cards had no edge, which is
+ *    most of what read as "not well placed" — the steps below are wider.
+ *
+ * 3. ⚠️ THE COMPLEMENTS WERE BEING BLENDED, NOT CONTRASTED. `body` stacked a
+ *    gold radial over a sea radial over two more glow orbs, and complements
+ *    that OVERLAP make mud — that is what complementary colour actually
+ *    predicts. Adjacent, they sing. Mixed, they turn olive. See the `body`
+ *    rule and `.site-glow` below: the two washes now own opposite corners with
+ *    a dead zone between them and never cross.
+ *
+ * The direction is unchanged and still comes from her own beach photograph:
+ * deep sea blue base, warm gold accent, champagne highlight.
+ *
+ * ── MEASURED (WCAG 2.1 contrast, computed not eyeballed) ──────────────────
+ *
+ *                        on canvas   on surface   on raised
+ *   --color-ink            17.14        15.93       14.15
+ *   --color-ink-muted       9.01         8.38        7.44
+ *   --color-gold           11.32        10.52        9.35
+ *   --color-gold-bright    15.87        14.75       13.10
+ *   --color-champagne      15.20        14.13       12.55
+ *   --color-gold-deep       5.34         4.96        4.40   ⚠️ see below
+ *   --color-on-brand on --color-gold fill            11.75
+ *
+ * AA floor across the page is `--color-gold-deep` at 4.40:1 on
+ * `--color-surface-raised`. That clears AA for normal text (4.5:1) only on
+ * canvas and surface, NOT on raised. ⚠️ So `--color-gold-deep` is a DECORATIVE
+ * value: hairlines, the metal gradient stops, large numerals. It is never a
+ * label, never body copy, and never small text. Use `--color-gold` for gold
+ * TYPE — it is 9.35:1 at its worst and has no such restriction.
+ *
+ * If a ratio is not written here it was not measured. Re-run the maths when
+ * any value below changes.
+ */
+:root {
+  color-scheme: dark;
+
+  /* Base family — hue 219–222°. Deliberately SATURATED navy, not slate: the
+     old values sat at s50 l5 and read as generic dark-theme grey-blue. */
+  --color-canvas: #080d18;
+  --color-canvas-deep: #04070e;
+  --color-surface: #0f1626;
+  --color-surface-raised: #182136;
+  --color-line: #293449;
+  --color-line-soft: #1b2437;
+
+  /* Neutrals belong to the BASE family (hue 216/214), not to the accent. This
+     single change is what gives the gold something to be an accent against. */
+  --color-ink: #edf1f7;
+  /*
+   * ⚠️ RAISED FROM #a3b2c6 ON 2026-08-06, AND DEMOTED IN SCOPE.
+   *
+   * Daniel: *"Some text coloring is less readable and needs to be whiter or
+   * brighter for example."* He named two sentences, and both of them turned out
+   * to be the same CSS: `.section__lead` and `.pain__text` were the only two
+   * rules on the page setting body copy to this value. Measured at 9.01:1 —
+   * comfortably past AA, and still the dimmest thing on a page whose ink is at
+   * 17.14:1, which is what the eye actually reports. A ratio that passes is not
+   * the same as a ratio that reads.
+   *
+   * Two changes, and the second matters more: the value moved up to 12.31:1,
+   * AND both of those rules now use `--color-ink` instead. This variable is for
+   * captions, meta lines and attributions — text that is genuinely subordinate.
+   * It is not a body-copy colour any more.
+   */
+  --color-ink-muted: #c3cfdf;
+
+  /* Accent family — hue 39–44°, the complement of the base. */
+  --color-gold: #e6c173;
+  --color-gold-bright: #fae7b4;
+  --color-gold-deep: #a97f32;
+  --color-champagne: #f2e2c2;
+  --color-gold-wash: rgb(230 193 115 / 0.1);
+
+  --color-brand: var(--color-gold);
+  --color-brand-strong: var(--color-gold-bright);
+  --color-brand-soft: var(--color-gold-wash);
+  --color-accent: var(--color-gold);
+  --color-accent-soft: var(--color-gold-wash);
+  --color-on-brand: #04070e;
+
+  --color-danger: #e8998c;
+  --color-success: #7fc9a4;
+  --color-focus: var(--color-gold-bright);
+  --shadow-focus: 0 0 0 0.22rem rgb(250 231 180 / 0.3);
+  --shadow-soft: 0 1.5rem 4rem rgb(0 0 0 / 0.6);
+
+  --font-sans:
+    "Assistant", "Heebo", "Segoe UI", "Arial Hebrew", "Noto Sans Hebrew",
+    system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-sans);
+
+  --header-height: 4.5rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-canvas-deep);
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-height) + var(--space-4));
+  text-size-adjust: 100%;
+}
+
+/*
+ * ⚠️ THE TWO WASHES MUST NOT OVERLAP. This is the whole complementary-colour
+ * lesson in one declaration. Gold (h41) and sea (h218) are 180° apart, which
+ * makes them sing side by side and makes them MUD where they mix — and the
+ * previous rule mixed them across most of the viewport: a 60rem gold ellipse at
+ * 80% −10% and a 50rem sea ellipse at 10% 15% overlapped through the middle of
+ * every screen and turned it olive.
+ *
+ * Now each owns a corner and stops before the other starts. The gold ellipse
+ * fades out by 45% of its radius in the top-right; the sea one is anchored far
+ * enough down-left that the two never share a pixel at any viewport ratio.
+ * Between them is bare `--color-canvas`, and that empty band is deliberate: it
+ * is what lets each wash read as its own colour.
+ */
+body {
+  min-width: 20rem;
+  margin: 0;
+  background:
+    radial-gradient(
+      ellipse 42rem 30rem at 96% -12%,
+      rgb(230 193 115 / 0.14),
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse 44rem 32rem at 2% 108%,
+      rgb(28 72 112 / 0.5),
+      transparent 62%
+    ),
+    var(--color-canvas);
+  background-attachment: fixed;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  color: inherit;
+}
+
+button,
+select {
+  cursor: pointer;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.2em;
+}
+
+p,
+h1,
+h2,
+h3,
+figure,
+blockquote,
+ul,
+ol {
+  margin-block-start: 0;
+}
+
+h1,
+h2,
+h3 {
+  line-height: var(--leading-heading);
+  text-wrap: balance;
+}
+
+h1,
+h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  margin-block-end: var(--space-5);
+  font-size: var(--text-hero);
+  line-height: 1.08;
+}
+
+h2 {
+  margin-block-end: var(--space-5);
+  font-size: var(--text-2xl);
+}
+
+h3 {
+  margin-block-end: var(--space-3);
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+:focus-visible {
+  border-radius: var(--radius-sm);
+  outline: 0.18rem solid var(--color-focus);
+  outline-offset: 0.2rem;
+  box-shadow: var(--shadow-focus);
+}
+
+[id] {
+  scroll-margin-top: calc(var(--header-height) + var(--space-5));
+}
+
+main:focus {
+  outline: none;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-on-brand);
+}
+
+/* ---------------------------------------------------------------- primitives */
+
+.ui-container {
+  width: 100%;
+  max-width: var(--content-wide);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/*
+ * ⚠️ TIGHTER THAN `--space-section`, AND THE CTA IS WHY.
+ *
+ * Daniel, 2026-08-06: *"There is also a big gap, like an empty section, between
+ * each section after the key until the start of the next one, which shouldn't
+ * be that big. It should be way closer to one another."*
+ *
+ * The token is `clamp(4.75rem, 3.5rem + 5vw, 8.5rem)` — up to 136px a side, so
+ * 272px between two adjacent sections. That was tuned when a section ended on
+ * its last paragraph. Every argued section now ends on a call to action, which
+ * adds its own 64px of top margin and, more importantly, is a BUTTON: a
+ * high-contrast object with its own visual weight, and the eye reads the run of
+ * empty canvas after it as the end of the page rather than as a pause.
+ *
+ * Roughly half the block padding, and the CTA's own margin comes down with it.
+ * `--space-section` itself is untouched — it is a shared token and other things
+ * use it.
+ */
+.section {
+  padding-block: clamp(2.75rem, 2rem + 3vw, 4.5rem);
+}
+
+.section--tight {
+  padding-block: calc(var(--space-section) * 0.6);
+}
+
+/*
+ * ⚠️ THE HEAD IS NOT CAPPED; THE LEAD IS. Same fault as `.hero__intro`: a
+ * 45rem cap on the whole block meant a one-sentence heading wrapped in half at
+ * 1440 inside a 1216px container — "שאלות שחוזרות כמעט בכל שיחה" broke across
+ * two lines with 250px empty on each side. Daniel, 2026-08-07: *"Why do headers
+ * on desktop at least like this one splitted to two lines and not in a single
+ * line?"*
+ *
+ * A heading and a paragraph want different measures. The heading takes the
+ * container; `.section__lead` keeps 45rem below, because a line of prose set
+ * 1200px wide is unreadable however much room is going spare.
+ */
+.section__head {
+  max-width: none;
+  margin-block-end: var(--space-8);
+}
+
+.section__head[data-align="center"] {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.section__head[data-align="center"] .rule {
+  margin-inline: auto;
+  background: linear-gradient(
+    to left,
+    rgb(230 193 115 / 0),
+    var(--color-gold),
+    rgb(230 193 115 / 0)
+  );
+}
+
+/*
+ * ── ONE FINISHED SENTENCE PER LINE ──
+ * See `ui/section-heading.tsx`. Each entry of `titleLines` is its own block, so
+ * a wrap can never merge two sentences and the browser is never asked where a
+ * heading should break.
+ *
+ * `text-wrap: balance` still applies WITHIN a line: if one sentence is long
+ * enough to need two visual rows on a phone, those two rows should be evenly
+ * filled. It is balancing inside a decision, not making one.
+ */
+.section__title {
+  line-height: 1.16;
+  text-wrap: balance;
+}
+
+/* The line breaks are `<br>` inside the gloss now, so one crest can cross both
+   lines in reading order. Spacing between them is the heading's line-height. */
+
+/*
+ * ⚠️ THERE IS NO GOLD LINE ANY MORE, AND THAT IS THE POINT.
+ *
+ * The last line of every heading rested in solid gold. Daniel, 2026-08-06:
+ * *"I'm not sure it's nice to have one line in white and then the other in
+ * gold […] Instead of just having all the entire header in white and then the
+ * gold is the moving letters?"*
+ *
+ * That is the better system, for three reasons:
+ *
+ *  1. THE GOLD MARKED A POSITION, NOT A MEANING. It always fell on the LAST
+ *     line, so it emphasised whatever happened to be last — in "מה הן אומרות /
+ *     אחרי שזה כבר קרה להן" the accent landed on the qualifier.
+ *
+ *  2. IT FOUGHT THE GLOSS. A gold crest sweeping a gold line is invisible, so
+ *     the crest needed a second colour ramp (champagne) invented purely to be
+ *     seen there. Two mechanisms, two ramps, one job.
+ *
+ *  3. GOLD NOW MEANS ONE THING. Before, it meant both "this line is special"
+ *     and "the light is passing" — which is exactly why it read as
+ *     inconsistent rather than as emphasis.
+ *
+ * ⚠️ With motion reduced or JavaScript off, headings are plain ink and no gold
+ * moves. The gold hairline `.rule` above each one is what keeps the accent
+ * present in that state; if that rule is ever removed, this decision needs
+ * revisiting.
+ */
+
+/*
+ * ⚠️ `--color-ink`, NOT `--color-ink-muted`. This rule and `.pain__text` were
+ * the two Daniel named. See the note on the variable itself.
+ */
+.section__lead {
+  max-width: var(--content-narrow);
+  color: var(--color-ink);
+  font-size: var(--text-lg);
+}
+
+.section__head[data-align="center"] .section__lead {
+  margin-inline: auto;
+}
+
+/* One block per entry when a lead is written as several lines, so the break is
+   a copy decision like the headings above it rather than a wrap. */
+.section__lead-line {
+  display: block;
+}
+
+/*
+ * ── THE INVITATION THAT CLOSES A SECTION ──
+ * There were four calls to action on a thirteen-section page and two of them
+ * were the same sentence. Every section that makes an argument now ends by
+ * offering the next step, in its own words. See `ui/section-cta.tsx`.
+ *
+ * Centred and given real space above it: this is a closing beat, so it must
+ * read as the end of the section rather than as a stray button after the last
+ * paragraph.
+ */
+.section__cta {
+  display: flex;
+  justify-content: center;
+  margin-block-start: var(--space-6);
+}
+
+/* A step down from the hero and offer buttons in SIZE, not in colour — the fill
+   is the site's gold, same as every other call to action. */
+.section__cta-button {
+  min-height: var(--tap-target);
+  padding-inline: var(--space-6);
+  font-size: var(--text-sm);
+}
+
+/*
+ * ══════════════════════════════════════════════════════ ALTERNATING GROUND ══
+ *
+ * ⚠️ EVERY SECTION ON THIS PAGE HAD `background: rgba(0, 0, 0, 0)`. Measured
+ * 2026-08-06 across #about, #pain, #method, #proof, #offer, #faq, #contact and
+ * the testimonials block: all eight fully transparent, with only the footer
+ * carrying any background at all. Daniel: *"Backgrounds of sections, for
+ * example, the quotes part should be way better colored."*
+ *
+ * The page was one uninterrupted sheet of #080d18 from the header to the
+ * footer, roughly eleven thousand pixels of it. Nothing marked where an
+ * argument ended and the next began, which is why the whole page read flat no
+ * matter how the individual sections were composed.
+ *
+ * Alternate sections now sit on a raised ground. The bands FADE IN AND OUT at
+ * their own edges rather than starting and stopping on a hard line: a hard edge
+ * across a 2560px viewport draws more attention than the content does, and the
+ * site's washes and glows drift across these boundaries anyway.
+ */
+.section--band {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(
+    180deg,
+    rgb(15 22 38 / 0),
+    rgb(15 22 38 / 0.62) 9%,
+    rgb(15 22 38 / 0.62) 91%,
+    rgb(15 22 38 / 0)
+  );
+}
+
+/*
+ * The quotes, which Daniel named specifically. This one gets a WARM ground
+ * rather than the neutral raised surface: it is the only section on the page
+ * where someone else is speaking, and the gold wash it sits in is the same
+ * accent the rest of the page uses for her voice. It marks the handover.
+ */
+.section--band-warm {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(
+      ellipse 70% 90% at 50% 50%,
+      rgb(230 193 115 / 0.07),
+      transparent 72%
+    ),
+    linear-gradient(
+      180deg,
+      rgb(24 33 54 / 0),
+      rgb(24 33 54 / 0.7) 12%,
+      rgb(24 33 54 / 0.7) 88%,
+      rgb(24 33 54 / 0)
+    );
+}
+
+/* A hairline gold rule. Used instead of eyebrow labels to open a section. */
+.rule {
+  width: 4rem;
+  height: 1px;
+  margin-block-end: var(--space-5);
+  border: 0;
+  background: linear-gradient(
+    to left,
+    var(--color-gold),
+    rgb(230 193 115 / 0)
+  );
+}
+
+/*
+ * ══════════════════════════════════════════════════════════ LETTER GLOSS ══
+ * See `ui/wave-text.tsx`. The component writes each letter's colour inline; all
+ * this stylesheet owns is the boxing.
+ */
+.wave-text {
+  display: inline;
+}
+
+/* The real string, for assistive tech and for find-in-page. The per-letter
+   spans beside it are aria-hidden. */
+.wave-text__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+/* A word is one unbreakable run, so the phrase wraps at spaces only. */
+.wave-text__word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* ⚠️ `inline-block` is what lets the crest recolour a letter without the line
+   reflowing. It also makes each unit its own bidi isolate, which is exactly why
+   `splitCrestUnits` keeps Latin and digit runs inside ONE span. */
+/*
+ * ⚠️ `user-select: none` IS WHAT KEEPS COPIED TEXT CLEAN.
+ *
+ * Every glossed phrase exists twice in the DOM: once as the visually hidden
+ * real string (for assistive tech and find-in-page) and once as per-letter
+ * spans. Selecting across a heading therefore picked up BOTH, and pasting the
+ * offer heading produced "בלי מצגת ובלי לחץ.בלי מצגת ובלי לחץ" — the same
+ * sentence twice, which is what Daniel saw when he quoted it back.
+ *
+ * Making the decorative letters unselectable leaves exactly one copy in the
+ * selection, and it is the one with its punctuation intact.
+ */
+.wave-text__char {
+  display: inline-block;
+  user-select: none;
+  transition: none;
+}
+
+.ui-button {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap-target);
+  padding: 0.85rem 1.75rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    135deg,
+    var(--color-gold-bright),
+    var(--color-gold-deep)
+  );
+  color: var(--color-on-brand);
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform var(--duration-fast) var(--ease-standard),
+    filter var(--duration-fast) var(--ease-standard);
+}
+
+.ui-button:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.ui-button--secondary {
+  border-color: var(--color-line);
+  background: rgb(255 255 255 / 0.04);
+  color: var(--color-ink);
+}
+
+.ui-button--secondary:hover {
+  border-color: var(--color-gold);
+  filter: none;
+}
+
+.ui-button--quiet {
+  padding-inline: var(--space-3);
+  border-color: transparent;
+  background: none;
+  color: var(--color-ink-muted);
+  font-weight: 500;
+}
+
+/*
+ * ⚠️ ELEVATION IS A BORDER PLUS A SHADOW, NOT A LIGHTER FILL. The old cards
+ * were a 4.5%-white wash on a surface only 1.09:1 from the canvas, so they had
+ * no perceptible edge and read as text floating on nothing. A real fill, a real
+ * line and a real drop shadow are what make a card a card on a dark page.
+ */
+.card {
+  padding: var(--space-6);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    160deg,
+    var(--color-surface-raised),
+    var(--color-surface)
+  );
+  box-shadow: 0 1rem 2.5rem -1.5rem rgb(0 0 0 / 0.8);
+}
+
+/* ------------------------------------------------------------------- method */
+
+.method__grid {
+  display: grid;
+  gap: var(--space-5);
+}
+
+@media (min-width: 52rem) {
+  .method__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.method__card {
+  position: relative;
+  padding-block-start: var(--space-7);
+}
+
+.method__card p {
+  margin: 0;
+  color: var(--color-ink-muted);
+}
+
+/* ------------------------------------------------------------- testimonials */
+
+.testimonials__grid {
+  display: grid;
+  gap: var(--space-5);
+}
+
+@media (min-width: 52rem) {
+  .testimonials__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.quote {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: 0;
+  padding: var(--space-6);
+  border: 1px solid var(--color-line-soft);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    160deg,
+    rgb(255 255 255 / 0.05),
+    rgb(255 255 255 / 0.012)
+  );
+}
+
+.quote::before {
+  content: "”";
+  color: var(--color-gold-deep);
+  font-family: Georgia, serif;
+  font-size: 3rem;
+  line-height: 0.6;
+}
+
+.quote blockquote {
+  margin: 0;
+  font-size: var(--text-lg);
+}
+
+.quote figcaption {
+  color: var(--color-gold);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------- faq */
+
+/* ⚠️ A CONSTRAINED MEASURE. See the note at the top of faq.tsx: a full-width
+   row for a one-line question is what made this section read as empty. */
+.faq__list {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 46rem;
+  margin-inline: auto;
+}
+
+.faq__item {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  transition: border-color var(--duration-base) var(--ease-standard);
+}
+
+.faq__item[open] {
+  border-color: rgb(230 193 115 / 0.45);
+  background: linear-gradient(
+    160deg,
+    var(--color-surface-raised),
+    var(--color-surface)
+  );
+}
+
+.faq__item:hover {
+  border-color: rgb(230 193 115 / 0.3);
+}
+
+/*
+ * A flex row, so the chevron is pinned next to the question rather than floated
+ * to the far edge of a 1200px card. `gap` is what holds them together and it is
+ * the entire fix.
+ */
+.faq__summary {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--tap-target);
+  padding: var(--space-4) var(--space-5);
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq__summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq__question {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+.faq__chevron {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  color: var(--color-gold);
+  transition:
+    transform var(--duration-base) var(--ease-standard),
+    border-color var(--duration-base) var(--ease-standard);
+}
+
+.faq__chevron svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.faq__item[open] .faq__chevron {
+  border-color: rgb(230 193 115 / 0.5);
+  transform: rotate(180deg);
+}
+
+/* The answer lines up under the QUESTION, not under the chevron, and stops
+   short of the row's end edge so it reads as a subordinate block. */
+.faq__answer {
+  padding: 0 var(--space-5) var(--space-5);
+}
+
+.faq__answer p {
+  max-width: 38rem;
+  margin: 0;
+  padding-block-start: var(--space-3);
+  border-block-start: 1px solid var(--color-line-soft);
+  color: var(--color-ink-muted);
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+
+/* ------------------------------------------------------------------ contact */
+
+/*
+ * ⚠️ ROW GAP AND COLUMN GAP ARE DELIBERATELY DIFFERENT HERE.
+ *
+ * This was one `gap: var(--space-8)` — a flat 64px on both axes. Above 58rem
+ * that is a COLUMN gap between the aside and the form standing side by side,
+ * and 64px is right for it. Below 58rem the same declaration becomes a ROW gap
+ * between two stacked blocks that read as one continuous thought, on a screen
+ * about a third as wide, and 64px of it is a hole. Daniel, 2026-08-07: *"on
+ * mobile there is a huge empty space […] and where the form starts."*
+ */
+.contact__layout {
+  display: grid;
+  gap: var(--space-6) var(--space-8);
+}
+
+@media (min-width: 58rem) {
+  .contact__layout {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.contact-form {
+  display: grid;
+  gap: var(--space-5);
+  padding: clamp(var(--space-5), 3vw, var(--space-7));
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.ui-field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.ui-field__label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.ui-input {
+  width: 100%;
+  min-height: var(--tap-target);
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: var(--color-canvas-deep);
+  color: var(--color-ink);
+}
+
+.ui-input::placeholder {
+  color: rgb(163 178 198 / 0.6);
+}
+
+.ui-input:focus {
+  border-color: var(--color-gold);
+}
+
+.contact-form__privacy {
+  margin: 0;
+  color: var(--color-ink-muted);
+  font-size: var(--text-xs);
+}
+
+.contact-form__actions {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.contact-form__actions .ui-button {
+  width: 100%;
+}
+
+.form-status {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.form-status--success {
+  color: var(--color-success);
+}
+
+.form-status--error {
+  color: var(--color-danger);
+}
+
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.form-fallback-results {
+  display: none;
+}
+
+.contact__aside {
+  display: grid;
+  gap: var(--space-6);
+  align-content: start;
+}
+
+@media (min-width: 46rem) {
+  /* Portrait beside the pitch, not stacked above it: stacked, the photograph
+     pushed the actual argument below the fold on a laptop. */
+  .contact__aside {
+    grid-template-columns: 13rem 1fr;
+    /*
+     * ⚠️ `center`, NOT `start`, AND THE THREE DELETED TICKS ARE WHY.
+     *
+     * The portrait is a fixed 2:3 at 13rem — about 312px tall — and the text
+     * beside it is now a one-line heading over a two-line sentence. Top-aligned,
+     * that left roughly 150px of nothing under the text at 768px while the
+     * photograph ran on past it, which reads as a hole rather than as a column
+     * that simply ended. The ticks used to occupy exactly that space.
+     * Centring spends the difference on both sides of the text instead of
+     * dumping all of it underneath.
+     */
+    align-items: center;
+  }
+}
+
+/* The same frame vocabulary as About, one size down, so the two photographs on
+   the page read as belonging to one system. */
+.contact__portrait {
+  margin: 0;
+  padding: 0.45rem;
+  border: 1px solid rgb(230 193 115 / 0.28);
+  border-radius: calc(var(--radius-lg) + 0.3rem);
+  background: linear-gradient(
+    160deg,
+    rgb(230 193 115 / 0.12),
+    transparent 60%
+  );
+  box-shadow: 0 1.5rem 3.5rem -2rem rgb(0 0 0 / 0.85);
+}
+
+.contact__portrait img {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+/*
+ * ⚠️ THE NARROWEST HEADING SLOT ON THE PAGE, AND THE ONLY ONE SIZED BY ITS
+ * COLUMN RATHER THAN BY THE VIEWPORT.
+ *
+ * This heading sits in the aside beside the form, and the width it actually
+ * gets does NOT rise with the window. Measured: 357px at a 390px phone (one
+ * column, full bleed), 480px at 768, then the two-column layout lands at 1024
+ * and the aside COLLAPSES to 211px before widening again to 302px at 1280 and
+ * settling near 296px from 1920 up.
+ *
+ * So a `vw` clamp is sizing against the wrong number by construction: it is
+ * largest exactly where the column is smallest. That is not hypothetical — a
+ * `clamp(1.5rem, 1.2rem + 1.4vw, 2.6rem)` here rendered 33.5px type into a
+ * 211px column at 1024 and wrapped a one-sentence heading onto two lines,
+ * while every other width in the sweep was clean.
+ *
+ * `cqi` is the correct variable: 1cqi is 1% of THIS column. The string runs
+ * about 7.6em wide, so 12.6cqi keeps it inside the column with a little slack
+ * at every width, and the two ends are still bounded — it never drops below
+ * 24px or climbs past the 41.6px the wide-column widths were already giving.
+ * `container-type: inline-size` is what makes those units resolve; without it
+ * they fall back to the viewport and the whole point is lost.
+ */
+.contact__pitch {
+  container-type: inline-size;
+}
+
+.contact__pitch .section__title {
+  font-size: clamp(1.5rem, 12.6cqi, 2.6rem);
+}
+
+.contact__pitch h2 {
+  margin-block-end: var(--space-4);
+}
+
+/*
+ * ⚠️ THE 64px THAT WAS ACTUALLY CAUSING THE HOLE, and it was not the layout
+ * gap. `.section__head` carries `margin-block-end: var(--space-8)` to separate
+ * a heading block from the body of its section — correct everywhere a body
+ * follows it. In this aside the heading block IS the whole column: nothing
+ * comes after it, so that margin was 64px of trailing dead space stacked on top
+ * of the layout's own gap. Measured on a 390px phone: the lead ended at 618px,
+ * the aside at 682px, the form began at 746px — 128px between the sentence and
+ * the first field, and only half of it was the gap anyone had chosen.
+ *
+ * It was invisible until now because the three ticked assurances used to sit in
+ * that space and absorb it. Deleting them exposed the margin rather than
+ * creating it.
+ */
+.contact__pitch .section__head {
+  margin-block-end: 0;
+}
+
+/* ⚠️ `.contact__assurances` AND `.contact__tick` WERE DELETED HERE on
+   2026-08-07 along with the three ticked lines they styled — all three
+   restated the lead sentence above them. Reasoning against the content, in
+   `site-content.ts`. Nothing else used the tick disc. */
+
+
+/* ------------------------------------------------------------------- footer */
+
+/*
+ * ⚠️ THE FOOTER HAD NO GROUND OF ITS OWN. Its entire background was
+ * `linear-gradient(transparent, rgb(4 7 14 / 0.9))` — a fade into the same
+ * canvas as everything above it, under a grey hairline. Daniel: *"The foot area
+ * looks boring […] Shouldn't the footer be different colors and overall
+ * better?"*
+ *
+ * It now closes the page instead of trailing off it: a real surface, a GOLD
+ * hairline across the top rather than a grey one, and a wash pulled from the
+ * hero's so the last thing on the page is the colour the first thing was.
+ */
+.site-footer {
+  position: relative;
+  isolation: isolate;
+  margin-block-start: var(--space-section);
+  padding-block: var(--space-8) var(--space-6);
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgb(15 22 38 / 0.85), rgb(4 7 14 / 0.98));
+}
+
+/* The gold hairline. A gradient rather than a flat line so it reads as light
+   catching an edge, which is the same figure the `.rule` uses to open a
+   section — the page closes on the mark it opens each argument with. */
+.site-footer::before {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: 0;
+  inset-inline: 0;
+  height: 1px;
+  background: linear-gradient(
+    to left,
+    rgb(230 193 115 / 0),
+    var(--color-gold) 50%,
+    rgb(230 193 115 / 0)
+  );
+  content: "";
+}
+
+/* The wash, echoing the hero's gold orb at the opposite corner. Decorative and
+   behind everything; `isolation: isolate` on the footer keeps it out of the
+   page's other stacking contexts. */
+.site-footer__wash {
+  position: absolute;
+  z-index: -1;
+  inset-block-start: -30%;
+  inset-inline-end: -10%;
+  width: 32rem;
+  height: 32rem;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgb(230 193 115 / 0.1),
+    transparent 68%
+  );
+  pointer-events: none;
+}
+
+/*
+ * The closing invitation. Someone who has read to the bottom of a landing page
+ * is the most qualified reader on it, and the footer used to offer them a list
+ * of links and nothing to do.
+ */
+.site-footer__close {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+}
+
+.site-footer__close-line {
+  margin: 0;
+  color: var(--color-champagne);
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+@media (min-width: 52rem) {
+  .site-footer__close {
+    justify-items: end;
+    text-align: end;
+  }
+}
+
+.site-footer__grid {
+  display: grid;
+  gap: var(--space-7);
+}
+
+@media (min-width: 52rem) {
+  .site-footer__grid {
+    grid-template-columns: 1.4fr 1fr auto;
+    align-items: start;
+  }
+}
+
+.site-footer__identity {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.site-footer__portrait {
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 1px solid var(--color-gold-deep);
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 22%;
+}
+
+.site-footer__name {
+  margin: 0 0 var(--space-1);
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.site-footer__statement {
+  max-width: 26rem;
+  margin: 0;
+  color: var(--color-ink-muted);
+  font-size: var(--text-sm);
+}
+
+.site-footer__nav,
+.site-footer__social {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.site-footer__nav a,
+.site-footer__social a {
+  color: var(--color-ink-muted);
+  font-size: var(--text-sm);
+  text-decoration: none;
+}
+
+.site-footer__nav a:hover,
+.site-footer__social a:hover {
+  color: var(--color-gold);
+}
+
+.site-footer__rights {
+  margin: var(--space-7) 0 0;
+  padding-block-start: var(--space-5);
+  border-block-start: 1px solid var(--color-line-soft);
+  color: var(--color-ink-muted);
+  font-size: var(--text-xs);
+}
+
+.motion-preference-toggle {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--color-ink-muted);
+  font-size: var(--text-xs);
+}
+
+.motion-preference-toggle:hover {
+  border-color: var(--color-gold);
+  color: var(--color-ink);
+}
+
+/*
+ * ⚠️ THE FIXED MOBILE CTA BAR IS GONE, MODULE AND ALL.
+ *
+ * Daniel enabled the `mobile-cta` module on 2026-08-04 ("Instagram traffic is
+ * overwhelmingly mobile") and disabled it on 2026-08-07: *"Why did we put on
+ * mobile a CTA that is stuck to the bottom of the screen like a footer on all
+ * the screens?"* — then explicitly: *"It is fine that the header CTA is hidden.
+ * Just disable the footer CTA."*
+ *
+ * Its styles, its component, its copied module contract under `modules/`, and
+ * its entries in the site brief, the runtime contract and the generated config
+ * all went with it. Carrying the action on a phone now: twelve in-page calls to
+ * action and the floating WhatsApp button.
+ */
+
+/* ------------------------------------------------------------ skip / a11y */
+
+.a11y-skip-link {
+  position: absolute;
+  z-index: 100;
+  inset-block-start: var(--space-3);
+  inset-inline-start: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-pill);
+  background: var(--color-gold);
+  color: var(--color-on-brand);
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-150%);
+}
+
+.a11y-skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+.a11y-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/*
+ * Entrance motion. Pure CSS with no observer: the finished state is what the
+ * element renders without JavaScript, and the site's stored motion opt-out
+ * removes the animation entirely.
+ */
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+}
+
+[data-site-motion="motion"] .a11y-reveal {
+  animation: reveal-rise 680ms var(--ease-standard) both;
+}
+
+[data-site-motion="motion"] .a11y-reveal--delay-1 { animation-delay: 110ms; }
+[data-site-motion="motion"] .a11y-reveal--delay-2 { animation-delay: 220ms; }
+[data-site-motion="motion"] .a11y-reveal--delay-3 { animation-delay: 330ms; }
+[data-site-motion="motion"] .a11y-reveal--delay-4 { animation-delay: 440ms; }
+
+.ui-container--narrow {
+  max-width: var(--content-narrow);
+}
+
+.ui-field__description {
+  color: var(--color-ink-muted);
+  font-size: var(--text-xs);
+}
+
+.ui-field__error {
+  color: var(--color-danger);
+  font-size: var(--text-sm);
+}
+
+/* ------------------------------------------------------------ motion layers */
+
+/*
+ * motion-cursor-surface. Decorative only, fixed above the background and below
+ * everything else, and inert to pointer events. It exists only once a real fine
+ * pointer has moved; on touch it is never activated.
+ */
+.cursor-surface {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    22rem 22rem at var(--cursor-x, 50%) var(--cursor-y, 30%),
+    rgb(230 193 115 / 0.1),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 600ms var(--ease-standard);
+}
+
+.cursor-surface[data-active="true"] {
+  opacity: 1;
+}
+
+/*
+ * motion-one-shot-cta. The rest state is the finished state, so this only ever
+ * plays a single pass and never loops.
+ */
+@keyframes cta-emphasis {
+  50% {
+    transform: translateY(-3px);
+    filter: brightness(1.12);
+  }
+}
+
+[data-site-motion="motion"] [data-cta-emphasis="played"] .ui-button:first-child {
+  animation: cta-emphasis 900ms var(--ease-standard) 1;
+}
+
+/*
+ * motion-native-scroll-story. Every station is laid out at final size in the
+ * server response; the active state only changes emphasis, never visibility.
+ */
+.scroll-story {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.scroll-story__station {
+  transition:
+    opacity 500ms var(--ease-standard),
+    border-color 500ms var(--ease-standard);
+}
+
+[data-site-motion="motion"] .scroll-story__station[data-active="false"] {
+  opacity: 0.55;
+}
+
+[data-site-motion="motion"] .scroll-story__station[data-active="true"] {
+  opacity: 1;
+}
+
+[data-site-motion="reduced"] .cursor-surface {
+  display: none;
+}
+
+.about p {
+  margin-block-end: var(--space-5);
+}
+
+.about p:last-child {
+  margin-block-end: 0;
+}
+
+/*
+ * Currency amounts are an LTR run inside RTL copy. Without an isolate the
+ * shekel sign migrates to the wrong end of the number, and it did so
+ * inconsistently between the struck anchor and the headline price.
+ */
+.offer__tier-amount bdi {
+  unicode-bidi: isolate;
+}
+
+/* Scroll-story stations carrying the headline numbers. */
+.stats .scroll-story {
+  gap: var(--space-6);
+}
+
+@media (min-width: 48rem) {
+  .stats .scroll-story {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 64rem) {
+  .stats .scroll-story {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.stat {
+  height: 100%;
+  padding: var(--space-5);
+  border-inline-start: 1px solid var(--color-line);
+}
+
+/* ══════════════════════════════════════════════════════ living background ══ */
+
+/*
+ * The page was a flat gradient and read as still. This is a slow drift of two
+ * light sources plus a fine grain, on a fixed layer behind everything.
+ *
+ * It is genuinely cheap: two transforms on a composited layer, no repaint, and
+ * `will-change` is deliberately absent because the layer is already promoted by
+ * `position: fixed` and hinting it again just pins more memory.
+ *
+ * It breathes rather than pulses. A 34s and a 46s cycle at different offsets
+ * never line up, so the movement has no beat to it and nothing on the page ever
+ * flashes. Under the stored motion opt-out the drift stops and the lights sit
+ * where they are: still a lit room, just not a moving one.
+ */
+.site-glow {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.site-glow__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+}
+
+/*
+ * ⚠️ Same non-overlap rule as `body`, and it binds harder here because these
+ * two drift. They used to be 62vw and 70vw orbs starting at −18vh/−22vh, which
+ * meant that at any viewport narrower than about 1100px they overlapped at
+ * rest — and then the drift animations swung them THROUGH each other twice a
+ * minute, so the mud moved. Both are smaller now, both are pinned harder into
+ * opposing corners, and the drift distances below were cut to match so the
+ * closest approach still leaves clear canvas between them.
+ */
+.site-glow__orb--gold {
+  top: -26vh;
+  right: -18vw;
+  width: 48vw;
+  height: 48vw;
+  max-width: 44rem;
+  max-height: 44rem;
+  background: radial-gradient(circle, rgb(230 193 115 / 0.2), transparent 66%);
+}
+
+.site-glow__orb--sea {
+  bottom: -28vh;
+  left: -20vw;
+  width: 52vw;
+  height: 52vw;
+  max-width: 48rem;
+  max-height: 48rem;
+  background: radial-gradient(circle, rgb(28 72 112 / 0.4), transparent 68%);
+}
+
+/* A little tooth so the large flat areas are not banded gradient. */
+.site-glow__grain {
+  position: absolute;
+  inset: -50%;
+  opacity: 0.035;
+  background-image: repeating-conic-gradient(
+    from 0deg at 50% 50%,
+    #fff 0deg 1deg,
+    transparent 1deg 2deg
+  );
+  background-size: 3px 3px;
+}
+
+/* Drift AWAY from the other orb, never toward it. `a` is the top-right gold and
+   moves further up and out; `b` is the bottom-left sea and does the same
+   downward. Halved from the original travel so the two can never meet. */
+@keyframes glow-drift-a {
+  50% {
+    transform: translate3d(3vw, -3vh, 0) scale(1.1);
+  }
+}
+
+@keyframes glow-drift-b {
+  50% {
+    transform: translate3d(-3vw, 3vh, 0) scale(1.07);
+  }
+}
+
+[data-site-motion="motion"] .site-glow__orb--gold {
+  animation: glow-drift-a 34s ease-in-out infinite;
+}
+
+[data-site-motion="motion"] .site-glow__orb--sea {
+  animation: glow-drift-b 46s ease-in-out infinite;
+}
+
+/* Everything the reader touches sits above the glow. */
+.site-header,
+main,
+.site-footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════ header ══ */
+
+.site-header {
+  position: sticky;
+  z-index: 40;
+  inset-block-start: 0;
+  border-block-end: 1px solid var(--color-line-soft);
+  background: rgb(8 13 24 / 0.82);
+  backdrop-filter: blur(14px);
+}
+
+.site-header__inner {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--header-height);
+}
+
+.brand {
+  display: inline-flex;
+  gap: var(--space-3);
+  align-items: center;
+  min-width: 0;
+  text-decoration: none;
+}
+
+/* Her face, not an initial in a circle. */
+.brand__portrait {
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 1px solid var(--color-gold-deep);
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 22%;
+}
+
+/* Her name is the whole wordmark. The muted second line that used to sit under
+   it is gone — see the note in site-header.tsx. */
+.brand__text strong {
+  display: block;
+  font-size: var(--text-base);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.site-nav {
+  display: none;
+  gap: var(--space-6);
+}
+
+@media (min-width: 62rem) {
+  .site-nav {
+    display: flex;
+  }
+}
+
+.site-nav a {
+  color: var(--color-ink-muted);
+  font-size: var(--text-sm);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.site-nav a:hover {
+  color: var(--color-gold);
+}
+
+.site-header__actions {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+/* Her Instagram and her WhatsApp, at EVERY width. Glyph buttons rather than
+   labelled links, so two of them cost the bar about 5rem in total. */
+.site-social {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-social__link {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  color: var(--color-ink-muted);
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard);
+}
+
+.site-social__link svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+/*
+ * ══════════════════════════════════════════════════════════ BRAND COLOURS ══
+ *
+ * ⚠️ BOTH OF THESE WERE `--color-ink-muted` INSIDE A GREY HAIRLINE RING — two
+ * identical circles, told apart only by the glyph inside them. Daniel,
+ * 2026-08-06: *"We should add the colors to the social icons in the header."*
+ *
+ * Each now paints its own product's affordance, which is the whole reason a
+ * social icon is recognisable at a glance instead of read. The WhatsApp green
+ * is the same `#25d366` as the floating button already on this page, so the two
+ * WhatsApp entry points are visibly one destination.
+ *
+ * The Instagram gradient deliberately STOPS SHORT of the brand's darkest purple
+ * (#515BD4). On this canvas that end of the ramp goes muddy and the white glyph
+ * over it drops toward 3:1; running yellow to magenta keeps the mark
+ * recognisable and keeps the glyph bright the whole way across.
+ *
+ * On contrast: WCAG 1.4.11 exempts logotypes and graphics whose particular
+ * presentation is essential to what they convey, which is exactly what a brand
+ * mark is. The link carries the real accessible name; the glyph is aria-hidden
+ * and says nothing on its own.
+ */
+.site-social__link[data-social="instagram"] {
+  border-color: transparent;
+  background: linear-gradient(45deg, #f9ce34, #ee2a7b 55%, #c13584);
+  color: #fff;
+}
+
+.site-social__link[data-social="whatsapp"] {
+  border-color: transparent;
+  background: #25d366;
+  color: #fff;
+}
+
+.site-social__link[data-social]:hover {
+  border-color: transparent;
+  background-image: none;
+  filter: brightness(1.12);
+}
+
+.site-social__link[data-social="instagram"]:hover {
+  background-image: linear-gradient(45deg, #f9ce34, #ee2a7b 55%, #c13584);
+}
+
+.site-social__link:hover {
+  border-color: var(--color-gold);
+  background: var(--color-gold-wash);
+  color: var(--color-gold);
+}
+
+/*
+ * ⚠️ THE HEADER CTA IS HIDDEN BELOW 48rem, AND THAT IS DELIBERATE.
+ *
+ * It used to hand over to the fixed `.mobile-cta` bar at exactly this width.
+ * That bar is gone (2026-08-07) and Daniel confirmed the handover is no longer
+ * wanted: *"It is fine that the header CTA is hidden."* There is not room for a
+ * portrait, a name, two social glyphs, a CTA and a menu toggle on a 390px bar
+ * anyway, and the page carries twelve other calls to action.
+ */
+.site-header__cta {
+  display: none;
+  padding: 0.6rem 1.1rem;
+  font-size: var(--text-sm);
+}
+
+@media (min-width: 48rem) {
+  .site-header__cta {
+    display: inline-flex;
+  }
+}
+
+.site-menu-toggle {
+  display: grid;
+  gap: 0.28rem;
+  place-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  padding: 0;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: none;
+}
+
+.site-menu-toggle span {
+  display: block;
+  width: 1.1rem;
+  height: 1.5px;
+  background: var(--color-ink);
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+
+@media (min-width: 62rem) {
+  .site-menu-toggle {
+    display: none;
+  }
+}
+
+.site-header[data-open="true"] .site-menu-toggle span:first-child {
+  transform: translateY(0.45rem) rotate(45deg);
+}
+
+.site-header[data-open="true"] .site-menu-toggle span:nth-child(2) {
+  opacity: 0;
+}
+
+.site-header[data-open="true"] .site-menu-toggle span:last-child {
+  transform: translateY(-0.45rem) rotate(-45deg);
+}
+
+.site-drawer {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--gutter) var(--space-5);
+  border-block-start: 1px solid var(--color-line-soft);
+  background: rgb(4 7 14 / 0.97);
+}
+
+.site-drawer a {
+  padding: var(--space-3) 0;
+  border-block-end: 1px solid var(--color-line-soft);
+  font-size: var(--text-lg);
+  text-decoration: none;
+}
+
+/* ═════════════════════════════════════════════════════════════════ hero ══ */
+
+.hero {
+  padding-block: clamp(2.5rem, 1.5rem + 5vw, 4.5rem) var(--space-section);
+}
+
+/*
+ * ⚠️ ONE CENTRED COLUMN AT EVERY WIDTH. This was a two-column grid
+ * (`0.95fr 1.05fr`) that put the clip beside the heading; see the note at the
+ * top of hero.tsx for why the order is now words → video → actions.
+ *
+ * There is deliberately no `grid-template-columns` rule anywhere below. If a
+ * future change wants the clip beside the type again, that is a layout
+ * decision to argue for, not a breakpoint to add.
+ */
+.hero__layout {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-7);
+  text-align: center;
+}
+
+/*
+ * ⚠️ 44rem WAS THE SLACK DANIEL WAS LOOKING AT. Measured at 1440: this box was
+ * 704px inside a 1216px container, so 256px sat empty on each side and the
+ * heading could never use it however large the type got — past a point it just
+ * wrapped each sentence in half, which breaks the sentence-per-line rule
+ * outright.
+ *
+ * The heading gets the container. The SUB-HEADLINE keeps its own 40rem measure
+ * (see `.hero__subhead`), because a line of argument set 1200px wide is
+ * unreadable no matter how much room is going spare — the two have different
+ * jobs and want different widths.
+ */
+.hero__intro {
+  max-width: none;
+}
+
+/*
+ * ⚠️ THE SIZE IS WHAT KEEPS EACH SENTENCE ON ONE LINE — NOT `text-wrap: nowrap`.
+ *
+ * `nowrap` was tried here first and it is a trap: the longest line,
+ * "היומן שלך יכול להיות מלא.", cannot fit a 390px viewport at heading size, so
+ * instead of wrapping it pushed the document to scrollWidth 542 against a
+ * clientWidth of 390. That is a worse failure than the wrap it was preventing —
+ * it broke the phone layout outright.
+ *
+ * So the clamp below is tuned to the LONGEST line in `hero.titleLines`: at
+ * 390px it resolves to about 24.6px, where 25 Hebrew characters measure roughly
+ * 307px inside ~350px of usable width. `balance` is the safety net rather than
+ * the mechanism — if someone adds a longer line later it degrades to a tidy
+ * two-line wrap instead of shoving the page sideways.
+ *
+ * ⚠️ Adding a line longer than about 25 characters means re-tuning this clamp.
+ */
+.hero__title {
+  margin-block-end: var(--space-5);
+  /*
+   * ⚠️ 1.08 WAS TOO TIGHT AND IT WAS MEASURABLE. At 2560px the two lines
+   * rendered at 54.4px with a 58.75px line box: line one ended at y=164 and
+   * line two began at y=164. Zero gap. Daniel: *"In the header there is a
+   * problem where the first slide is too close to the second line horizontally.
+   * If you could see it, there should be a little bit more space."*
+   *
+   * Hebrew makes this worse than the number suggests: ף, ך, ן and ץ all descend
+   * below the baseline, and both of these lines end in one. A descender from
+   * line one lands in the space line two's letters occupy.
+   */
+  line-height: 1.16;
+  /*
+   * ⚠️ BIGGER. Daniel, 2026-08-07: *"On both desktop and on mobile the header
+   * is not big enough. The main header in the website, the first one, You see
+   * there is more space on the right and on the left of it. We can make the
+   * text bigger."*
+   *
+   * He is describing measured slack: at 1440 the longer of the two lines
+   * rendered about 590px wide inside a 1136px container, so roughly 270px was
+   * empty on each side. The old clamp topped out at 3.4rem and was tuned when
+   * the concern was a two-line heading overflowing a 390px phone — a constraint
+   * that no longer applies now the lines are set as finished sentences rather
+   * than wrapped.
+   *
+   * Both ends move: the phone floor from 1.5rem and the desktop cap from
+   * 3.4rem. The cap is chosen so the longer line still clears the container at
+   * 1440 with a gutter to spare, which is what stops it from wrapping into
+   * three lines and undoing the sentence-per-line rule.
+   */
+  /*
+   * ⚠️ TWO STOPS, BECAUSE ONE CLAMP CANNOT SERVE BOTH ENDS.
+   *
+   * Measured: at 360px the longer sentence stops fitting one line at about
+   * 28px, while the 1216px container above 1280px takes 83px comfortably. A
+   * single clamp tuned to survive the phone therefore caps the desktop at
+   * roughly 58px — which is where the old value came from, and why Daniel could
+   * see slack either side of it.
+   *
+   * Below 48rem the phone limit governs. Above it, the size runs to a 5.2rem
+   * cap. Verified two visual lines and no overflow at 360, 390, 600, 768, 834,
+   * 1024, 1280, 1440, 1920 and 2560.
+   *
+   * ⚠️ TWO VISUAL LINES IS THE TEST, not "does it look big". Each entry of
+   * `titleLines` is a finished sentence and must hold its own line; the moment
+   * the type grows past what the box can take, a sentence wraps in half and the
+   * whole rule is gone.
+   */
+  font-size: clamp(1.6rem, 0.95rem + 3vw, 2.6rem);
+  text-wrap: balance;
+}
+
+@media (min-width: 48rem) {
+  .hero__title {
+    font-size: clamp(2.4rem, 1.2rem + 4.4vw, 5.2rem);
+  }
+}
+
+/* Same as the section headings: the breaks are `<br>` inside the gloss, so a
+   single crest sweeps the whole h1. */
+
+/* The h1 follows the same rule as the section headings: all ink, and the only
+   gold is the crest travelling across it. See the note there. */
+
+/* The objection-handling lines. A step down from the heading and a step up
+   from body copy: this is still argument, not detail. */
+.hero__subhead {
+  max-width: 40rem;
+  margin: 0 auto;
+  color: var(--color-ink);
+  font-size: clamp(1.02rem, 0.95rem + 0.5vw, 1.25rem);
+  line-height: 1.65;
+  text-wrap: balance;
+}
+
+.hero__subhead-line {
+  display: block;
+}
+
+/*
+ * ⚠️ THE TWO-TONE SUB-HEADLINE IS GONE.
+ *
+ * This rule used to give the first line `--color-ink` and leave the other two
+ * on `--color-ink-muted`, as emphasis. Daniel: *"Why in the secondary header
+ * some of the text is white and some is something that is hard to read?"*
+ *
+ * That is the correct reading of it, and it is the answer to the question the
+ * design was actually asking. Three lines of one continuous argument, set in
+ * two different colours, do not read as "the first one matters most" — they
+ * read as a rendering fault, or as two lines that have been greyed out. Weight
+ * carries the emphasis now; the colour is uniform.
+ */
+/*
+ * ⚠️ AND NOW THE WEIGHT IS GONE TOO. Daniel, 2026-08-06: *"explain why this
+ * first line in the secondary header is bold unlike the other two."*
+ *
+ * The honest answer is that it is a leftover. This rule originally set the
+ * first line in full ink while the other two were muted, as emphasis; when he
+ * rejected the two-tone colouring I removed the colour and kept the weight,
+ * which preserved exactly the inconsistency he had objected to in a quieter
+ * form. The same argument applies: three lines of one continuous argument
+ * should not have one of them dressed differently, and "it is first" is not a
+ * reason to emphasise it.
+ */
+
+.hero__foot {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  justify-content: center;
+}
+
+.hero__hint {
+  margin: 0;
+  color: var(--color-ink-muted);
+  font-size: var(--text-xs);
+}
+
+/*
+ * The clip is held to a readable measure rather than the container width. At
+ * 9:16 a full-bleed 1200px stage would be nearly two viewports tall and push
+ * every call to action below the fold, which is the opposite of what moving it
+ * out of the side column was for.
+ */
+/*
+ * ══════════════════════════════════════════════ HERO PLAYER SIZE ══
+ *
+ * ⚠️ THESE NUMBERS ARE COPIED, NOT DERIVED. Daniel, 2026-08-06: *"Go check
+ * Pnina. Go check the automations website and look at the exact sizing that I
+ * use there. I don't understand what's so hard to copy sizing. It's numbers.
+ * You don't need to reinvent anything."*
+ *
+ * Both sites size this frame BY WIDTH with a max-width ladder and let
+ * `aspect-video` derive the height:
+ *
+ *   pnina-website  `-mx-3 sm:mx-auto sm:w-full sm:max-w-3xl lg:max-w-5xl xl:max-w-none`
+ *   automations    `mx-auto max-w-5xl`
+ *
+ * which is 48rem from 40rem up, 64rem from 64rem up, and the container's own
+ * width beyond 80rem. That ladder is reproduced below verbatim.
+ *
+ * ⚠️ WHAT WAS HERE BEFORE, AND WHY IT WAS WRONG. This was sized by HEIGHT —
+ * `min(34vh, 34rem, calc((100vw - 4rem) * 0.5625))` — with two more media
+ * queries shrinking it further on short viewports and when the cookie notice
+ * was on screen. At 1440x900 that produced a 672px frame where Pnina's ladder
+ * gives 1024px.
+ *
+ * All of that existed to keep the primary button above the fold, and that
+ * constraint was NOT a requirement. It came from e2e specs that read
+ * `data-cta-emphasis="played"` as a HYDRATION SIGNAL — a cheap way to wait for
+ * the client bundle — which happens to require the element to have been seen.
+ * The specs now scroll to it, which is what they should have done, and the
+ * player is the size it is on the two sites this one is modelled on.
+ */
+.hero__media {
+  width: 100%;
+  max-width: none;
+  /* Pnina's `-mx-3`: below the first rung the frame runs slightly wider than
+     the text column, so the clip is the widest thing on a phone screen. */
+  margin-inline: -0.75rem;
+}
+
+@media (min-width: 40rem) {
+  .hero__media {
+    margin-inline: auto;
+  }
+}
+
+@media (min-width: 40rem) {
+  .hero__media {
+    max-width: 48rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .hero__media {
+    max-width: 64rem;
+  }
+}
+
+/*
+ * ⚠️ FROM 48rem UP THE CLIP IS SIZED BY HEIGHT, AND THIS IS NOT COSMETIC.
+ *
+ * Moving the clip out of the side column and into the centre made the hero
+ * taller by design. Sized by width, a 23rem 9:16 stage is 654px tall, the hero
+ * measured 1256px, and `.hero__actions` landed at y=1112 on a 900px-tall
+ * laptop — the primary call to action was TWO HUNDRED PIXELS BELOW THE FOLD,
+ * and the `motion-one-shot-cta` observer never fired because its wrapper was
+ * never on screen. A centred hero that buries its own CTA is a worse hero than
+ * the two-column one it replaced.
+ *
+ * So above the phone breakpoint the stage takes its height from the viewport
+ * and the 9:16 ratio derives the width. At 900px tall that is a 396x223 player
+ * with the actions at roughly y=790, comfortably inside the first screen; on a
+ * tall monitor it grows to the 30rem cap rather than dominating the page.
+ *
+ */
+@media (min-width: 48rem) {
+  .hero {
+    padding-block-start: 2rem;
+  }
+
+  .hero__layout {
+    gap: var(--space-5);
+  }
+}
+
+/* Above 800px tall there is room to spend: 44vh at 1440x900 still leaves 53px
+   under the actions, and at 1080 and 1440 the 34rem cap takes over. */
+
+/* ════════════════════════════════════════════════════════════════ about ══ */
+
+.about__layout {
+  display: grid;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+@media (min-width: 58rem) {
+  /* The picture takes the smaller share. It is a personal photograph that
+     supports the words, not a product shot that replaces them. */
+  .about__layout {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: var(--space-9, 4rem);
+  }
+}
+
+.about__copy {
+  max-width: 38rem;
+}
+
+.about__copy p {
+  margin-block-end: var(--space-5);
+  color: var(--color-ink-muted);
+  font-size: var(--text-lg);
+}
+
+.about__copy p:last-child {
+  margin-block-end: 0;
+}
+
+/* ── the frame ─────────────────────────────────────────────────────────────
+   Read the note at the top of about.tsx first. Four layers, and each one is
+   doing a job the previous single 1px border could not:
+     .about__frame    the mount — a plate slightly larger than the picture
+     .about__plate    the aperture the photo sits in, and the clip boundary
+     .about__vignette darkens the picture's own edges into the page
+     .about__ring     the inner bevel, inset just past the image edge
+*/
+.about__frame {
+  max-width: 26rem;
+  margin: 0 auto;
+  padding: clamp(0.7rem, 0.4rem + 1vw, 1.1rem);
+  border: 1px solid rgb(230 193 115 / 0.3);
+  border-radius: calc(var(--radius-lg) + 0.4rem);
+  background:
+    linear-gradient(
+      160deg,
+      rgb(230 193 115 / 0.13),
+      rgb(230 193 115 / 0.02) 55%,
+      transparent
+    ),
+    var(--color-surface);
+  box-shadow:
+    0 2rem 4.5rem -2rem rgb(0 0 0 / 0.85),
+    inset 0 1px 0 rgb(250 231 180 / 0.16);
+}
+
+.about__plate {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  /* The photo's own ratio, so it is never cropped. */
+  aspect-ratio: 3 / 4;
+}
+
+.about__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/*
+ * ⚠️ THIS PHOTOGRAPH HAS A PALE SKY ALONG ITS TOP EDGE and the page behind it
+ * is near-black, so without a vignette the picture ends in a hard bright line
+ * that reads as a rendering fault. The gradient is asymmetric on purpose:
+ * heavier at the top where the sky is, light at the bottom where the sand
+ * already goes dark.
+ */
+.about__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to bottom,
+      rgb(4 7 14 / 0.42),
+      transparent 26%,
+      transparent 72%,
+      rgb(4 7 14 / 0.3)
+    ),
+    radial-gradient(
+      ellipse at 50% 45%,
+      transparent 55%,
+      rgb(4 7 14 / 0.35)
+    );
+}
+
+.about__ring {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: var(--radius-lg);
+  box-shadow:
+    inset 0 0 0 1px rgb(250 231 180 / 0.22),
+    inset 0 0 0 0.35rem rgb(4 7 14 / 0.55);
+}
+
+.about__caption {
+  margin-block-start: var(--space-4);
+  color: var(--color-champagne);
+  font-size: var(--text-sm);
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* ═════════════════════════════════════════════════════════════════ pain ══ */
+
+.pain__grid {
+  display: grid;
+  gap: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 46rem) {
+  .pain__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 72rem) {
+  .pain__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.pain__item {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+  padding: var(--space-5);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: linear-gradient(
+    150deg,
+    var(--color-surface-raised),
+    var(--color-surface)
+  );
+  box-shadow: 0 1rem 2.5rem -1.5rem rgb(0 0 0 / 0.8);
+  transition:
+    border-color var(--duration-base) var(--ease-standard),
+    transform var(--duration-base) var(--ease-standard);
+}
+
+.pain__item:hover {
+  border-color: rgb(230 193 115 / 0.45);
+  transform: translateY(-2px);
+}
+
+/*
+ * ⚠️ A LINE GLYPH, NOT AN EMOJI. These were 📅 💸 📱 🎥 ⏳ 😔 and the Method
+ * cards were 🎯 🔥 👑. Daniel flagged the register: emoji render in each
+ * platform's own house style, they carry colours nothing else on the page uses,
+ * and on a luxury dark page they are the cheapest thing on screen. The glyphs
+ * are now thin gold strokes that inherit the palette.
+ */
+.pain__icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 1px solid rgb(230 193 115 / 0.28);
+  border-radius: 50%;
+  background: var(--color-gold-wash);
+  color: var(--color-gold);
+}
+
+.pain__icon svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+/* ⚠️ `--color-ink`. One of the two rules Daniel named; see the note on
+   `--color-ink-muted`. The gold emphasis inside still does the highlighting,
+   and it works better against ink than against grey. */
+.pain__text {
+  margin: 0;
+  color: var(--color-ink);
+  font-size: var(--text-lg);
+}
+
+/* The sentence can be read by its emphasis alone and still make sense. */
+.pain__emphasis {
+  color: var(--color-gold-bright);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: rgb(230 193 115 / 0.4);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+}
+
+/* ═══════════════════════════════════════════════════════════════ method ══ */
+
+/* Same ringed plate as `.pain__icon`, one size up: these three head cards
+   rather than list rows. */
+.method__icon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid rgb(230 193 115 / 0.28);
+  border-radius: 50%;
+  background: var(--color-gold-wash);
+  color: var(--color-gold);
+}
+
+.method__icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.method__card {
+  position: relative;
+  padding-block-start: var(--space-6);
+}
+
+/*
+ * ⚠️ ICON AND HEADING ON ONE ROW, AND NO NUMBER.
+ * Daniel, 2026-08-06: *"In this section remove the 01, 02, 03 numbers from each
+ * thing and make the icon and the header appear in the same row."*
+ *
+ * `.method__index` is deleted outright rather than hidden — it was counting a
+ * sequence that is not one. The section's own lead says these three pillars
+ * move each other ("שלושה מישורים שמזיזים אחד את השני"), so numbering them
+ * 01/02/03 contradicted the copy in the paragraph directly above them.
+ */
+.method__row {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+  margin-block-end: var(--space-3);
+}
+
+.method__row h3 {
+  margin: 0;
+}
+
+/* ════════════════════════════════════════════════════════════════ stats ══ */
+
+.stats {
+  border-block: 1px solid var(--color-line-soft);
+}
+
+.stats .scroll-story {
+  display: grid;
+  gap: var(--space-5);
+}
+
+@media (min-width: 40rem) {
+  .stats .scroll-story {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 68rem) {
+  .stats .scroll-story {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/*
+ * ⚠️ At rest EVERY tile is fully lit. Nothing here dims a number to make
+ * another one look brighter — three dark tiles beside one bright one read as
+ * three broken tiles. `data-lit` only adds a warm lift as each figure arrives,
+ * once, and it never comes back off.
+ */
+.stat {
+  height: 100%;
+  padding: var(--space-5);
+  border: 1px solid var(--color-line-soft);
+  border-radius: var(--radius-md);
+  background: rgb(255 255 255 / 0.025);
+  transition:
+    border-color 700ms var(--ease-standard),
+    background-color 700ms var(--ease-standard),
+    box-shadow 700ms var(--ease-standard);
+}
+
+.scroll-story__station[data-lit="true"] .stat {
+  border-color: rgb(230 193 115 / 0.5);
+  background: rgb(230 193 115 / 0.07);
+  box-shadow: 0 0 2.5rem -0.9rem rgb(230 193 115 / 0.65);
+}
+
+.stat__value {
+  display: block;
+  margin-block-end: var(--space-2);
+  color: var(--color-gold-bright);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+[data-site-motion="motion"] .scroll-story__station[data-lit="true"] .stat__value {
+  animation: stat-land 620ms var(--ease-standard) both;
+}
+
+@keyframes stat-land {
+  from {
+    opacity: 0.35;
+    transform: translateY(0.5rem) scale(0.96);
+  }
+}
+
+.stat__label {
+  margin: 0;
+  color: var(--color-ink-muted);
+  font-size: var(--text-sm);
+}
+
+/* ════════════════════════════════════════════════════════════ proof wall ══ */
+
+/*
+ * ⚠️ THIS WAS A 4x3 WALL AND THE WALL COULD NOT BE READ. Twelve tiles across a
+ * container came out about 200px wide each, and every artefact here is a
+ * conversation whose entire value is the words inside it. The argument the
+ * section makes is still volume — the tracks are long and they visibly scroll —
+ * but volume is worth nothing if no single item can be read, so each tile is
+ * now large enough to read and any still opens full size.
+ *
+ * See sections/gallery.tsx for why the mechanism is native scroll-snap rather
+ * than a transformed track.
+ */
+.proof__tracks {
+  display: grid;
+  gap: var(--space-8);
+}
+
+/*
+ * ⚠️ `min-width: 0` OR THE TRACK NEVER SCROLLS — IT PUSHES THE PAGE.
+ *
+ * A grid item's default `min-width` is `auto`, which resolves to its content's
+ * intrinsic width. So an `overflow-x: auto` element nested in a grid grows to
+ * fit all of its children instead of scrolling them, and the overflow escapes
+ * to the document: with eleven tiles this measured scrollWidth 3302 against a
+ * clientWidth of 1440. Both of these are the fix, and both are needed — the
+ * section is the grid item, the track is a flex parent inside it.
+ */
+.gallery {
+  min-width: 0;
+}
+
+.gallery__track {
+  min-width: 0;
+}
+
+/* Nothing visible in here now; the heading inside is screen-reader only. */
+.gallery__head {
+  margin-block-end: 0;
+}
+
+/*
+ * ⚠️ VISUALLY HIDDEN, NOT DELETED. Daniel, 2026-08-06: *"why in the gallery
+ * section did you actually write, on the first section, 'screenshots from
+ * conversation' and then in the second 'in video'? It's fucking obvious only AI
+ * would need it."*
+ *
+ * Right — a person looking at a row of screenshots does not need to be told
+ * they are screenshots. But the element cannot simply go: each track is a
+ * focusable scroll region (`tabIndex={0}`, required or axe reports
+ * `scrollable-region-focusable` at serious impact) and it is named by this
+ * heading through `aria-labelledby`. Removing it would leave two unnamed tab
+ * stops. So it keeps doing the one job it was genuinely needed for and stops
+ * captioning the obvious.
+ */
+.gallery__title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+/*
+ * ══════════════════════════════════════════════════════ GALLERY CONTROLS ══
+ *
+ * ⚠️ THE ARROWS USED TO SIT IN THE HEADING ROW. Measured 2026-08-06 at 2560px:
+ * both buttons at top 10916 and the `<h3>` at top 10916 — the same line, 60px
+ * above the pictures they move. Daniel: *"The arrows shouldn't be on the top
+ * where it's in the same horizontal line of the header of the gallery. It should
+ * be on the right and on the left of the gallery itself of the pictures in the
+ * middle."*
+ *
+ * They are now pinned to the viewport that wraps the track, centred on it.
+ *
+ * ⚠️ `left` AND `right`, NOT `inset-inline-*`. The document is RTL and the track
+ * inside this box is `dir="ltr"` (transforms and scrollLeft have no RTL-aware
+ * mode). A logical inset would resolve against whichever direction its nearest
+ * ancestor happens to declare, and the two buttons live on opposite sides of
+ * that boundary — so logical properties would put them both on one edge. These
+ * are physical sides on purpose.
+ */
+.gallery__viewport {
+  position: relative;
+}
+
+.gallery__arrow {
+  position: absolute;
+  z-index: 2;
+  top: calc(50% - var(--space-3));
+  display: grid;
+  place-items: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  transform: translateY(-50%);
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  background: rgb(15 22 38 / 0.86);
+  color: var(--color-ink);
+  box-shadow: 0 8px 24px rgb(4 7 14 / 0.55);
+  backdrop-filter: blur(6px);
+  transition:
+    border-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard);
+}
+
+/* `--prev` shows the arrow pointing at the start of the LTR track, which on
+   screen is its left edge; `--next` is the right. */
+.gallery__arrow--prev {
+  right: calc(var(--space-2) * -1);
+}
+
+.gallery__arrow--next {
+  left: calc(var(--space-2) * -1);
+}
+
+/* Below the container gutter there is no room to hang outside the track, so
+   they tuck back inside it. */
+@media (max-width: 60rem) {
+  .gallery__arrow--prev {
+    right: var(--space-2);
+  }
+
+  .gallery__arrow--next {
+    left: var(--space-2);
+  }
+}
+
+.gallery__arrow svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.gallery__arrow:hover {
+  border-color: var(--color-gold);
+  background: var(--color-gold-wash);
+  color: var(--color-gold);
+}
+
+/*
+ * The track. Overflow plus snap IS the gallery: with scripting off this is
+ * already swipeable on touch, scrollable with a trackpad, and reachable from
+ * the keyboard. The arrows above only call `scrollTo` on it.
+ */
+/*
+ * ⚠️ `safe center`. Daniel, 2026-08-06: *"In the videos section of the gallery,
+ * on the second line we have there, we currently only have two videos and they
+ * both are on the left side instead of maybe in the middle."*
+ *
+ * The stills track holds eleven tiles and overflows, so its alignment never
+ * showed; the media track holds two, which do not fill the width, and a flex
+ * container packs them at its start — and this track is `dir="ltr"`, so its
+ * start is the LEFT of an otherwise right-to-left page.
+ *
+ * `safe` is the load-bearing keyword. Plain `center` on an overflowing flex
+ * container pushes the first items into negative space where no scrolling can
+ * reach them; `safe center` falls back to start-alignment the moment the
+ * content overflows. So the two clips centre and the eleven stills still
+ * scroll from the beginning.
+ */
+.gallery__track {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: safe center;
+  margin: 0;
+  padding: 0 0 var(--space-3);
+  overflow-x: auto;
+  list-style: none;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+  overscroll-behavior-x: contain;
+}
+
+.gallery__tile {
+  flex: 0 0 auto;
+  display: grid;
+  gap: var(--space-3);
+  width: min(16rem, 70vw);
+  scroll-snap-align: center;
+}
+
+.gallery__tile[data-kind="video"] {
+  width: min(15rem, 66vw);
+}
+
+/*
+ * The canvas each artefact sits on. A wall of bare phone screenshots reads as a
+ * folder of screenshots; a designed backdrop with a gold hairline and an inner
+ * vignette makes the same captures read as exhibits.
+ */
+.gallery__card,
+.proof__card {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1 / 1;
+  padding: var(--space-3);
+  overflow: hidden;
+  border: 1px solid rgb(230 193 115 / 0.3);
+  border-radius: var(--radius-md);
+  background:
+    radial-gradient(circle at 50% 0%, rgb(230 193 115 / 0.14), transparent 62%),
+    linear-gradient(160deg, #141d30, #080d18);
+  box-shadow: inset 0 0 3rem -1rem rgb(0 0 0 / 0.9);
+}
+
+/* A 9:16 clip in a 1:1 card would letterbox away most of the frame, the same
+   mistake the hero stage used to make. */
+.gallery__tile[data-kind="video"] .gallery__card {
+  aspect-ratio: 9 / 16;
+  padding: 0;
+}
+
+/*
+ * ⚠️ THE SUPPLIED STILLS ARE 1080x1080 BUT THEIR CONTENT IS NOT.
+ *
+ * Each one is a portrait phone capture composited onto a square dark canvas, so
+ * roughly half of every file is empty background — measured on t02, the capture
+ * occupies x 277..805 of 1080 and the bands either side are dead. Presenting
+ * them at 1:1 spends half the tile on nothing and shrinks the only part that
+ * matters, which is the text of the conversation.
+ *
+ * So the still tiles are 3:5 — the capture's own ratio — and `cover` crops the
+ * dead side bands away. The centres line up (image centre 540, content centre
+ * 541), so nothing of the message is lost, and the capture renders about 1.7x
+ * larger in each dimension for the same tile height.
+ *
+ * ⚠️ THIS IS A WORKAROUND FOR A WEAK ASSET, NOT THE FIX. Re-compositing the
+ * eleven cards so the capture fills the frame is an asset job and is worth
+ * doing; when that happens, delete this block and let the card go back to 1:1.
+ */
+.gallery__tile[data-kind="image"] .gallery__card {
+  aspect-ratio: 3 / 5;
+  padding: 0;
+}
+
+.gallery__tile[data-kind="image"] .gallery__media {
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.gallery__media {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-sm);
+  object-fit: contain;
+}
+
+/* The whole still is the control that opens it full size. */
+.gallery__expand {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.gallery__expand-badge {
+  position: absolute;
+  inset-block-start: 0.4rem;
+  inset-inline-end: 0.4rem;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid rgb(250 231 180 / 0.25);
+  border-radius: 50%;
+  background: rgb(4 7 14 / 0.6);
+  color: var(--color-champagne);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-standard);
+  backdrop-filter: blur(6px);
+}
+
+.gallery__expand-badge svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.gallery__expand:hover .gallery__expand-badge,
+.gallery__expand:focus-visible .gallery__expand-badge {
+  opacity: 1;
+}
+
+/*
+ * ══════════════════════════════════════════════════ GALLERY VIDEO PLAYER ══
+ * The native `<video controls>` bar is gone from these tiles — it offered
+ * Download on her clients' clips and drew an unstyled control strip across her
+ * face. See `motion/tile-video.tsx`. These styles mirror the hero player's,
+ * minus its unmute sheet.
+ */
+.tile-video {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: #000;
+}
+
+.tile-video__clip {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The whole frame is the play/pause control: a real button, so a keyboard and
+   a screen reader can reach what a click handler on the <video> would hide. */
+.tile-video__tap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.tile-video__tap:focus-visible {
+  outline: 3px solid rgb(255 255 255 / 0.7);
+  outline-offset: -3px;
+}
+
+/* ⚠️ `pointer-events: none`. The button IS the whole frame; a hit target inside
+   a hit target only creates a dead ring where the two disagree. */
+.tile-video__disc {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  pointer-events: none;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    var(--color-gold-bright),
+    var(--color-gold-deep)
+  );
+  color: var(--color-on-brand);
+  box-shadow: 0 10px 32px -6px rgb(230 193 115 / 0.7);
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+
+.tile-video__tap:hover .tile-video__disc {
+  transform: scale(1.08);
+}
+
+.tile-video__disc svg {
+  width: 1.35rem;
+  height: 1.35rem;
+  margin-inline-start: 0.15rem;
+}
+
+/* Daniel: *"we're going to have the video play time in the bottom as the moving
+   line."* An indicator, not a scrubber — no pointer events, so it cannot steal
+   a tap meant for the frame behind it. */
+.tile-video__progress {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  height: 3px;
+  pointer-events: none;
+  background: rgb(255 255 255 / 0.15);
+}
+
+.tile-video__progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: rgb(255 255 255 / 0.9);
+  transform-origin: left center;
+  transition: transform 120ms linear;
+}
+
+.gallery__media--audio,
+.gallery__media--quote {
+  display: grid;
+  gap: var(--space-3);
+  place-content: center;
+  height: 100%;
+  padding: var(--space-4);
+  text-align: center;
+}
+
+.gallery__media--quote blockquote {
+  margin: 0;
+  color: var(--color-ink);
+  font-size: var(--text-base);
+}
+
+.gallery__media--quote figcaption {
+  color: var(--color-gold);
+  font-weight: 600;
+}
+
+.gallery__caption {
+  margin: 0;
+  color: var(--color-ink-muted);
+  font-size: var(--text-sm);
+  text-wrap: pretty;
+}
+
+/* ── the full-size viewer ─────────────────────────────────────────────────
+   A native <dialog>, so the browser owns the focus trap, the top layer and
+   Escape. See the note in proof.tsx. */
+/*
+ * ⚠️ `margin: auto` IS WHAT CENTRES THIS. Daniel, 2026-08-06: *"pressing on one
+ * of the images in the gallery in order to zoom in will open it in a zoomed
+ * space but to the right of the screen for some reason and not in the middle."*
+ *
+ * A `<dialog>` in the top layer is positioned by its own margins, and the UA
+ * stylesheet sets `margin: auto` — which the reset in this project overrides to
+ * `margin: 0` along with every other element's. With `margin: 0` and no inset,
+ * the dialog resolves to the inline-start edge of the containing block, and on
+ * an RTL document that edge is the RIGHT of the screen. It was not drifting; it
+ * was pinned to the wrong side of a direction-aware default.
+ */
+.viewer {
+  margin: auto;
+  width: min(52rem, 100vw - 2rem);
+  max-width: none;
+  max-height: calc(100dvh - 2rem);
+  padding: 0;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  overflow: hidden;
+}
+
+.viewer::backdrop {
+  background: rgb(2 4 9 / 0.86);
+  backdrop-filter: blur(4px);
+}
+
+.viewer__figure {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+  padding: var(--space-5);
+}
+
+.viewer__image {
+  width: 100%;
+  max-height: calc(100dvh - 12rem);
+  border-radius: var(--radius-md);
+  object-fit: contain;
+}
+
+.viewer__caption {
+  color: var(--color-ink-muted);
+  font-size: var(--text-sm);
+  text-align: center;
+  text-wrap: pretty;
+}
+
+.viewer__close {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: var(--space-4);
+  inset-inline-start: var(--space-4);
+  display: grid;
+  place-items: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  background: rgb(4 7 14 / 0.75);
+  color: var(--color-ink);
+  backdrop-filter: blur(6px);
+}
+
+.viewer__close svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.viewer__close:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+/* ══════════════════════════════════════════════════════════ price ladder ══ */
+
+/*
+ * The conversion beat. Read free-call-anchor.tsx first: it records why BOTH
+ * numbers are struck (nothing is sold on this page) and how far the "this panel
+ * may raise its voice" licence goes.
+ *
+ * Every delay is driven off `--rung`, the row index the component writes, so
+ * adding a third price is a copy change and not a CSS change.
+ */
+/*
+ * ⚠️ THIS PANEL WAS 868px TALL INSIDE AN 1140px SECTION, on a 1440px viewport.
+ * Measured 2026-08-06: 79% of the screen for one heading, one sentence, two
+ * struck prices and a button. Of the 868px, only 504px was content — the other
+ * 364px was padding and gaps. Daniel: *"Why is the price funnel so fucking
+ * huge? It takes a full screen on a 27-inch monitor on desktop. There is no
+ * reasonable way that it should take this much space."*
+ *
+ * Padding and gap come down here; the ladder's own rhythm tightens below. The
+ * numbers themselves are untouched — the panel is allowed to raise its voice,
+ * it is not allowed to take the whole screen to do it.
+ */
+/*
+ * ── AND ON A WIDE SCREEN IT GOES SIDE BY SIDE ──
+ *
+ * Cutting padding was not enough, because the panel's real waste was
+ * HORIZONTAL. Measured at 2560px: the panel is 1136px wide and the price ladder
+ * inside it is 304px, centred — so roughly 830px of panel width was empty while
+ * the same panel ran 886px DOWN the page. Every pixel the argument could not
+ * spend sideways it spent vertically, which is precisely why it swallowed a
+ * 27-inch screen.
+ *
+ * Above 64rem the heading and its sentence take one column and the ladder takes
+ * the other. Below that they stack and the heading centres over the ladder,
+ * which is the right shape on a phone.
+ */
+.offer__panel {
+  position: relative;
+  display: grid;
+  gap: var(--space-5);
+  padding: clamp(var(--space-5), 2.4vw, var(--space-7));
+  overflow: hidden;
+  border: 1px solid var(--color-gold-deep);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgb(230 193 115 / 0.16), transparent 70%),
+    var(--color-surface);
+}
+
+/* The panel breathes. This is not a pressure mechanic: a slow box-shadow says
+   "this one is special" without communicating scarcity or a deadline. The
+   NUMBERS never move. */
+@keyframes offer-breathe {
+  50% {
+    box-shadow: 0 0 5rem -1.4rem rgb(230 193 115 / 0.5);
+  }
+}
+
+[data-site-motion="motion"] .offer__panel {
+  animation: offer-breathe 7s ease-in-out infinite;
+}
+
+/* Below the two-column breakpoint the heading sits over the ladder, so it
+   centres with it. */
+@media (max-width: 63.99rem) {
+  .offer__panel .section__head {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .offer__panel .section__head .rule {
+    margin-inline: auto;
+    background: linear-gradient(
+      to left,
+      rgb(230 193 115 / 0),
+      var(--color-gold),
+      rgb(230 193 115 / 0)
+    );
+  }
+}
+
+@media (min-width: 64rem) {
+  /*
+   * ⚠️ TWO EQUAL COLUMNS, NOT `1fr auto`. With an `auto` track the ladder
+   * shrank to its own 304px and the heading column took everything else, which
+   * pushed the two of them to opposite edges of a 1136px panel and opened a
+   * void down the middle. Equal halves keep them in conversation.
+   */
+  .offer__panel {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(var(--space-5), 3vw, var(--space-7));
+    align-items: center;
+  }
+}
+
+/*
+ * ⚠️ THE HEAD'S OWN BOTTOM MARGIN IS ZEROED INSIDE THE PANEL. `.section__head`
+ * carries `margin-block-end: var(--space-8)` for a section that follows it with
+ * content; here the panel is a grid and its `gap` already owns that space, so
+ * the two were stacking and the head measured 257px with 64px of it doing
+ * nothing.
+ */
+.offer__panel .section__head {
+  margin-block-end: 0;
+}
+
+/* A panel heading, not a page heading. It was rendering at 56px inside a boxed
+   card, which is the same size as the section headings that open the page. */
+/*
+ * ⚠️ A HEADING IN A COLUMN IS SIZED BY THE COLUMN, NOT BY THE PAGE.
+ *
+ * Measured 2026-08-07: this one sits in a 495px half of the panel, and at the
+ * old 2.35rem cap its first sentence wrapped — two sentences rendering as three
+ * lines, which is the sentence-per-line rule breaking in the one place the
+ * heading is meant to be making an argument.
+ */
+.offer__panel .section__title {
+  font-size: clamp(1.4rem, 1.05rem + 1.25vw, 2.05rem);
+}
+
+.offer__panel .section__lead {
+  font-size: var(--text-base);
+}
+
+/*
+ * The section's own block padding, which was the single largest number in the
+ * measurement: 136px top and bottom, 272px of the 1158px total. The panel
+ * carries its own internal padding and its own border, so the section does not
+ * also need a full section's worth of air around it.
+ */
+.offer {
+  padding-block: clamp(var(--space-7), 5vw, var(--space-9));
+}
+
+.free-anchor {
+  position: relative;
+  isolation: isolate;
+}
+
+.free-anchor__defs {
+  position: absolute;
+}
+
+.free-anchor__ladder {
+  max-width: 19rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.free-anchor__rung-label {
+  margin: 0;
+  color: var(--color-ink-muted);
+  font-size: var(--text-sm);
+  line-height: 1.35;
+}
+
+/* Never as large as the payoff below it. A struck price set large is a discount
+   being sold, and nothing is being sold here. */
+.free-anchor__rung-price {
+  margin: 0.1rem 0 0;
+  padding-block-end: 0.1em;
+  color: var(--color-ink);
+  /* Was 2.1rem. Two struck prices set at nearly the size of the payoff is what
+     made the ladder 403px tall on its own. */
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.free-anchor__rung-figure {
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+}
+
+.free-anchor__figure-text {
+  font-variant-numeric: tabular-nums;
+  unicode-bidi: isolate;
+}
+
+/* An <svg> is a replaced element, so `inset: 0` alone does not stretch it the
+   way it would a div: without explicit width and height it draws at its
+   intrinsic 300x150 and the X hangs beside the digits instead of across them. */
+.free-anchor__x {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* Gold, not red. Red is the visual grammar of a discount ad and would be the
+   only red on the site. Gold says "this number does not apply" without saying
+   "hurry". */
+.free-anchor__x-stroke {
+  fill: none;
+  stroke: var(--color-gold);
+  stroke: url(#free-anchor-metal);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+/*
+ * ── THE PRICES BREATHE ──
+ * Ported from the panel on Daniel's other landing page at his instruction:
+ * the struck figures scale gently up and down so the eye is pulled to the two
+ * numbers that DO NOT apply before it lands on the free call underneath.
+ *
+ * The two rungs run on slightly different periods so they never pulse in
+ * unison, which would read as a flashing banner rather than as a heartbeat.
+ * It stops entirely under the stored motion opt-out.
+ */
+@keyframes price-pop {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+}
+
+[data-site-motion="motion"] .free-anchor__rung-figure {
+  transform-origin: center;
+  animation: price-pop 1.5s ease-in-out infinite;
+}
+
+[data-site-motion="motion"]
+  .free-anchor__rung:nth-child(2)
+  .free-anchor__rung-figure {
+  animation-duration: 1.9s;
+}
+
+.free-anchor__step-arrow {
+  display: block;
+  margin: 0.3rem auto 0.2rem;
+  overflow: visible;
+  filter: drop-shadow(0 1px 5px rgb(230 193 115 / 0.45));
+}
+
+.free-anchor__step-line,
+.free-anchor__step-head {
+  fill: none;
+  stroke: var(--color-gold);
+  stroke: url(#free-anchor-metal);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The path is 32 units long and the draw below uses that number as its dash.
+   Change the `d` in the component, change these two together. */
+.free-anchor__step-line {
+  stroke-dashoffset: 0;
+}
+
+/* ⚠️ A SENTENCE NOW, NOT TWO STACKED WORDS. `freeNote` is gone (see the note in
+   free-call-anchor.tsx), so this has to hold a full line of copy: a smaller
+   clamp, a real line-height and a measure, where it used to be two words at
+   3.2rem with `line-height: 1.05`. */
+.free-anchor__free {
+  max-width: 20rem;
+  margin: var(--space-5) auto 0;
+  background: linear-gradient(
+    100deg,
+    var(--color-gold-bright),
+    var(--color-gold) 40%,
+    var(--color-gold-deep)
+  );
+  background-clip: text;
+  color: transparent;
+  color: var(--color-gold-bright);
+  font-size: clamp(1.35rem, 1.05rem + 1.1vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.28;
+  text-wrap: balance;
+  /*
+   * ⚠️ NEON. Daniel, 2026-08-07: *"make that text neon in the funnel in the
+   * last one."*
+   *
+   * The glow is in the SHADOWS, not in the ink. The letters stay
+   * `--color-gold-bright` (#fae7b4), which is the palette's most legible warm
+   * value, and three stacked shadows in the accent hue spread outward from
+   * them — tight and bright, then wide and soft. Tinting the text itself down
+   * into the glow colour is what makes neon type unreadable, and this line is
+   * the payoff of the whole ladder, so it has to be read before it is admired.
+   *
+   * The `--color-gold-deep` layer at the end is the one that reads as tube
+   * spill on the panel behind it rather than as a blur on the letters.
+   */
+  text-shadow:
+    0 0 0.32rem rgb(250 231 180 / 0.55),
+    0 0 1.1rem rgb(230 193 115 / 0.45),
+    0 0 2.6rem rgb(169 127 50 / 0.4);
+}
+
+/*
+ * A slow breath on the glow only — the letters never move and the shadow
+ * spread never changes enough to shift a single pixel of layout. Gated on the
+ * site's own motion switch, like everything else that moves on this page.
+ */
+@keyframes free-anchor-neon {
+  50% {
+    text-shadow:
+      0 0 0.42rem rgb(250 231 180 / 0.75),
+      0 0 1.5rem rgb(230 193 115 / 0.6),
+      0 0 3.2rem rgb(169 127 50 / 0.5);
+  }
+}
+
+[data-site-motion="motion"] .free-anchor__free {
+  animation: free-anchor-neon 3.6s ease-in-out infinite;
+}
+
+.free-anchor__cta {
+  margin-block-start: var(--space-5);
+}
+
+.free-anchor__cta .ui-button {
+  width: 100%;
+}
+
+.offer__placeholder {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  margin: 0;
+  padding: var(--space-4);
+  border: 1px dashed var(--color-gold-deep);
+  border-radius: var(--radius-md);
+  background: rgb(230 193 115 / 0.07);
+  color: var(--color-gold-bright);
+  font-size: var(--text-sm);
+}
+
+/* ── the sequence ───────────────────────────────────────────────────────── */
+
+@keyframes anchor-rung-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.1rem);
+  }
+}
+
+@keyframes anchor-x-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes anchor-line-draw {
+  from {
+    stroke-dashoffset: 32;
+  }
+}
+
+@keyframes anchor-head-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.4rem);
+  }
+}
+
+@keyframes anchor-gift-in {
+  from {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+}
+
+@keyframes anchor-cta-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.8rem);
+  }
+}
+
+/* `armed` writes frame zero out as plain properties rather than pausing an
+   animation, so the declaration in `playing` appears fresh on every replay and
+   the keyframes actually restart. */
+.free-anchor[data-anchor="armed"] .free-anchor__rung-label,
+.free-anchor[data-anchor="armed"] .free-anchor__rung-price,
+.free-anchor[data-anchor="armed"] .free-anchor__free-label {
+  opacity: 0;
+}
+
+.free-anchor[data-anchor="armed"] .free-anchor__x-stroke {
+  stroke-dashoffset: 1;
+}
+
+.free-anchor[data-anchor="armed"] .free-anchor__step-line {
+  stroke-dasharray: 32;
+  stroke-dashoffset: 32;
+}
+
+.free-anchor[data-anchor="armed"] .free-anchor__step-head,
+.free-anchor[data-anchor="armed"] .free-anchor__free,
+.free-anchor[data-anchor="armed"] .free-anchor__cta {
+  opacity: 0;
+}
+
+.free-anchor[data-anchor="playing"] .free-anchor__rung-label,
+.free-anchor[data-anchor="playing"] .free-anchor__rung-price {
+  animation: anchor-rung-in 520ms var(--ease-standard) both;
+  animation-delay: calc(var(--rung) * 420ms);
+}
+
+.free-anchor[data-anchor="playing"] .free-anchor__x-stroke {
+  stroke-dasharray: 1;
+  animation: anchor-x-draw 420ms var(--ease-standard) both;
+  animation-delay: calc(var(--rung) * 420ms + 380ms);
+}
+
+/* The X lands like a stamp: slightly oversized and rotated, settling square. */
+@keyframes anchor-x-stamp {
+  from {
+    opacity: 0;
+    transform: scale(1.35) rotate(-4deg);
+  }
+}
+
+.free-anchor[data-anchor="playing"] .free-anchor__x {
+  transform-origin: center;
+  animation: anchor-x-stamp 380ms var(--ease-standard) both;
+  animation-delay: calc(var(--rung) * 420ms + 380ms);
+}
+
+.free-anchor[data-anchor="playing"] .free-anchor__x-stroke--second {
+  animation-delay: calc(var(--rung) * 420ms + 520ms);
+}
+
+.free-anchor[data-anchor="playing"] .free-anchor__step-line {
+  stroke-dasharray: 32;
+  animation: anchor-line-draw 460ms var(--ease-standard) both;
+  animation-delay: calc(var(--rung) * 420ms + 700ms);
+}
+
+.free-anchor[data-anchor="playing"] .free-anchor__step-head {
+  animation: anchor-head-in 300ms var(--ease-standard) both;
+  animation-delay: calc(var(--rung) * 420ms + 1040ms);
+}
+
+.free-anchor[data-anchor="playing"] .free-anchor__free-label {
+  animation: anchor-rung-in 460ms var(--ease-standard) both;
+  animation-delay: 1700ms;
+}
+
+.free-anchor[data-anchor="playing"] .free-anchor__free {
+  animation: anchor-gift-in 620ms var(--ease-standard) both;
+  animation-delay: 1900ms;
+}
+
+.free-anchor[data-anchor="playing"] .free-anchor__cta {
+  animation: anchor-cta-in 520ms var(--ease-standard) both;
+  animation-delay: 2350ms;
+}
+
+/* ══════════════════════════════════════════════ floating controls & bars ══ */
+
+/* ⚠️ PHYSICAL right, not `inset-inline-end`. The page is RTL, so the logical
+   end edge is the LEFT of the screen, and this button landed on the wrong side
+   of every phone. Daniel asked for it on the right, which on an RTL page means
+   naming the physical edge. Same reasoning for the accessibility launcher on
+   the left below. */
+.floating-whatsapp {
+  position: fixed;
+  z-index: 45;
+  right: var(--space-5);
+  bottom: 6.5rem;
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  box-shadow: 0 8px 30px -6px rgb(37 211 102 / 0.6);
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+
+.floating-whatsapp:hover {
+  transform: scale(1.08);
+}
+
+/* A STATIC ring. An endless attention pulse in the corner of every page is the
+   pressure mechanic this site does not use. */
+.floating-whatsapp__halo {
+  position: absolute;
+  inset: -0.25rem;
+  border-radius: 50%;
+  background: rgb(37 211 102 / 0.25);
+}
+
+.floating-whatsapp__icon {
+  position: relative;
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+@media (min-width: 48rem) {
+  .floating-whatsapp {
+    bottom: var(--space-5);
+  }
+}
+
+.a11y-launcher {
+  position: fixed;
+  z-index: 45;
+  left: var(--space-5);
+  bottom: 6.5rem;
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 1px solid var(--color-gold-deep);
+  border-radius: 50%;
+  background: rgb(4 7 14 / 0.92);
+  color: var(--color-gold);
+}
+
+.a11y-launcher svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+@media (min-width: 48rem) {
+  .a11y-launcher {
+    bottom: var(--space-5);
+  }
+}
+
+.a11y-panel {
+  position: fixed;
+  z-index: 46;
+  left: var(--space-5);
+  bottom: 11rem;
+  display: grid;
+  gap: var(--space-2);
+  width: min(20rem, calc(100vw - 2 * var(--space-5)));
+  padding: var(--space-5);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+@media (min-width: 48rem) {
+  .a11y-panel {
+    bottom: 5rem;
+  }
+}
+
+.a11y-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-end: var(--space-2);
+}
+
+.a11y-panel__title {
+  margin: 0;
+  font-weight: 700;
+}
+
+.a11y-panel__close,
+.a11y-panel__reset {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--color-ink-muted);
+  font-size: var(--text-xs);
+}
+
+.a11y-panel__row,
+.a11y-panel__toggle {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: var(--tap-target);
+  padding: var(--space-3);
+  border: 1px solid var(--color-line-soft);
+  border-radius: var(--radius-sm);
+  background: rgb(255 255 255 / 0.025);
+  color: inherit;
+  font-size: var(--text-sm);
+  text-align: start;
+}
+
+.a11y-panel__toggle[aria-pressed="true"] {
+  border-color: var(--color-gold-deep);
+  background: rgb(230 193 115 / 0.1);
+}
+
+.a11y-panel__state {
+  color: var(--color-gold);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.a11y-panel__stepper {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.a11y-panel__stepper button {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: none;
+  color: inherit;
+}
+
+.a11y-panel__stepper button:disabled {
+  opacity: 0.4;
+}
+
+.a11y-panel__value {
+  min-width: 3rem;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+/* Applied from <html>, so one declaration serves the whole page. */
+:root[data-a11y-text-scale="110"] { font-size: 110%; }
+:root[data-a11y-text-scale="125"] { font-size: 125%; }
+:root[data-a11y-text-scale="150"] { font-size: 150%; }
+
+:root[data-a11y-contrast="true"] {
+  --color-ink: #fffaf0;
+  --color-ink-muted: #dfe8ef;
+  --color-line: #56718a;
+  --color-line-soft: #3c536b;
+}
+
+:root[data-a11y-spacing="true"] body {
+  line-height: 1.95;
+  letter-spacing: 0.02em;
+  word-spacing: 0.12em;
+}
+
+:root[data-a11y-links="true"] a {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.22em;
+}
+
+/*
+ * ⚠️ IT WAS A 56rem SLAB PINNED MID-VIEWPORT AND IT COVERED THE PAGE.
+ *
+ * Daniel: *"the cookie thing is way of my standart and format."* The old rule
+ * was `width: min(56rem, 100vw - 1.25rem)` with the body text allowed 46rem and
+ * two equally-weighted buttons, so on a 1440px screen it was an 896px bar
+ * roughly 130px tall sitting across the bottom of every section — it is visible
+ * covering content in every section screenshot taken before this change.
+ *
+ * This is the compact cloud format instead: a single narrow card in the corner,
+ * an icon, one sentence, a link to the detail, and one filled action with a
+ * quiet opt-out beside it. Roughly a third of the footprint.
+ */
+.cookie-notice {
+  position: fixed;
+  z-index: 60;
+  /* ⚠️ PHYSICALLY CENTRED, not `inset-inline-start`. On this RTL page the
+     inline start edge is the RIGHT of the screen, which is exactly where the
+     floating WhatsApp button lives; the accessibility launcher owns the left.
+     Bottom-centre is the only bottom edge with nothing already on it, and it
+     is also the `bottom center` position the other sites use. */
+  inset-block-end: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-areas:
+    "icon body"
+    ". actions";
+  grid-template-columns: auto 1fr;
+  gap: var(--space-2) var(--space-4);
+  align-items: center;
+  width: min(26rem, calc(100vw - 2.5rem));
+  padding: var(--space-4);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: rgb(15 22 38 / 0.97);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(12px);
+}
+
+/*
+ * ⚠️ A PHOTOGRAPH, NOT A DRAWN GLYPH, AND IT IS THE POINT.
+ *
+ * This was a 2rem line-art cookie in a gold wash disc. Daniel, 2026-08-06:
+ * *"This cookies popup is really not up to my standards […] check what I have
+ * in place for my website […] where we have the nice cookies image and then the
+ * text is thoughtful and funny and engaging for people to press and use."*
+ *
+ * Both reference sites pin a round photo of a real biscuit inside-start of the
+ * cloud at ~3.5rem, and the photo is what changes the register: a line icon
+ * reads as a compliance symbol, which is the exact tone the copy is trying to
+ * get out of. Ringed in gold and sitting on gold, so it belongs to this palette
+ * rather than looking pasted in from another site.
+ */
+.cookie-notice__cookie {
+  grid-area: icon;
+  width: 3.25rem;
+  height: 3.25rem;
+  border: 2px solid rgb(230 193 115 / 0.8);
+  border-radius: 50%;
+  background: var(--color-gold);
+  box-shadow:
+    0 8px 22px rgb(4 7 14 / 0.45),
+    0 0 0 3px rgb(237 241 247 / 0.06);
+  object-fit: cover;
+}
+
+/*
+ * ⚠️ ONE LINE, AND NO TITLE ABOVE IT. The notice used to open with a heading
+ * reading "עוגיות" directly above a paragraph whose own first word is "עוגייה",
+ * followed by three sentences about cookieless measurement and localStorage.
+ * That explanation is correct and it is still available in full on the privacy
+ * page, one link away, which is where someone who wants it will look.
+ */
+.cookie-notice__text {
+  grid-area: body;
+  align-self: center;
+  margin: 0;
+  color: var(--color-ink);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.cookie-notice__link {
+  color: var(--color-gold);
+  text-decoration: underline;
+}
+
+/*
+ * ⚠️ ONE ROW ABOVE PHONE WIDTH, AND IT IS NOT COSMETIC.
+ *
+ * As a two-row cloud this measured 138px tall pinned to the bottom of the
+ * viewport, and on a 900px laptop the hero's primary button sits at roughly
+ * y=760 — so on first visit the notice landed ON the page's main call to
+ * action. A consent notice that covers the conversion path is worse than an
+ * ugly one.
+ *
+ * Both reference sites solve it the same way: a single inline row, everything
+ * on one line, roughly half the height. That is what this does, and the height
+ * it saves is exactly what clears the button.
+ */
+@media (min-width: 34rem) {
+  .cookie-notice {
+    grid-template-areas: "icon body actions";
+    grid-template-columns: auto 1fr auto;
+    width: min(44rem, calc(100vw - 2.5rem));
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .cookie-notice__text {
+    text-align: start;
+  }
+}
+
+.cookie-notice__actions {
+  grid-area: actions;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.cookie-notice__accept {
+  padding: 0.45rem 1.1rem;
+  font-size: var(--text-sm);
+}
+
+/*
+ * ⚠️ NO UNDERLINE. Daniel, 2026-08-06: *"Why would you mark the 'no thank you'
+ * button with an underline, making people maybe more willing to press that
+ * instead of yes?"*
+ *
+ * The underline was there to say "this is the quiet option", but an underline
+ * on a control reads as a LINK — the most familiar clickable thing on any page
+ * — so it drew attention to the decline rather than away from it. Size and fill
+ * already carry the weight difference. The opt-out still does something real
+ * (see `decide` in cookie-notice.tsx); it is quiet, not hidden, and it is
+ * certainly not advertised.
+ */
+.cookie-notice__decline {
+  min-height: 0;
+  padding: 0.45rem 0.6rem;
+  font-size: var(--text-xs);
+}
+
+/* ── the standing pages ─────────────────────────────────────────────────── */
+
+.legal h1 {
+  font-size: clamp(1.8rem, 1.3rem + 2vw, 2.6rem);
+}
+
+.legal__back {
+  display: inline-block;
+  margin-block-end: var(--space-6);
+  color: var(--color-ink-muted);
+  font-size: var(--text-sm);
+  text-decoration: none;
+}
+
+.legal__back:hover {
+  color: var(--color-gold);
+}
+
+/* ⚠️ Deliberately loud. This marks a page that is NOT finished because her real
+   details have not arrived, and it is a release blocker. */
+.legal__draft {
+  margin-block: var(--space-5);
+  padding: var(--space-4);
+  border: 1px dashed var(--color-gold-deep);
+  border-radius: var(--radius-md);
+  background: var(--color-gold-wash);
+  color: var(--color-gold-bright);
+  font-size: var(--text-sm);
+}
+
+.legal__section {
+  margin-block-start: var(--space-8);
+}
+
+.legal__section h2 {
+  margin-block-end: var(--space-4);
+  font-size: var(--text-xl);
+}
+
+.legal__section p {
+  margin-block-end: var(--space-4);
+  color: var(--color-ink-muted);
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+
+.legal__updated {
+  margin-block-start: var(--space-8);
+  padding-block-start: var(--space-4);
+  border-block-start: 1px solid var(--color-line-soft);
+  color: var(--color-ink-muted);
+  font-size: var(--text-xs);
+}
+
+.site-footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-6);
+  align-items: center;
+  justify-content: space-between;
+  margin-block-start: var(--space-7);
+  padding-block-start: var(--space-5);
+  border-block-start: 1px solid var(--color-line-soft);
+}
+
+.site-footer__legal .site-footer__rights {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.site-footer__legal-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+}
+
+.site-footer__legal-nav a {
+  color: var(--color-ink-muted);
+  font-size: var(--text-xs);
+  text-decoration: none;
+}
+
+.site-footer__legal-nav a:hover {
+  color: var(--color-gold);
+}
+
+/*
+ * ⚠️ THE THRESHOLD IS THE NOTICE'S WIDTH, NOT "IS IT A PHONE".
+ *
+ * The old rule stopped at 48rem on the reasoning that a wide viewport leaves
+ * clear floor either side of the cloud. That reasoning is right and the number
+ * was wrong: the notice is capped at 44rem (704px), so at 768px there is only
+ * 32px of floor either side and both launchers sit under it. Measured at
+ * 768x1024 — both covered.
+ *
+ * Clear floor per side is `(100vw - 704px) / 2`, and a 56px launcher inset
+ * 1.25rem needs about 90px of it. That works out at roughly 884px, so the lift
+ * runs to 56rem and stops.
+ */
+@media (min-width: 48rem) and (max-width: 55.99rem) {
+  /* No mobile CTA bar up here, so the notice is still on the viewport edge and
+     the lift only has to clear its 78px single row. */
+  body:has(.cookie-notice) .floating-whatsapp,
+  body:has(.cookie-notice) .a11y-launcher {
+    bottom: 8rem;
+  }
+}
+
+@media (max-width: 47.99rem) {
+  /*
+   * ⚠️ RE-MEASURED 2026-08-06 after the notice moved up to clear the mobile CTA
+   * bar. It was 10.5rem, which cleared the notice at its OLD 1.25rem offset;
+   * the notice now sits at 6.25rem with a 138px body, so its top edge is about
+   * 238px off the floor and 10.5rem (168px) put both launchers back underneath
+   * it. Three bottom-pinned layers on one phone screen have to be stacked in
+   * order, not each positioned in isolation.
+   */
+  body:has(.cookie-notice) .floating-whatsapp,
+  body:has(.cookie-notice) .a11y-launcher {
+    bottom: calc(16rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* ⚠️ The old text-link rules for this list are gone: it renders the same
+   brand-coloured glyph buttons as the header now. See `.site-social__link`. */
+.site-footer__social {
+  display: flex;
+  gap: var(--space-3);
+  margin-block-start: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.site-footer__social-legacy a {
+  color: var(--color-ink-muted);
+  font-size: var(--text-sm);
+}
+
+.site-footer__social-legacy a:hover {
+  color: var(--color-gold);
+}
+
+/* ══════════════════════════════════════════════════════════ hero player ══ */
+
+.hero-video {
+  position: relative;
+}
+
+/*
+ * ⚠️ NO HORIZONTAL BLEED. This was `inset: -3rem -4rem 0`, and those two
+ * negative inline insets were the ONLY thing on the page producing horizontal
+ * overflow: at 390px the document measured scrollWidth 437 against clientWidth
+ * 390, so the hero heading and both calls to action ran off the right edge of
+ * every phone. `.site-glow` gets away with the same trick because it clips its
+ * own children; this element sits in `.hero-video`, which does not.
+ *
+ * The glow is not lost. `filter: blur(80px)` is VISUAL overflow and paints well
+ * outside the box either way — it just no longer contributes to layout, which
+ * is the only part the scrollbar can see.
+ */
+.hero-video__halo {
+  position: absolute;
+  inset: -3rem 0 0;
+  pointer-events: none;
+  border-radius: 3rem;
+  background: rgb(230 193 115 / 0.16);
+  filter: blur(80px);
+}
+
+/*
+ * ⚠️ THE CAPTION BAND LIVES IN HERE, ABOVE THE STAGE. Pnina's mount does the
+ * same: `p-1.5 sm:p-2` around a caption row and then the `aspect-video` box, so
+ * the line is inside the bezel and reads as part of the player. See the note at
+ * the render in hero-media.tsx.
+ */
+.hero-video__caption {
+  margin: 0;
+  padding: 0.35rem 1rem 0.75rem;
+  color: var(--color-champagne);
+  font-size: clamp(0.95rem, 0.88rem + 0.35vw, 1.15rem);
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.hero-video__mount {
+  position: relative;
+  padding: 0.5rem;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 0.08);
+  border-radius: 2rem;
+  background: var(--color-surface);
+  box-shadow: 0 36px 80px -40px rgb(0 0 0 / 0.85);
+}
+
+/*
+ * ⚠️ A 16:9 FRAME AROUND A 9:16 CLIP, LETTERBOXED, NOT CROPPED.
+ *
+ * Daniel, 2026-08-06: *"Can you make the video player of the hero not be 9:16?
+ * It should be 16:9 even though there's going to be the empty space from the
+ * right and the left and the video only in the middle. Same thing we did with
+ * Pnina. We will replace it with a 16:9 video after she hands it over."*
+ *
+ * This reverses the decision recorded here on 2026-08-05, and it reverses it
+ * with the trade stated rather than forgotten: a 9:16 clip `object-contain`s to
+ * 9/16 of the stage's HEIGHT in width, so about 56% of this frame is empty
+ * either side of her. That empty space is the point — the player is the shape
+ * the finished asset will be, so swapping in her real 16:9 master changes
+ * nothing but the file.
+ *
+ * The empty sides are not black bars. `hero-video__backdrop` is a second copy
+ * of the same element, blurred and darkened, filling the frame behind her (see
+ * hero-media.tsx). Same source and same attributes, so the browser serves both
+ * from one buffer rather than fetching twice.
+ *
+ * ⚠️ THE CAPTIONS ARE THE KNOWN COST. Her footage has Hebrew captions burned
+ * into the frame, and they are the only thing a visitor can read while the clip
+ * is still silent. At this ratio they render small. That is accepted until the
+ * 16:9 master arrives; INTAKE.md O-19 carries it.
+ *
+ * On the day she supplies that master: delete the backdrop video in
+ * hero-media.tsx and change `object-fit` on the clip to `cover`. Nothing here
+ * changes.
+ */
+.hero-video__stage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 1.6rem;
+  /* ⚠️ A SURFACE token, never an ink token. This is the letterbox the clip
+     sits on, so it must be dark; naming an ink token here would invert it to
+     near-white the moment the palette changes. */
+  background: var(--color-canvas-deep);
+}
+
+.hero-video__backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  object-fit: cover;
+  transform: scale(1.25);
+  filter: blur(44px) brightness(0.3) saturate(1.45);
+}
+
+@media (min-width: 62rem) {
+  .hero-video__backdrop {
+    filter: blur(56px) brightness(0.3) saturate(1.45);
+  }
+}
+
+.hero-video__clip {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.hero-video__tap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+}
+
+.hero-video__unmute {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: linear-gradient(
+    to bottom,
+    rgb(0 0 0 / 0.1),
+    rgb(0 0 0 / 0.2) 55%,
+    rgb(0 0 0 / 0.35)
+  );
+  transition: background-color var(--duration-base) var(--ease-standard);
+}
+
+/* The centred disc. Same size and same colours in both states, so the
+   affordance learned on the unmute sheet is the one found on a paused clip. */
+.hero-video__disc {
+  display: grid;
+  place-items: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  pointer-events: none;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    var(--color-gold-bright),
+    var(--color-gold-deep)
+  );
+  color: var(--color-on-brand);
+  box-shadow: 0 12px 44px -6px rgb(230 193 115 / 0.75);
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+
+.hero-video__disc svg {
+  width: 1.75rem;
+  height: 1.75rem;
+  margin-inline-start: 0.15rem;
+}
+
+.hero-video__tap:hover .hero-video__disc,
+.hero-video__unmute:hover .hero-video__disc {
+  transform: scale(1.1);
+}
+
+.hero-video__unmute-label {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  padding: 0.35rem 1rem;
+  border: 1px solid rgb(255 255 255 / 0.15);
+  border-radius: var(--radius-pill);
+  background: rgb(0 0 0 / 0.55);
+  color: #fff;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  backdrop-filter: blur(6px);
+}
+
+/* Top edge, not a bottom corner: both bottom corners of this frame pass
+   underneath a viewport-fixed floating button as the page scrolls. */
+.hero-video__corner {
+  position: absolute;
+  inset-block-start: 0.75rem;
+  inset-inline-end: 0.75rem;
+  display: flex;
+  gap: 0.375rem;
+  align-items: center;
+}
+
+.hero-video__icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid rgb(255 255 255 / 0.15);
+  border-radius: 50%;
+  background: rgb(0 0 0 / 0.5);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.hero-video__icon-button svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.hero-video__icon-button:hover {
+  background: rgb(0 0 0 / 0.72);
+}
+
+/*
+ * ⚠️ `dir="ltr"` on the element and a LEFT transform origin, both explicit.
+ * The document is RTL, so without them this bar drains from the wrong end.
+ * No transition on the transform: timeupdate already arrives smoothly and
+ * easing between ticks makes the bar lag the picture.
+ */
+.hero-video__progress {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  height: 3px;
+  pointer-events: none;
+  background: rgb(255 255 255 / 0.15);
+}
+
+.hero-video__progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: rgb(255 255 255 / 0.9);
+  transform-origin: left center;
+}
+
+.hero-video__poster-wash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    160deg,
+    rgb(24 33 54 / 0.85),
+    rgb(4 7 14 / 0.9)
+  );
+}
+
+.hero-video__ring {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 1.6rem;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1);
+}
+
+/* ═══════════════════════════════════════════════════ process scroll journey ══ */
+
+/*
+ * ⚠️ EXACTLY ONE BRANCH IS VISIBLE, AND CSS DECIDES WHICH — NOT JAVASCRIPT
+ * SWAPPING NODES. Both renderings are in the server HTML at their final size,
+ * so nothing below this section can be pushed around after first paint.
+ * See sections/process.tsx.
+ */
+.process-experience__static {
+  display: none;
+}
+
+.process-experience[data-process-mode="static"] .process-experience__motion {
+  display: none;
+}
+
+.process-experience[data-process-mode="static"] .process-experience__static {
+  display: block;
+}
+
+.process-static {
+  display: grid;
+  gap: var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 52rem) {
+  .process-static {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.process-static__step p {
+  margin: 0 0 var(--space-2);
+  color: var(--color-ink-muted);
+}
+
+.process-static__index {
+  display: block;
+  margin-block-end: var(--space-2);
+  color: var(--color-gold-deep);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.2em;
+}
+
+/*
+ * ⚠️ THE TRACK'S HEIGHT IS THE SCROLL BUDGET. Four stations, and each one gets
+ * roughly a viewport of scroll to rest in, so the whole journey is 4 x 100vh
+ * tall with a 100vh sticky stage inside it. Change this number and you change
+ * how long each station holds; there is no other knob.
+ */
+.process-scrub {
+  position: relative;
+  height: 400vh;
+}
+
+.process-scrub__stage {
+  position: sticky;
+  inset-block-start: 0;
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/*
+ * The poster is a real painted layer under the video, and it is what a visitor
+ * sees until a requested video frame has actually painted — or forever, if the
+ * clip fails. It is never `opacity: 0` waiting on a load event.
+ */
+.process-scrub__poster {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(160deg, rgb(15 22 38 / 0.6), rgb(4 7 14 / 0.85)),
+    url("/motion/process/placeholder-mobile-poster.webp") center / cover no-repeat;
+}
+
+@media (min-width: 40rem) {
+  .process-scrub__poster {
+    background:
+      linear-gradient(160deg, rgb(15 22 38 / 0.6), rgb(4 7 14 / 0.85)),
+      url("/motion/process/placeholder-desktop-poster.webp") center / cover
+        no-repeat;
+  }
+}
+
+.process-scrub__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 420ms var(--ease-standard);
+}
+
+/* Only once a frame is on screen. */
+[data-process-media-ready="true"] .process-scrub__video {
+  opacity: 1;
+}
+
+/* A wash so the copy panel always has something to sit on, whatever the frame
+   behind it happens to be. */
+.process-scrub__stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgb(4 7 14 / 0.55),
+    rgb(4 7 14 / 0.3) 45%,
+    rgb(4 7 14 / 0.75)
+  );
+}
+
+/* ── the copy rail ─────────────────────────────────────────────────────────
+   One clipping window, one rail four slides wide, moved by a transform. See
+   the dir="ltr" note in process-scrub.tsx: this is the RTL trap. */
+.scrub-copy {
+  position: absolute;
+  z-index: 2;
+  inset-inline: 5%;
+  inset-block-start: 8%;
+  overflow: hidden;
+  border: 1px solid rgb(250 231 180 / 0.18);
+  border-radius: var(--radius-lg);
+  background: rgb(4 7 14 / 0.72);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(10px);
+}
+
+@media (min-width: 40rem) {
+  .scrub-copy {
+    inset-inline: auto 6%;
+    inset-block-start: 50%;
+    width: min(34rem, 42vw);
+    transform: translateY(-50%);
+  }
+}
+
+.scrub-copy__rail {
+  display: flex;
+  /* Four slides, each a quarter of the rail. The component translates by
+     `-position * 100 / 4` percent, so these two numbers move together. */
+  width: 400%;
+}
+
+.scrub-copy__slide {
+  flex: 0 0 25%;
+  padding: var(--space-5);
+  text-align: center;
+}
+
+.scrub-copy__title {
+  display: block;
+  margin-block-end: var(--space-3);
+  color: var(--color-ink);
+  font-size: clamp(1.15rem, 1rem + 0.9vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+/*
+ * ⚠️ SIZE IS THE HIERARCHY HERE, NOT COLOUR — and that is a lesson carried
+ * over from Pnina's build rather than rediscovered. This copy sits on
+ * translucency over MOVING VIDEO, so the brightest frame behind a line decides
+ * whether it reads. Anything dimmer than the primary ink sinks into a pale
+ * frame. The one coloured thing is the marked words, which are two or three
+ * characters long and can afford it.
+ */
+.scrub-copy__line {
+  margin: 0 0 var(--space-2);
+  color: var(--color-ink);
+  font-size: var(--text-base);
+  line-height: 1.45;
+}
+
+.scrub-copy__line--loud {
+  font-size: clamp(1rem, 0.92rem + 0.5vw, 1.2rem);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: rgb(230 193 115 / 0.5);
+  text-underline-offset: 0.24em;
+}
+
+.scrub-copy__mark {
+  color: var(--color-gold-bright);
+  font-size: 1.1em;
+  font-weight: 700;
+}
+
+.scrub-copy__endpoint {
+  margin: var(--space-3) 0 0;
+  color: var(--color-champagne);
+  font-size: var(--text-sm);
+  font-style: italic;
+}
+
+.scrub-pill {
+  position: absolute;
+  z-index: 2;
+  inset-inline: 0;
+  inset-block-end: 4.5%;
+  display: grid;
+  gap: 0.15rem;
+  place-items: center;
+  pointer-events: none;
+  color: var(--color-ink);
+}
+
+.scrub-pill span:first-child {
+  padding: 0.35rem 1rem;
+  border: 1px solid rgb(250 231 180 / 0.2);
+  border-radius: var(--radius-pill);
+  background: rgb(4 7 14 / 0.85);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.scrub-pill__arrow {
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+[data-site-motion="motion"] .scrub-pill__arrow {
+  animation: scrub-nudge 2.4s ease-in-out infinite;
+}
+
+@keyframes scrub-nudge {
+  50% {
+    transform: translateY(0.25rem);
+    opacity: 1;
+  }
+}
+
+/* ⚠️ Says on the page that the footage is borrowed. Goes when the real clip
+   arrives, together with the note in the content file. */
+/* ⚠️ Offset by the header height. The stage is `position: sticky` at the top of
+   the viewport, so a banner at its own top edge sits underneath the sticky site
+   header and is never seen. */
+.process-scrub__placeholder {
+  position: absolute;
+  z-index: 2;
+  inset-inline: 0;
+  inset-block-start: calc(var(--header-height) + var(--space-2));
+  margin: 0;
+  padding: var(--space-2) var(--gutter);
+  background: rgb(169 127 50 / 0.9);
+  color: #fff;
+  font-size: var(--text-xs);
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════ process spine ══ */
+
+.method__stack {
+  position: relative;
+}
+
+/*
+ * The spine draws on a CSS view-progress timeline: no observer, no rAF, no
+ * client JavaScript. Where scroll-timeline is unsupported the line is simply
+ * already drawn, which is the finished design and not a fallback.
+ */
+.process-spine {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: -0.85rem;
+  width: 4px;
+  height: 100%;
+  overflow: visible;
+}
+
+@media (min-width: 52rem) {
+  /* From here the steps are a row, so a vertical line threading them would be
+     a drawing of a sequence that is not on the screen. */
+  .process-spine {
+    display: none;
+  }
+}
+
+.process-spine__track {
+  stroke: var(--color-line-soft);
+  stroke-width: 2;
+}
+
+.process-spine__draw {
+  stroke: var(--color-gold);
+  stroke-width: 2;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.process-spine__bead {
+  fill: var(--color-gold-deep);
+}
+
+@supports (animation-timeline: view()) {
+  [data-site-motion="motion"] .process-spine__draw {
+    animation: spine-draw linear both;
+    animation-timeline: view();
+    animation-range: entry 12% cover 62%;
+  }
+
+  [data-site-motion="motion"] .process-spine__bead {
+    animation: spine-bead linear both;
+    animation-timeline: view();
+    animation-range: entry 12% cover 62%;
+  }
+}
+
+@keyframes spine-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes spine-bead {
+  from {
+    fill: var(--color-line-soft);
+  }
+}

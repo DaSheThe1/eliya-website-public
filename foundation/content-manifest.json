@@ -1,0 +1,366 @@
+{
+  "schemaVersion": "1.0",
+  "status": "approved",
+  "fixtureId": null,
+  "testimonials": "verified",
+  "artifacts": [
+    {
+      "path": "app/public/.gitkeep",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "app/public/.nojekyll",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "app/public/CNAME",
+      "sha256": "536b484cefe04c7ec457157ca07be81308d01916adc1feced239960d7edd716a"
+    },
+    {
+      "path": "app/public/index.html",
+      "sha256": "99b2358964503066def3f173f6716b58a04b79c88a85ffdc102e4ae8e09efd8a"
+    },
+    {
+      "path": "app/public/media/cookie.webp",
+      "sha256": "b2d54c11fb3f825461e12e6ce13e9f9ff47710468db92331b07e90166d50d043"
+    },
+    {
+      "path": "app/public/media/photo/eliya-about.jpg",
+      "sha256": "58017de9fb25ff7eb2daf40f8cfb1dc481cfc0542c526ba64ff7dfeb51a7836e"
+    },
+    {
+      "path": "app/public/media/photo/eliya-headshot.jpg",
+      "sha256": "952487121022c21eabe77765ab35360b4ddc46de974728798611a83e416f11a3"
+    },
+    {
+      "path": "app/public/media/photo/eliya-portrait.jpg",
+      "sha256": "e55b1e611322ce4368aee482e82c02fbd9c7845dd95297e678db7dbbb18ba3ea"
+    },
+    {
+      "path": "app/public/media/proof/t01.jpg",
+      "sha256": "214b56cf4f29da620f694f48482709fabcec5e8c7cff39f3b9198c53813b3427"
+    },
+    {
+      "path": "app/public/media/proof/t02.jpg",
+      "sha256": "ec930c3964737b650b50b5f78dfc6bbe9edd0ddf1417cec32acf9d44a340f306"
+    },
+    {
+      "path": "app/public/media/proof/t03.jpg",
+      "sha256": "a20583d14d90b2a9decb79c0d6bd8df3b73e09e8e34a8804875dacad0e4274e9"
+    },
+    {
+      "path": "app/public/media/proof/t04.jpg",
+      "sha256": "d13bc34b321d9a92044928ec3575eb31792bd1b3f31141e369249adb207d594b"
+    },
+    {
+      "path": "app/public/media/proof/t05.jpg",
+      "sha256": "44bc2b23597599ab6b21f573b876b937a4ca602ad997947c34f830b0f5353248"
+    },
+    {
+      "path": "app/public/media/proof/t06.jpg",
+      "sha256": "f058c1e2b8a630c7c18537f4d977d406c2a906889e3289cf0e212aa8a23aa236"
+    },
+    {
+      "path": "app/public/media/proof/t07.jpg",
+      "sha256": "ffa3ec9e4b2102064d3d274463193f3018cbdfdd476487bc056ae0b322739285"
+    },
+    {
+      "path": "app/public/media/proof/t08.jpg",
+      "sha256": "e64928520a20598cb9fac90e827c6d8b1ee40d872f5825ba704e1501932ba2ac"
+    },
+    {
+      "path": "app/public/media/proof/t09.jpg",
+      "sha256": "acab75e7a1ca9431cdd90c6e20770a3f08529163e9dd08bbdfb7c90bd323f08f"
+    },
+    {
+      "path": "app/public/media/proof/t10.jpg",
+      "sha256": "7e2191cb2bc75c2fd24f901cca978d62b7ba39b6cec3769d1134307a189df699"
+    },
+    {
+      "path": "app/public/media/proof/t11.jpg",
+      "sha256": "38d6bf7646fdaf99c6b9d9fc5b19a8a35d25472f4b434547eaa446ef96c58e80"
+    },
+    {
+      "path": "app/public/media/video/hero-a-poster.jpg",
+      "sha256": "61c2a3b3b4e3af62675eed08c4b53540518f53ef29659ce24a8280d77b20623d"
+    },
+    {
+      "path": "app/public/media/video/hero-a.mp4",
+      "sha256": "81f56bd54f7915b4650a26c5bb65a8ee08715b9f193946fd0f12b8ce89e910a7"
+    },
+    {
+      "path": "app/public/media/video/hero-b-poster.jpg",
+      "sha256": "127aeb57d4583414634e4af6f6ced22ad6147124d326d9a7f3818f55ba7e2bed"
+    },
+    {
+      "path": "app/public/media/video/hero-b.mp4",
+      "sha256": "63474698f8da00a4fb468b8821e9c706e693141d26670fe62538e2fa548bb258"
+    },
+    {
+      "path": "app/public/motion/process/placeholder-desktop-poster.webp",
+      "sha256": "b62a553c6301f2ef5bbe45fb01ddb860524c08c3100bdeac56883d97055082da"
+    },
+    {
+      "path": "app/public/motion/process/placeholder-desktop.mp4",
+      "sha256": "c47decaa1f702794ea3f045d91d7bd9bbb20c5bebdc320c94edb67a5bf642470"
+    },
+    {
+      "path": "app/public/motion/process/placeholder-mobile-poster.webp",
+      "sha256": "e5a17be55cdebe7ede9d4c293957197bb5f15478f4b0947ad56621db23eccaaf"
+    },
+    {
+      "path": "app/public/motion/process/placeholder-mobile.mp4",
+      "sha256": "546549a75de83cdb3771a30ddee6ca890d7d71e7c396d3a1c2c203f87e1e1365"
+    },
+    {
+      "path": "app/src/app/[locale]/accessibility/page.tsx",
+      "sha256": "68ff576d8a8741ffc2ba3e5799bca6f3b9f2af95e0ec5b7958e0dbcc1d56f534"
+    },
+    {
+      "path": "app/src/app/[locale]/layout.tsx",
+      "sha256": "17c7d3501b1110580a15a2c9b386f5a2f38e6e67bc00f1407a530b507f9f443e"
+    },
+    {
+      "path": "app/src/app/[locale]/page.tsx",
+      "sha256": "35bb81b4dcb2670805d5d772159f861232a9787f9e8ab663f3d586d611bd05f7"
+    },
+    {
+      "path": "app/src/app/[locale]/privacy/page.tsx",
+      "sha256": "083bb094a34003dea4cdcd7a58a0b21d6541857001126dd481c23ebe160b7c8d"
+    },
+    {
+      "path": "app/src/app/[locale]/terms/page.tsx",
+      "sha256": "41667c5088a08be3eb7cb50ae2af45cbfb6d2b8d597ade2cb032d9b2d491b26c"
+    },
+    {
+      "path": "app/src/app/globals.css",
+      "sha256": "f3c54c3e1ecf6abd06252336547d9f5e1786341056f7ddde96df4f980817f009"
+    },
+    {
+      "path": "app/src/app/robots.ts",
+      "sha256": "de45f80927a5fce5d6691c529d4baaaaeb14ea6977b124770edcae1ebf40cfdb"
+    },
+    {
+      "path": "app/src/app/sitemap.ts",
+      "sha256": "9962e3f39018abc17ab94b822dabf2c795b76738e8912a6fba0ed89edb42d2f2"
+    },
+    {
+      "path": "app/src/components/layout/accessibility-panel.tsx",
+      "sha256": "db1a5fe0b2786a22b16adfe88b3f048db1566ab985cac2796856245fe0911854"
+    },
+    {
+      "path": "app/src/components/layout/cookie-notice.tsx",
+      "sha256": "0b6cf26c83b90d69cc0ba130b62337744fe10598ee1acdf44673e372f3df542b"
+    },
+    {
+      "path": "app/src/components/layout/floating-whatsapp.tsx",
+      "sha256": "b59627e938d50414e065110e33fa0a88dfc6ae51b0d64cb94c2f1261afff82b7"
+    },
+    {
+      "path": "app/src/components/layout/index.ts",
+      "sha256": "3c347188c2d92f1fdb9acc0b08bcfa78368bd1721d15916112c576072296b873"
+    },
+    {
+      "path": "app/src/components/layout/motion-preference-toggle.tsx",
+      "sha256": "7e189551db6cf52d124d422e8221a3a1e397e05a3623c8453856a0f0a748cb25"
+    },
+    {
+      "path": "app/src/components/layout/site-footer.tsx",
+      "sha256": "8e78ace8d3e1944ab6c968638a4791fb5a1fb13a85561769d258c0ca5b8c0c2f"
+    },
+    {
+      "path": "app/src/components/layout/site-header.tsx",
+      "sha256": "a720d8695ba6f760320467f87f2aba6599bf2bf7bb4f59849ccc21302e3e3689"
+    },
+    {
+      "path": "app/src/components/layout/social-icons.tsx",
+      "sha256": "549baae34932a752602e2238d0b222139b35faa12bf7040516c93958ae309cae"
+    },
+    {
+      "path": "app/src/components/motion/cursor-surface.tsx",
+      "sha256": "13edf96c7d59313e31a2ca0fe21e91b195b4c6b3ddda6362f50674bd2731a4a1"
+    },
+    {
+      "path": "app/src/components/motion/free-call-anchor.tsx",
+      "sha256": "aa99df4472f58a8b28e569b498ebcc6f49f1918703ec5e020ddb0234af03daf6"
+    },
+    {
+      "path": "app/src/components/motion/hero-media.tsx",
+      "sha256": "10297b06418395a46feb1ac5a273cc7c2bfd2d0172b301429bdb8d8484f342cc"
+    },
+    {
+      "path": "app/src/components/motion/native-scroll-story.tsx",
+      "sha256": "9aaf87ed9b020bee346579816f9444baaed6eca00bc2468e914b8dc04283f516"
+    },
+    {
+      "path": "app/src/components/motion/one-shot-cta.tsx",
+      "sha256": "6a8f38cccb20ef9910b115a36ce5e97b62846fcfec90dee0a43b3aedebb19800"
+    },
+    {
+      "path": "app/src/components/motion/process-scrub.tsx",
+      "sha256": "b405dc145180f3e3e0e311e34f72c318366ab9e54ff48777e62115e40b6355ee"
+    },
+    {
+      "path": "app/src/components/motion/process-spine.tsx",
+      "sha256": "5d1e274574b8879360182d27f223a2cfa743ed099ff3f086b87c6fd89df8ca62"
+    },
+    {
+      "path": "app/src/components/motion/tile-video.tsx",
+      "sha256": "0c7d5b31b1ba081856f9f765691aef489d5e9a52be338a4aba2832640db529bf"
+    },
+    {
+      "path": "app/src/components/sections/about.tsx",
+      "sha256": "f4fa80ea6a9d3b7dabc4316241fe3ebe94c00c788f36e53aa3f0c7298e3a0aea"
+    },
+    {
+      "path": "app/src/components/sections/contact-form.tsx",
+      "sha256": "e2d73c115e035c94ac951804e42bd01437df20a193779f253f9883e2ce7702c5"
+    },
+    {
+      "path": "app/src/components/sections/contact.tsx",
+      "sha256": "adfb711fa30ef2c44ba8503c3fe6bc0e8d90a16cb8db9c96074d760acf9cf8ec"
+    },
+    {
+      "path": "app/src/components/sections/faq.tsx",
+      "sha256": "1faf4e9e9cc024db2592db7f719f2169108a7494b2d02877a442e6c4b916e065"
+    },
+    {
+      "path": "app/src/components/sections/gallery.tsx",
+      "sha256": "d192177206f2a5ae607d7a0048823ea232d78ba5bda60e06e39932e4132d2638"
+    },
+    {
+      "path": "app/src/components/sections/hero.tsx",
+      "sha256": "933492e6ffe6828527c97bd3c54e6529df5a4d298dcc4658f604e73cae252efd"
+    },
+    {
+      "path": "app/src/components/sections/index.ts",
+      "sha256": "ed0a86e27aeed4a4a33db4bf45aa82bc5ebc8c756e6e87cc8b8e388a78cee1c1"
+    },
+    {
+      "path": "app/src/components/sections/legal-page.tsx",
+      "sha256": "abad0e67f1ce9f4ee970b8af50ea9f908039f63b9beb4b4621adbac1d1387ed7"
+    },
+    {
+      "path": "app/src/components/sections/method.tsx",
+      "sha256": "9fc8dbebe741347a2ec19c3b76c979d92288a0b6d832424146335d5872f08ebc"
+    },
+    {
+      "path": "app/src/components/sections/offer.tsx",
+      "sha256": "5abec0572381467d624c8b23dbfa65a80288ed585acb47f6d33b0f1f28f09cbe"
+    },
+    {
+      "path": "app/src/components/sections/pain.tsx",
+      "sha256": "53a9b0426b3335d54fd1f496a576952dae044e65cfab8c05602b35c481f0d7a4"
+    },
+    {
+      "path": "app/src/components/sections/process.tsx",
+      "sha256": "6709240db14db85e01a3f599d230a5f4ebf3dbd8eb54dc4c5acfb42b46baab66"
+    },
+    {
+      "path": "app/src/components/sections/proof.tsx",
+      "sha256": "2b838fc7ed753fef65ddd540016f7e773d0ee083ad2a6451da8f63ba30389643"
+    },
+    {
+      "path": "app/src/components/sections/showreel.tsx",
+      "sha256": "9de12a680d836706030b0ceb110b03ae06e5576896bce7cdb9cf16868c16559f"
+    },
+    {
+      "path": "app/src/components/sections/stats.tsx",
+      "sha256": "ba534e5c70cd23e6483e588a971267e3f0f1bc311efdcec6f7d90eb052777932"
+    },
+    {
+      "path": "app/src/components/sections/testimonials.tsx",
+      "sha256": "08f744b5a442c86cee84458207cc4d0011c8531269606029474cec780566052d"
+    },
+    {
+      "path": "app/src/components/ui/line-icons.tsx",
+      "sha256": "33e8edda863172a545ec9706b84f1688a3c5eb9b2fad7e9f588af1c71975825d"
+    },
+    {
+      "path": "app/src/components/ui/section-cta.tsx",
+      "sha256": "5d991a9ee2d0afd693d626dec947dab467b107dd11e6c05ccc439459402183e5"
+    },
+    {
+      "path": "app/src/components/ui/section-heading.tsx",
+      "sha256": "4b1c357afe5b3a5bd02852db5832400062fa1768a2f693c3d89628fc051dc19d"
+    },
+    {
+      "path": "app/src/components/ui/wave-text.tsx",
+      "sha256": "d1145d389ddc98d360fc2ffde0dc96a2f782d48956da8de6b055d06f721e4369"
+    },
+    {
+      "path": "app/src/config/analytics.ts",
+      "sha256": "d9ff5adab02979bdee050ecd993760eebb29dc89d8833eec57181a5ec655b4a5"
+    },
+    {
+      "path": "app/src/config/generated-site.json",
+      "sha256": "f9ac924add2191798245455ee66f040e9d359bffda6d0847af9c2e5e9b59245b"
+    },
+    {
+      "path": "app/src/config/generated-site.ts",
+      "sha256": "6d77bdb0db2655b9286f0b039ebd7a3ba763e9abfb412e8cd116ab9fb61e135f"
+    },
+    {
+      "path": "app/src/config/index.ts",
+      "sha256": "c2dd606bae3440ff4a4cdc06a06dad37c9ece842e05299c71f66af6447971abd"
+    },
+    {
+      "path": "app/src/config/intake.ts",
+      "sha256": "5c61e9074a5a6ede3daa134c1f91f97e78759c7ac9d03844563278d3ede4930c"
+    },
+    {
+      "path": "app/src/config/site.ts",
+      "sha256": "415a30b68a17744329b6d46f457310386bc242ba4b8456663f42bb00e4675087"
+    },
+    {
+      "path": "app/src/content/index.ts",
+      "sha256": "415c8b397ee668d4b533a411b80578bf913b74e625cf2d6c591f7ae8072a5e29"
+    },
+    {
+      "path": "app/src/content/site-content.ts",
+      "sha256": "4f275e9754ee6870bc8dce1e859ea33e77dd68e74e8e54431de370c4702317f7"
+    },
+    {
+      "path": "app/src/content/types.ts",
+      "sha256": "1082b2befc5eb39d053a500f53aa1507391145ef161aa7e9a4a0e8b3f0107295"
+    },
+    {
+      "path": "app/src/lib/api-response.ts",
+      "sha256": "0fb5c1881bff6436fc001f0c6f139edd7b1ad372ec83ee3457d28ed4e3328851"
+    },
+    {
+      "path": "app/src/lib/env.ts",
+      "sha256": "644b0f5b19b442ed0966459a7bbdf7eb3ad568a61bdc83a1e7399728da428a16"
+    },
+    {
+      "path": "app/src/lib/intake-handler.ts",
+      "sha256": "a9c72a80419d736250a968e9bba5f14f31eee13b80b7a53408d1b5f91ee843a0"
+    },
+    {
+      "path": "app/src/lib/reveal-class.ts",
+      "sha256": "77171e1f3b981637f8b9876c206e45b1ebcd001f3de78c0ae2867d31b1773c17"
+    },
+    {
+      "path": "app/src/lib/save-data.ts",
+      "sha256": "2e9a7be2104b2f238bcc8bf08f75c667011d1b5a78e90358801e42d1c6578a91"
+    },
+    {
+      "path": "app/src/lib/site-url.ts",
+      "sha256": "f83226d6d1f2854fb2135c27fba903bb62ac474465729be8b0513ceaf3948afc"
+    },
+    {
+      "path": "app/src/lib/stored-state.ts",
+      "sha256": "47fd25de9904ee8e1d0d6acd36217bdf1d73323534f66d01d0899758f6ccd31a"
+    }
+  ],
+  "approval": {
+    "status": "approved",
+    "owner": "Daniel Shedrinsky",
+    "approvedAt": "2026-08-05T02:40:00Z",
+    "source": {
+      "kind": "client",
+      "reference": "Daniel Shedrinsky — approving authority for this speculative build; Eliya is not yet a client",
+      "checkedAt": "2026-08-04T18:40:00Z"
+    }
+  }
+}

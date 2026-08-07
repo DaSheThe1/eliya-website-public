@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://foundation.local/schemas/preset.schema.json",
+  "title": "Foundation preset",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "status",
+    "summary",
+    "briefDefaults",
+    "moduleSelection",
+    "deploymentCompatibility",
+    "requiredDecisions",
+    "releaseBlockers"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "status": { "enum": ["stable", "beta", "experimental", "deprecated"] },
+    "summary": { "type": "string", "minLength": 1, "maxLength": 300 },
+    "briefDefaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["localization", "conversion", "design"],
+      "properties": {
+        "localization": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["defaultLocale", "locales"],
+          "properties": {
+            "defaultLocale": {
+              "type": ["string", "null"],
+              "pattern": "^[a-z]{2}(?:-[A-Z]{2})?$"
+            },
+            "locales": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["locale", "direction", "status"],
+                "properties": {
+                  "locale": {
+                    "type": "string",
+                    "pattern": "^[a-z]{2}(?:-[A-Z]{2})?$"
+                  },
+                  "direction": { "enum": ["ltr", "rtl"] },
+                  "status": {
+                    "enum": ["confirmed", "derived", "placeholder", "deferred"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "conversion": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["primaryAction", "secondaryActions"],
+          "properties": {
+            "primaryAction": { "type": "string", "minLength": 1 },
+            "secondaryActions": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "integrations": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intakeMode",
+            "candidateFields",
+            "destination",
+            "dataSensitivity"
+          ],
+          "properties": {
+            "intakeMode": { "enum": ["lead", "booking"] },
+            "bookingMode": { "type": "string", "minLength": 1 },
+            "candidateFields": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+              }
+            },
+            "destination": { "type": "string", "minLength": 1 },
+            "dataSensitivity": { "type": "string", "minLength": 1 }
+          }
+        },
+        "design": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["motion", "accessibility"],
+          "properties": {
+            "motion": {
+              "enum": ["none", "subtle", "expressive", "experimental"]
+            },
+            "accessibility": {
+              "enum": ["baseline", "enhanced", "regulated-review"]
+            }
+          }
+        }
+      }
+    },
+    "moduleSelection": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "enabled", "status"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "enabled": { "type": "boolean" },
+          "status": {
+            "enum": ["confirmed", "derived", "placeholder", "deferred"]
+          }
+        }
+      }
+    },
+    "deploymentCompatibility": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": ["vps-local-build", "ghcr-vps-pull", "static-pages-worker"]
+      }
+    },
+    "requiredDecisions": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "releaseBlockers": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

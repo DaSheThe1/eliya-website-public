@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://foundation.local/schemas/content-manifest.schema.json",
+  "title": "Approved client-visible content binding",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "status",
+    "fixtureId",
+    "testimonials",
+    "artifacts",
+    "approval"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "status": { "enum": ["fixture", "approved"] },
+    "fixtureId": {
+      "type": ["string", "null"],
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "testimonials": { "enum": ["disabled", "samples", "verified"] },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": {
+            "type": "string",
+            "pattern": "^app/(?:src|public)/[A-Za-z0-9._/\\[\\]()-]+$"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "owner", "approvedAt", "source"],
+      "properties": {
+        "status": { "enum": ["pending", "approved"] },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "approvedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "reference", "checkedAt"],
+          "properties": {
+            "kind": {
+              "enum": ["client", "repository", "website", "document"]
+            },
+            "reference": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "checkedAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "fixture" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "fixtureId": {
+            "const": "landing-page-foundation-reference-v1"
+          },
+          "approval": {
+            "type": "object",
+            "properties": {
+              "status": { "const": "pending" },
+              "approvedAt": { "type": "null" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "approved" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "fixtureId": { "type": "null" },
+          "approval": {
+            "type": "object",
+            "properties": {
+              "status": { "const": "approved" },
+              "approvedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

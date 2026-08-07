@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0",
+  "id": "consent-analytics",
+  "version": "0.2.0",
+  "status": "stable",
+  "summary": "Analytics adapter with typed non-PII events, a consent gate for identifying providers, an un-gated lane for cookieless providers, and withdrawal support.",
+  "owners": [
+    "frontend",
+    "backend"
+  ],
+  "requires": [
+    "baseline-core"
+  ],
+  "conflicts": [],
+  "deploymentProfiles": [
+    "vps-local-build",
+    "ghcr-vps-pull",
+    "static-pages-worker"
+  ],
+  "files": [
+    "packages/analytics/**"
+  ],
+  "readiness": {
+    "status": "prebuilt",
+    "implementationPaths": [],
+    "browserTestPaths": []
+  },
+  "validation": [
+    "pnpm --dir app test:e2e:module"
+  ]
+}

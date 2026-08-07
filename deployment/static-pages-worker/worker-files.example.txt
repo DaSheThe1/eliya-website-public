@@ -1,0 +1,5 @@
+# Paths are relative to WORKER_SOURCE_DIR. Keep this explicit allowlist tracked
+# and reviewed at the same EXPECTED_COMMIT as every listed file.
+package.json
+src/index.js
+wrangler.jsonc

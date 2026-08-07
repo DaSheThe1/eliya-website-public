@@ -1,0 +1,4 @@
+# Exact deploy inputs relative to worker/.
+package.json
+src/index.js
+wrangler.jsonc

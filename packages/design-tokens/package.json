@@ -1,0 +1,9 @@
+{
+  "name": "@foundation/design-tokens",
+  "version": "0.2.0",
+  "private": true,
+  "sideEffects": ["*.css"],
+  "exports": {
+    "./tokens.css": "./tokens.css"
+  }
+}

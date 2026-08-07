@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.0",
+  "id": "lead-form",
+  "version": "0.2.0",
+  "status": "stable",
+  "summary": "Hardened versioned lead intake with bounded JSON, origin checks, honeypot, rate limiting, dedupe, and webhook adapter.",
+  "owners": [
+    "frontend",
+    "backend"
+  ],
+  "requires": [
+    "baseline-core"
+  ],
+  "conflicts": [],
+  "deploymentProfiles": [
+    "vps-local-build",
+    "ghcr-vps-pull",
+    "static-pages-worker"
+  ],
+  "files": [
+    "packages/intake/**",
+    "app/src/components/sections/contact-form.tsx",
+    "deployment/static-pages-worker/worker-contract.md"
+  ],
+  "readiness": {
+    "status": "prebuilt",
+    "implementationPaths": [],
+    "browserTestPaths": []
+  },
+  "validation": [
+    "pnpm --filter @foundation/intake test",
+    "pnpm --dir app test:e2e:module"
+  ]
+}

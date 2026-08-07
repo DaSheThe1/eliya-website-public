@@ -1,0 +1,13 @@
+export { About } from "./about";
+export { Contact } from "./contact";
+export { ContactForm } from "./contact-form";
+export { Faq } from "./faq";
+export { Hero } from "./hero";
+export { Method } from "./method";
+export { Offer } from "./offer";
+export { Pain } from "./pain";
+export { Process } from "./process";
+export { Proof } from "./proof";
+export { Showreel } from "./showreel";
+export { Stats } from "./stats";
+export { Testimonials } from "./testimonials";

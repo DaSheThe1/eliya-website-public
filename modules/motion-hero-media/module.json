@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0",
+  "id": "motion-hero-media",
+  "version": "1.0.0",
+  "status": "beta",
+  "summary": "Optional muted hero-media autoplay with pre-hydration start, poster fallback, persistent pause control, and explicit user-play transition.",
+  "owners": [
+    "frontend"
+  ],
+  "requires": [
+    "baseline-core",
+    "showreel"
+  ],
+  "conflicts": [],
+  "deploymentProfiles": [
+    "vps-local-build",
+    "ghcr-vps-pull",
+    "static-pages-worker"
+  ],
+  "files": [
+    "modules/motion-hero-media/**"
+  ],
+  "readiness": {
+    "status": "client-implementation-required",
+    "implementationPaths": [
+      "app/src/components/motion/hero-media.tsx"
+    ],
+    "browserTestPaths": [
+      "app/e2e/modules/motion-hero-media.spec.ts"
+    ]
+  },
+  "validation": [
+    "pnpm --dir app typecheck",
+    "pnpm --dir app test:e2e:module e2e/modules/motion-hero-media.spec.ts"
+  ]
+}

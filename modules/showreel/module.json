@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0",
+  "id": "showreel",
+  "version": "0.1.0",
+  "status": "beta",
+  "summary": "Implementation contract for a responsive showreel with poster fallback, captions, site-motion behavior, and explicit media provenance.",
+  "owners": [
+    "frontend"
+  ],
+  "requires": [
+    "baseline-core"
+  ],
+  "conflicts": [],
+  "deploymentProfiles": [
+    "vps-local-build",
+    "ghcr-vps-pull",
+    "static-pages-worker"
+  ],
+  "files": [
+    "modules/showreel/contract.md"
+  ],
+  "readiness": {
+    "status": "client-implementation-required",
+    "implementationPaths": [
+      "app/src/components/sections/showreel.tsx"
+    ],
+    "browserTestPaths": [
+      "app/e2e/modules/showreel.spec.ts"
+    ]
+  },
+  "validation": [
+    "pnpm --dir app typecheck",
+    "pnpm --dir app test:e2e:module e2e/modules/showreel.spec.ts"
+  ]
+}

@@ -1,0 +1,400 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://foundation.local/schemas/paired-provider-release.schema.json",
+  "title": "Fail-closed GitHub Pages and Cloudflare Worker release plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "status",
+    "candidate",
+    "previousRelease",
+    "compatibility",
+    "approvals",
+    "recovery",
+    "verification"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "status": {
+      "enum": [
+        "blocked-unconfigured",
+        "approved-for-activation",
+        "activated-unverified",
+        "provider-verified",
+        "rollback-required",
+        "rolled-back"
+      ]
+    },
+    "candidate": {
+      "oneOf": [
+        { "$ref": "#/$defs/requiredCandidate" },
+        { "$ref": "#/$defs/exactProviderRelease" }
+      ]
+    },
+    "previousRelease": {
+      "oneOf": [
+        { "$ref": "#/$defs/requiredPreviousRelease" },
+        { "$ref": "#/$defs/firstRelease" },
+        { "$ref": "#/$defs/exactProviderRelease" }
+      ]
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractVersion",
+        "activationOrder",
+        "workerTrafficPercent",
+        "failurePolicy"
+      ],
+      "properties": {
+        "contractVersion": { "const": "1.0" },
+        "activationOrder": {
+          "type": "array",
+          "prefixItems": [
+            { "const": "cloudflare-worker-upload-nonactivating" },
+            { "const": "github-pages-deploy" },
+            { "const": "cloudflare-worker-activate-100-percent" },
+            { "const": "provider-authenticated-verification" }
+          ],
+          "items": false,
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "workerTrafficPercent": { "const": 100 },
+        "failurePolicy": {
+          "const": "stop-and-rollback-or-forward-fix-before-next-step"
+        }
+      }
+    },
+    "approvals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidateReview",
+        "workerUpload",
+        "pagesActivation",
+        "workerActivation",
+        "rollbackOrForwardFix"
+      ],
+      "properties": {
+        "candidateReview": { "$ref": "#/$defs/approval" },
+        "workerUpload": { "$ref": "#/$defs/approval" },
+        "pagesActivation": { "$ref": "#/$defs/approval" },
+        "workerActivation": { "$ref": "#/$defs/approval" },
+        "rollbackOrForwardFix": { "$ref": "#/$defs/approval" }
+      }
+    },
+    "recovery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pagesRollback", "workerRollback", "forwardFix"],
+      "properties": {
+        "pagesRollback": { "$ref": "#/$defs/operatorAction" },
+        "workerRollback": { "$ref": "#/$defs/operatorAction" },
+        "forwardFix": { "$ref": "#/$defs/operatorAction" }
+      }
+    },
+    "verification": { "$ref": "#/$defs/verification" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": { "not": { "const": "blocked-unconfigured" } }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "candidate": { "$ref": "#/$defs/exactProviderRelease" },
+          "previousRelease": {
+            "oneOf": [
+              { "$ref": "#/$defs/firstRelease" },
+              { "$ref": "#/$defs/exactProviderRelease" }
+            ]
+          },
+          "approvals": {
+            "type": "object",
+            "properties": {
+              "candidateReview": { "$ref": "#/$defs/approvedApproval" },
+              "workerUpload": { "$ref": "#/$defs/approvedApproval" },
+              "pagesActivation": { "$ref": "#/$defs/approvedApproval" },
+              "workerActivation": { "$ref": "#/$defs/approvedApproval" },
+              "rollbackOrForwardFix": {
+                "$ref": "#/$defs/approvedApproval"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "provider-verified" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "verification": { "$ref": "#/$defs/completedVerification" }
+        }
+      },
+      "else": {
+        "properties": {
+          "verification": { "$ref": "#/$defs/pendingVerification" }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "gitCommit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "githubId": {
+      "type": "string",
+      "pattern": "^[1-9][0-9]{0,30}$"
+    },
+    "workerVersionId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "workflowRef": {
+      "type": "string",
+      "pattern": "^(?![0-9A-Fa-f]{40}$)(?!.*\\.\\.)(?!.*//)(?!.*[/.]$)(?!.*\\/\\.)(?![^/]*\\.lock(?:/|$))(?!.*\\/[^/]*\\.lock(?:/|$))[A-Za-z0-9][A-Za-z0-9._/-]{0,199}$"
+    },
+    "workerScriptName": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,62}$"
+    },
+    "workerRoute": {
+      "type": "string",
+      "pattern": "^https://[^/\\s]+/"
+    },
+    "requiredCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "privateSourceCommit",
+        "publicCommit",
+        "publicWorkflowRef",
+        "pagesArtifactId",
+        "pagesDeploymentId",
+        "staticProvenanceSha256",
+        "workerPackageProvenanceSha256",
+        "workerVersionId",
+        "workerScriptName",
+        "workerRoute"
+      ],
+      "properties": {
+        "state": { "const": "required" },
+        "privateSourceCommit": { "const": "REQUIRED_PRIVATE_SOURCE_COMMIT" },
+        "publicCommit": { "const": "REQUIRED_PUBLIC_COMMIT" },
+        "publicWorkflowRef": { "const": "REQUIRED_PUBLIC_WORKFLOW_REF" },
+        "pagesArtifactId": {
+          "const": "REQUIRED_GITHUB_PAGES_ARTIFACT_ID"
+        },
+        "pagesDeploymentId": {
+          "const": "REQUIRED_GITHUB_PAGES_DEPLOYMENT_ID"
+        },
+        "staticProvenanceSha256": {
+          "const": "REQUIRED_STATIC_PROVENANCE_SHA256"
+        },
+        "workerPackageProvenanceSha256": {
+          "const": "REQUIRED_WORKER_PACKAGE_PROVENANCE_SHA256"
+        },
+        "workerVersionId": {
+          "const": "REQUIRED_CLOUDFLARE_WORKER_VERSION_ID"
+        },
+        "workerScriptName": { "$ref": "#/$defs/workerScriptName" },
+        "workerRoute": { "$ref": "#/$defs/workerRoute" }
+      }
+    },
+    "requiredPreviousRelease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "resolution"],
+      "properties": {
+        "state": { "const": "required" },
+        "resolution": {
+          "const": "REQUIRED_EXISTING_RELEASE_OR_FIRST_RELEASE"
+        }
+      }
+    },
+    "firstRelease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state"],
+      "properties": {
+        "state": { "const": "first-release" }
+      }
+    },
+    "exactProviderRelease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "privateSourceCommit",
+        "publicCommit",
+        "publicWorkflowRef",
+        "pagesArtifactId",
+        "pagesDeploymentId",
+        "staticProvenanceSha256",
+        "workerPackageProvenanceSha256",
+        "workerVersionId",
+        "workerScriptName",
+        "workerRoute"
+      ],
+      "properties": {
+        "state": { "const": "exact" },
+        "privateSourceCommit": { "$ref": "#/$defs/gitCommit" },
+        "publicCommit": { "$ref": "#/$defs/gitCommit" },
+        "publicWorkflowRef": { "$ref": "#/$defs/workflowRef" },
+        "pagesArtifactId": { "$ref": "#/$defs/githubId" },
+        "pagesDeploymentId": { "$ref": "#/$defs/githubId" },
+        "staticProvenanceSha256": { "$ref": "#/$defs/sha256" },
+        "workerPackageProvenanceSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "workerVersionId": { "$ref": "#/$defs/workerVersionId" },
+        "workerScriptName": { "$ref": "#/$defs/workerScriptName" },
+        "workerRoute": { "$ref": "#/$defs/workerRoute" }
+      }
+    },
+    "approval": {
+      "oneOf": [
+        { "$ref": "#/$defs/pendingApproval" },
+        { "$ref": "#/$defs/approvedApproval" },
+        { "$ref": "#/$defs/rejectedApproval" }
+      ]
+    },
+    "pendingApproval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "owner", "approvedAt"],
+      "properties": {
+        "status": { "const": "pending" },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "approvedAt": { "type": "null" }
+      }
+    },
+    "approvedApproval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "owner", "approvedAt"],
+      "properties": {
+        "status": { "const": "approved" },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "approvedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "rejectedApproval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "owner", "approvedAt"],
+      "properties": {
+        "status": { "const": "rejected" },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "approvedAt": { "type": "null" }
+      }
+    },
+    "verification": {
+      "oneOf": [
+        { "$ref": "#/$defs/pendingVerification" },
+        { "$ref": "#/$defs/completedVerification" }
+      ]
+    },
+    "pendingVerification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "task", "verifiedAt", "requiredBindings"],
+      "properties": {
+        "status": { "const": "required-provider-authenticated" },
+        "task": { "const": "docs/PROVIDER-VERIFIER-TASK.md" },
+        "verifiedAt": { "type": "null" },
+        "requiredBindings": { "$ref": "#/$defs/requiredBindings" }
+      }
+    },
+    "completedVerification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "task", "verifiedAt", "requiredBindings"],
+      "properties": {
+        "status": { "const": "provider-verified" },
+        "task": { "const": "docs/PROVIDER-VERIFIER-TASK.md" },
+        "verifiedAt": { "type": "string", "format": "date-time" },
+        "requiredBindings": { "$ref": "#/$defs/requiredBindings" }
+      }
+    },
+    "requiredBindings": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 11,
+      "maxItems": 11,
+      "items": {
+        "enum": [
+          "private-source-commit",
+          "public-commit",
+          "public-workflow-ref",
+          "pages-artifact-id",
+          "pages-deployment-id",
+          "static-provenance-sha256",
+          "worker-package-provenance-sha256",
+          "worker-version-id",
+          "worker-route-ownership",
+          "worker-traffic-100-percent",
+          "protected-environment-approvals"
+        ]
+      },
+      "contains": { "const": "public-workflow-ref" }
+    },
+    "operatorAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strategy", "commandTemplates", "stopCondition"],
+      "properties": {
+        "strategy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "commandTemplates": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          }
+        },
+        "stopCondition": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        }
+      }
+    }
+  }
+}

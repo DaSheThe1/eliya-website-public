@@ -1,0 +1,9 @@
+# Explicit repository-relative files or directories from the reviewed commit.
+# Do not include private docs, provider state, raw client media, or env files.
+src
+public/robots.txt
+public/favicon.ico
+package.json
+pnpm-lock.yaml
+next.config.ts
+tsconfig.json

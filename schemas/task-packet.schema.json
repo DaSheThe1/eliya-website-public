@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://foundation.local/schemas/task-packet.schema.json",
+  "title": "Agent task packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "taskId",
+    "role",
+    "mode",
+    "objective",
+    "repositoryPath",
+    "foundation",
+    "baseCommit",
+    "integrationBranch",
+    "dependencies",
+    "prerequisiteChecks",
+    "readFirst",
+    "inputs",
+    "writeAllowlist",
+    "nonGoals",
+    "contracts",
+    "acceptanceCriteria",
+    "validationCommands",
+    "handoff",
+    "riskNotes"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "taskId": {
+      "type": "string",
+      "pattern": "^[A-Z]+-[0-9]{3}$"
+    },
+    "role": {
+      "enum": ["frontend", "backend", "coordinator", "reviewer", "qa"]
+    },
+    "mode": {
+      "enum": ["implement", "review"]
+    },
+    "objective": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 1000
+    },
+    "repositoryPath": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "foundation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "commit"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$"
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "baseCommit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "reviewedCommit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "integrationBranch": {
+      "type": "string",
+      "pattern": "^integration/[a-zA-Z0-9._/-]+$"
+    },
+    "branch": {
+      "type": "string",
+      "pattern": "^task/[a-zA-Z0-9._/-]+$"
+    },
+    "worktreePath": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "dependencies": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z]+-[0-9]{3}$"
+      }
+    },
+    "prerequisiteChecks": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "readFirst": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string" }
+    },
+    "inputs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "writeAllowlist": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string" }
+    },
+    "nonGoals": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "contracts": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "acceptanceCriteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "validationCommands": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["delivery", "schema", "coordinatorDestination"],
+      "properties": {
+        "delivery": { "const": "return-json" },
+        "schema": {
+          "enum": [
+            "schemas/handoff.schema.json",
+            "schemas/review-handoff.schema.json"
+          ]
+        },
+        "coordinatorDestination": {
+          "type": "string",
+          "pattern": "^\\.coordination/(handoffs|reviews)/[^/]+\\.json$"
+        }
+      }
+    },
+    "riskNotes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "role": { "const": "reviewer" } },
+        "required": ["role"]
+      },
+      "then": {
+        "properties": {
+          "mode": { "const": "review" },
+          "reviewedCommit": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$"
+          },
+          "writeAllowlist": { "type": "array", "maxItems": 0 },
+          "handoff": {
+            "type": "object",
+            "properties": {
+              "schema": { "const": "schemas/review-handoff.schema.json" }
+            }
+          },
+          "branch": false,
+          "worktreePath": false
+        },
+        "required": ["reviewedCommit"]
+      },
+      "else": {
+        "properties": {
+          "mode": { "const": "implement" },
+          "writeAllowlist": { "type": "array", "minItems": 1 },
+          "handoff": {
+            "type": "object",
+            "properties": {
+              "schema": { "const": "schemas/handoff.schema.json" }
+            }
+          },
+          "reviewedCommit": false
+        },
+        "required": ["branch", "worktreePath"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "mode": { "const": "review" } },
+        "required": ["mode"]
+      },
+      "then": {
+        "properties": { "role": { "const": "reviewer" } }
+      }
+    }
+  ]
+}

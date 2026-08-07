@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "1.0",
+  "id": "testimonials",
+  "version": "0.1.0",
+  "status": "stable",
+  "summary": "Testimonial presentation with disabled, sample-preview, and verified release states.",
+  "owners": [
+    "frontend",
+    "coordinator"
+  ],
+  "requires": [
+    "baseline-core"
+  ],
+  "conflicts": [],
+  "deploymentProfiles": [
+    "vps-local-build",
+    "ghcr-vps-pull",
+    "static-pages-worker"
+  ],
+  "files": [
+    "app/src/components/sections/testimonials.tsx",
+    "app/src/content/**"
+  ],
+  "readiness": {
+    "status": "prebuilt",
+    "implementationPaths": [],
+    "browserTestPaths": []
+  },
+  "validation": [
+    "node scripts/check-repo-hygiene.mjs",
+    "pnpm --dir app test:e2e:module"
+  ]
+}

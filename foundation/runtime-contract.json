@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "1.0",
+  "foundation": {
+    "version": "0.2.0",
+    "commit": "8ae96c89b5b9df9f2529f462de530d4e63cb8aa8",
+    "sourceState": "clean"
+  },
+  "brief": {
+    "sha256": "cc6ae0356a58b6cdc9a8b5f6608b46ec3d5016215bda6204df90795cb201b277"
+  },
+  "runtime": {
+    "generationRecordSha256": "a9cac2556cfca88b76ab67aadb46732646c92514c6892aa8690ede29c1cbcba9",
+    "defaultLocale": "he",
+    "locales": [
+      {
+        "locale": "he",
+        "direction": "rtl",
+        "status": "confirmed"
+      }
+    ],
+    "enabledModules": [
+      "baseline-core",
+      "consent-analytics",
+      "gallery",
+      "lead-form",
+      "motion-cursor-surface",
+      "motion-hero-media",
+      "motion-native-scroll-story",
+      "motion-one-shot-cta",
+      "remote-media-r2",
+      "showreel",
+      "testimonials"
+    ],
+    "motion": "expressive",
+    "intakeMode": "lead",
+    "intakeDestination": "n8n",
+    "intakeFields": {
+      "name": true,
+      "phone": true,
+      "email": false,
+      "message": false,
+      "serviceId": false,
+      "timeWindow": false
+    },
+    "deploymentProfile": "static-pages-worker",
+    "basePath": "",
+    "siteUrl": "https://eliya.trickticmedia.com",
+    "indexable": true,
+    "identityName": "אליה יצחק",
+    "testimonialState": "verified",
+    "contentManifestSha256": "df01d1a551ed39dfaef249a3736f52e44c5909ff29814e6e7be7f7b390fa06de",
+    "contentBinding": "approved"
+  }
+}

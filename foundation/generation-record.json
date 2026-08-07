@@ -1,0 +1,654 @@
+{
+  "schemaVersion": "1.0",
+  "foundation": {
+    "version": "0.2.0",
+    "commit": "8ae96c89b5b9df9f2529f462de530d4e63cb8aa8",
+    "sourceState": "clean"
+  },
+  "brief": {
+    "sha256": "cc6ae0356a58b6cdc9a8b5f6608b46ec3d5016215bda6204df90795cb201b277"
+  },
+  "moduleContracts": [
+    {
+      "id": "baseline-core",
+      "version": "0.2.0",
+      "readiness": {
+        "status": "prebuilt",
+        "implementationPaths": [],
+        "browserTestPaths": []
+      },
+      "validation": [
+        "pnpm typecheck",
+        "pnpm --dir app test:e2e:module"
+      ]
+    },
+    {
+      "id": "consent-analytics",
+      "version": "0.2.0",
+      "readiness": {
+        "status": "prebuilt",
+        "implementationPaths": [],
+        "browserTestPaths": []
+      },
+      "validation": [
+        "pnpm --dir app test:e2e:module"
+      ]
+    },
+    {
+      "id": "gallery",
+      "version": "0.1.0",
+      "readiness": {
+        "status": "prebuilt",
+        "implementationPaths": [],
+        "browserTestPaths": []
+      },
+      "validation": [
+        "pnpm --dir app typecheck",
+        "pnpm --dir app test:e2e:module"
+      ]
+    },
+    {
+      "id": "lead-form",
+      "version": "0.2.0",
+      "readiness": {
+        "status": "prebuilt",
+        "implementationPaths": [],
+        "browserTestPaths": []
+      },
+      "validation": [
+        "pnpm --filter @foundation/intake test",
+        "pnpm --dir app test:e2e:module"
+      ]
+    },
+    {
+      "id": "motion-cursor-surface",
+      "version": "1.0.0",
+      "readiness": {
+        "status": "client-implementation-required",
+        "implementationPaths": [
+          "app/src/components/motion/cursor-surface.tsx"
+        ],
+        "browserTestPaths": [
+          "app/e2e/modules/motion-cursor-surface.spec.ts"
+        ]
+      },
+      "validation": [
+        "pnpm --dir app typecheck",
+        "pnpm --dir app test:e2e:module e2e/modules/motion-cursor-surface.spec.ts"
+      ]
+    },
+    {
+      "id": "motion-hero-media",
+      "version": "1.0.0",
+      "readiness": {
+        "status": "client-implementation-required",
+        "implementationPaths": [
+          "app/src/components/motion/hero-media.tsx"
+        ],
+        "browserTestPaths": [
+          "app/e2e/modules/motion-hero-media.spec.ts"
+        ]
+      },
+      "validation": [
+        "pnpm --dir app typecheck",
+        "pnpm --dir app test:e2e:module e2e/modules/motion-hero-media.spec.ts"
+      ]
+    },
+    {
+      "id": "motion-native-scroll-story",
+      "version": "1.0.0",
+      "readiness": {
+        "status": "client-implementation-required",
+        "implementationPaths": [
+          "app/src/components/motion/native-scroll-story.tsx"
+        ],
+        "browserTestPaths": [
+          "app/e2e/modules/motion-native-scroll-story.spec.ts"
+        ]
+      },
+      "validation": [
+        "node --test scripts/motion-reference.test.mjs",
+        "pnpm --dir app typecheck",
+        "pnpm --dir app test:e2e:module e2e/modules/motion-native-scroll-story.spec.ts"
+      ]
+    },
+    {
+      "id": "motion-one-shot-cta",
+      "version": "1.0.0",
+      "readiness": {
+        "status": "client-implementation-required",
+        "implementationPaths": [
+          "app/src/components/motion/one-shot-cta.tsx"
+        ],
+        "browserTestPaths": [
+          "app/e2e/modules/motion-one-shot-cta.spec.ts"
+        ]
+      },
+      "validation": [
+        "pnpm --dir app typecheck",
+        "pnpm --dir app test:e2e:module e2e/modules/motion-one-shot-cta.spec.ts"
+      ]
+    },
+    {
+      "id": "remote-media-r2",
+      "version": "0.1.0",
+      "readiness": {
+        "status": "client-implementation-required",
+        "implementationPaths": [
+          "worker/src/remote-media-r2.js"
+        ],
+        "browserTestPaths": [
+          "app/e2e/modules/remote-media-r2.spec.ts"
+        ]
+      },
+      "validation": [
+        "pnpm --dir worker test",
+        "pnpm --dir app test:e2e:module e2e/modules/remote-media-r2.spec.ts"
+      ]
+    },
+    {
+      "id": "showreel",
+      "version": "0.1.0",
+      "readiness": {
+        "status": "client-implementation-required",
+        "implementationPaths": [
+          "app/src/components/sections/showreel.tsx"
+        ],
+        "browserTestPaths": [
+          "app/e2e/modules/showreel.spec.ts"
+        ]
+      },
+      "validation": [
+        "pnpm --dir app typecheck",
+        "pnpm --dir app test:e2e:module e2e/modules/showreel.spec.ts"
+      ]
+    },
+    {
+      "id": "testimonials",
+      "version": "0.1.0",
+      "readiness": {
+        "status": "prebuilt",
+        "implementationPaths": [],
+        "browserTestPaths": []
+      },
+      "validation": [
+        "node scripts/check-repo-hygiene.mjs",
+        "pnpm --dir app test:e2e:module"
+      ]
+    }
+  ],
+  "fixtureContentFingerprints": [
+    {
+      "sha256": "634c994592e182e3666815b60e7cec0eece3c758f4026146d0ed6762c4a6abc0",
+      "tokenCount": 1
+    },
+    {
+      "sha256": "3185b836ae369566440643ec56b93a60477a0bfc9fd615c1dbf085e63299055e",
+      "tokenCount": 2
+    },
+    {
+      "sha256": "0064a8f7843b5d049372935009a3b8e40cdef0ffa983dc8dfbd68bffa92b26ab",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "07dadc30dcf92a6426c944a89d9532e3b9308f0ab88a2d777b5ff844b62e8552",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "23006012451a442c6f63c3822597f081547b87eadaf08525b78d44940775a427",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "3ce66127e15a65cd234d6840ecf91a41df3c4918f5d89876d0e5d81a075534e3",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "53b853305558b41e0154a5cb7ba799459b780689a9033646f226b54b3c8bea36",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "55bbeec22ac967d72a058672b23c7aa63e8a539a15d0bd4c26e98645b3a2a92e",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "59af4f15aa453ae59a9901eb7b4eb0c5ab1b8a691ceb041e84ce7e038df2616d",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "5aefd8c72285e2f27313484f65575e3e2eaec69199d2c28c441bf0f604dbb0cb",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "6870139667fe4946147c678dfdb8e1ae01da9fea10bd61d2a0af48d7921d187b",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "6fa13d87eb749dc2b9c7bcee29bc1212f8c8fb50fc8c348f87c3bcc70ff5a38e",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "8a50f7d4420920a82059f887df0d6282079158462e8ddea1b629354498b2de9b",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "940bd6e293b95a1303f16a270ffc533d501bc7fc643ec36f056164fd8e0c3440",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "a5e7f09603eb2d455a521f546a0d792c461a3492f4f79c499a0392ebc4408bc9",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "b942c50b576785f5874ca47f1469e0738f155d99d908e3d86c2a66cd45b1fc01",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "c440f30b3b204a6eee319d6cc48cbab09dd9279e25295f886b44d3f140427983",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "ce825e21dbb20b14f1b15b45f1cd2fe0b86118b3afb13d12e2f9edd67adb0130",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "cefb17ee7828f43e33dd6321f2f258c00b0e4c771d9651913aadf4ea51f86590",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "cf0ab8dab6df5cc763bd9a0c995bc087e95911a5a9affc1ba32076ab1b232f00",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "d56de8bd42bcd2e824bd2de3fde07cef1a6c7f23dc8a701c5ad095722844ee81",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "da8290efd10d4cf6be7ff5e0cbfcaf82d3ba4acd7436f47a348e7ecb4d3a846e",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "e4fbfc6c90872590f2ccf8c0d6cb1db4b3db541fc5622dcdef892cbcb169ad59",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "eefefc263ff2e5b9345aa7fdb17f2aa2bad506ff8e19ccf4d82b525a80c90d89",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "f4c14fdf8627f1f236b5a55e365bb197ab582b984e9bbd08a458eec95904a8a1",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "fa1cde28d8eea25bfe897dd5b0ac31bf1eb741139006141a2e313cd904f0d9a8",
+      "tokenCount": 3
+    },
+    {
+      "sha256": "109e57967ddc17b2da00ca2eba6146824bb050a90aa73568433902530a74f2b1",
+      "tokenCount": 4
+    },
+    {
+      "sha256": "128b6060943e466228253d0aadc1fa7f53785650ea536f83350eb736acf235bb",
+      "tokenCount": 4
+    },
+    {
+      "sha256": "511fcdddb45c57ca0a8603d852ef8387852cf2da779b05fc9203d1f274cdacd7",
+      "tokenCount": 4
+    },
+    {
+      "sha256": "7438101aabe173ab6b5b84c6fa1e92a1a1e359ef41ca87afb241d641ee42c47a",
+      "tokenCount": 4
+    },
+    {
+      "sha256": "7a4c72b2dadf4b4db3156bbcc93cc3728021afee37afd5cea4e482903f0c80e6",
+      "tokenCount": 4
+    },
+    {
+      "sha256": "917f40029c3d36edfadd0fdb22fa48cf2f51fa171c8970e2213b4ebdcf8492cc",
+      "tokenCount": 4
+    },
+    {
+      "sha256": "9bfd4b707b64fbe5f3d756462dc6e1793b7e5cf909115aa34a6b892b2516fd5f",
+      "tokenCount": 4
+    },
+    {
+      "sha256": "c21de81c5579376f8dc4d60dac356ef01f17c10a35484f7da6095f2e5064198e",
+      "tokenCount": 4
+    },
+    {
+      "sha256": "c41f8ebc8f3418107aac09e953ddc07ee775211482175c119f1f4c819c83178e",
+      "tokenCount": 4
+    },
+    {
+      "sha256": "dc3ee336faf2967ec6a7062523ffef42b6f5b6e0ca4861650a4c89bd15d7e9d0",
+      "tokenCount": 4
+    },
+    {
+      "sha256": "f9d2ab26d2a02f9bc83b85704c4bfcdbb5f6a226c43af8c638da2e2957d8b7e0",
+      "tokenCount": 4
+    },
+    {
+      "sha256": "2bf8d475e9895d7fa5e76d7bccc56d23e5fdaf7395d83912e056ff808142ae77",
+      "tokenCount": 5
+    },
+    {
+      "sha256": "a00431742483e188d7c0f6dd9fd6e3e48c385e19c446f7bb2bf99c51b4736db5",
+      "tokenCount": 5
+    },
+    {
+      "sha256": "db3ee5fcaa2c467f70a9a03819b3c9919748430247a27a982d1abce7856408a4",
+      "tokenCount": 5
+    },
+    {
+      "sha256": "dbce7401a6fb57c82c3a2c3224cb42ad48f82e6930335603bce174713a0a55ef",
+      "tokenCount": 5
+    },
+    {
+      "sha256": "e34d394d262f2e73a27e229e1cf6145b752575b2110dd069cf044612aecb9e57",
+      "tokenCount": 5
+    },
+    {
+      "sha256": "f71ba6469d130f2d88f31eca9e2f9afdfcef16c7f882658a5fe1850fda4e02b5",
+      "tokenCount": 5
+    },
+    {
+      "sha256": "fe4a31080cfecc3897d0350abae60e34bfa37109b017d8be86b4dd1d6ed55799",
+      "tokenCount": 5
+    },
+    {
+      "sha256": "358da6c96a4a6746d06089ced7c3fd6c87ed9651a854c3c0c81ce92442292ba1",
+      "tokenCount": 6
+    },
+    {
+      "sha256": "46833c4534181446e7ce30dc24c8519f7b6ec114b2880d2902ddde7697574b06",
+      "tokenCount": 6
+    },
+    {
+      "sha256": "4cdacb6ee1511a07be89abc42bd6e6b8795374d36e42e6ccd204db2608f11088",
+      "tokenCount": 6
+    },
+    {
+      "sha256": "57092e6eea7d763c3a800a31b93b6e0762f6765c891636d3210702bb466cee5d",
+      "tokenCount": 6
+    },
+    {
+      "sha256": "7ebbead85fae86dc91ae72cf25a1587e6cd8bcb3d0086d07eb7c690aa7273dd6",
+      "tokenCount": 6
+    },
+    {
+      "sha256": "9f9d28ed42a234e04c7e3eae4e812f8d739c3f1a8d3756be596471ddf5f6deea",
+      "tokenCount": 6
+    },
+    {
+      "sha256": "a87500fc513f90c4dc1f2cf95fed811a9422b66f3a1850af9ab9b33c1cff0f36",
+      "tokenCount": 6
+    },
+    {
+      "sha256": "dcff085716613cf41ae0f31e0723dcd56a3c63280f08c6ba90abdafb65bd510b",
+      "tokenCount": 6
+    },
+    {
+      "sha256": "00919bcfc63e00d2844d52914c5b6ed0ebfef87f6164f60601236c6f5fa967b9",
+      "tokenCount": 7
+    },
+    {
+      "sha256": "6944ba51bc41cf3b098942e5e3ab7bb4136e1e4dbf4b2a72ec3118a15bf0531a",
+      "tokenCount": 7
+    },
+    {
+      "sha256": "e90fbf375e012b58e934d36f735c68df7a5b6c1c74ee9f168acdb0043d07a211",
+      "tokenCount": 7
+    },
+    {
+      "sha256": "f3e3ef11d1bd38da37d04eb6e6f269cab179f9ebb350c4ecdb8daff7e9612641",
+      "tokenCount": 7
+    },
+    {
+      "sha256": "20d11db22f417189c68e365753ffd25c9d7735563dbcaca051b3e4f2d08f7ec8",
+      "tokenCount": 8
+    },
+    {
+      "sha256": "373a62771632b614af46c87d5c1f7f99b111c57794c66086eaa9791d730138b6",
+      "tokenCount": 8
+    },
+    {
+      "sha256": "858ea671f1c5ee16623015d68929ac96dbac1d2a0794816a6ee80ca19736e8fe",
+      "tokenCount": 8
+    },
+    {
+      "sha256": "ab46e06bd28d1931a95f7e9efeb4d753a5de51eecfebcf0bc03de327c3927d15",
+      "tokenCount": 8
+    },
+    {
+      "sha256": "b57755e12fdb297e76f26de0ec62f5db4c49ca34c1c2c4f78f2046585d82b835",
+      "tokenCount": 8
+    },
+    {
+      "sha256": "c704a0380bdb7f20164d644f662fa4ed9e60fe78565747496280a3a3cb1fd320",
+      "tokenCount": 8
+    },
+    {
+      "sha256": "d16d2f8a8ead472f36753cab4c49c62bb26fa0adc882227d0030c05a425d455a",
+      "tokenCount": 8
+    },
+    {
+      "sha256": "05cb7514b1eb3f744f5d6b380e2dec87603e9a7dc420a170f203e1ed639450b4",
+      "tokenCount": 9
+    },
+    {
+      "sha256": "1d9359786e9e3abab12880b6e89fdae1832d8df962ad293279cc9518b680a1d7",
+      "tokenCount": 9
+    },
+    {
+      "sha256": "49da703f0ae7b984a7a0738a7e8ef9208242214854e3040e60b8db70a86de625",
+      "tokenCount": 9
+    },
+    {
+      "sha256": "577beda6c58d92b0fa4026959e1724836d61fb8bdf722afed683f3ba61c2efbb",
+      "tokenCount": 9
+    },
+    {
+      "sha256": "7945e56c1ddcc8862a74a3df998103b4f01a980421b0bbf291c273ab76150c97",
+      "tokenCount": 9
+    },
+    {
+      "sha256": "9761f311f86db626afdf599f190fea3d5a1f13bf95908ce0f6ea982b2daeeb69",
+      "tokenCount": 9
+    },
+    {
+      "sha256": "9c1c2add05f6ad0c0d775e051f4f15385bc988f6150e6851dd3986ebb2e82e92",
+      "tokenCount": 9
+    },
+    {
+      "sha256": "9fade6ab9eb1c3a8096a8bae8537f11268ee24279ed7c4eb757fa15b099a2599",
+      "tokenCount": 9
+    },
+    {
+      "sha256": "af138d02b84035f4ae055885abbc232d4d03a2b17108dfe8b8d1c39403818397",
+      "tokenCount": 9
+    },
+    {
+      "sha256": "ebbae92978043193af6b573ebb070dd86e544954d62031a5611fb61479089a3d",
+      "tokenCount": 9
+    },
+    {
+      "sha256": "305443542fac1f9cb240891e8495e58d9144c4e0455c69cc0b83dd77514c1458",
+      "tokenCount": 10
+    },
+    {
+      "sha256": "337bbdca7b8ebe6990ef74df12928836bc535a4bdeb411f100576db8c1195451",
+      "tokenCount": 10
+    },
+    {
+      "sha256": "5c5686f9ca3c2f4343adea2b61c1a80d227e7d94dd1900e106cc053866841738",
+      "tokenCount": 10
+    },
+    {
+      "sha256": "8275d1803c88931734e0b48916799ee207992e064f640674f75cd1b5433b01f5",
+      "tokenCount": 10
+    },
+    {
+      "sha256": "988fd7e2d3664f50cc93ef5ae821bfff826ebf14de5b7286a95c5cf6beaaf5e8",
+      "tokenCount": 10
+    },
+    {
+      "sha256": "9aca6de66f4061c96e96cb6dea9c8835c918573de8aa781513bb28bff1a0f277",
+      "tokenCount": 10
+    },
+    {
+      "sha256": "e49a2f8b2029f7cb493ad26c21b646f616dd8de1a3643854168d21e469a76d1a",
+      "tokenCount": 10
+    },
+    {
+      "sha256": "b2d2ce6071df3adee9ce6f553b733364da48fc3e0087c239f716ef9e0fb969b3",
+      "tokenCount": 11
+    },
+    {
+      "sha256": "db837431e627e5de6524529bf4480a1de51006ca1e36e288b2132115d9c48619",
+      "tokenCount": 11
+    },
+    {
+      "sha256": "dd885277fbc5e3331c47f924d05df518de42a72fcac204e9565812208c442329",
+      "tokenCount": 11
+    },
+    {
+      "sha256": "ebeaca6b034ecc0aca8ab7222ce92000c7b921f8b53a1db629e30e324a0043e3",
+      "tokenCount": 11
+    },
+    {
+      "sha256": "f5ad3770ccb8be929f8d5b37f44ab31789ae3686450417147997ff44e4efc560",
+      "tokenCount": 11
+    },
+    {
+      "sha256": "fef1c38b8184c00e421bb1d8ef850e1ffe006680b796e52e0ea92dbfc2dee5fc",
+      "tokenCount": 11
+    },
+    {
+      "sha256": "4213b50c1378078d14df71ef92a9f1447c4c1ebc649d33701211fc787c99e406",
+      "tokenCount": 12
+    },
+    {
+      "sha256": "5e297cc334a9f8449c85ef49de14bdc2d9043296b6e78560014f8510bebad600",
+      "tokenCount": 12
+    },
+    {
+      "sha256": "7703ed3a385e91e0ee903f31ef5bdaead8151b1c2493d4a2f19346c2c4c492c4",
+      "tokenCount": 12
+    },
+    {
+      "sha256": "c59079715d5cfde75dba4577098933da577de4b9dcca2ac45a5bfa3f4cdb4ee6",
+      "tokenCount": 12
+    },
+    {
+      "sha256": "d2db36558eb1d74110902b53b2f00d81f12db66fc462521b4d455f293df97050",
+      "tokenCount": 12
+    },
+    {
+      "sha256": "fadec538f5b556b1f2f9683690fcf0977d08b354e861a58228ba2a0753ec613e",
+      "tokenCount": 12
+    },
+    {
+      "sha256": "0f46833f009a3a0907fb603d117f545afb0b4879b80d37aef4670988ffcf2b1d",
+      "tokenCount": 13
+    },
+    {
+      "sha256": "6deebb99d6cf92b88daa23a18ad5664bf04a4d2b49f27b38559411b8e97fa3d1",
+      "tokenCount": 13
+    },
+    {
+      "sha256": "be9bf8dfb4215219720f9613098ac7e8078ce8f221bdd7c9675d69ec8c28271e",
+      "tokenCount": 13
+    },
+    {
+      "sha256": "e316b0b1597326c5371f4599f24c6ca552e9c30390b6d71d02627503c51dc016",
+      "tokenCount": 13
+    },
+    {
+      "sha256": "f15aca8b07a13e8b5a9813e770d7d9f876a1f8cdeeed7307e9f0b93efef7e975",
+      "tokenCount": 13
+    },
+    {
+      "sha256": "f3f1acde62fd32cf4b073f727b74a74845fd7a91fa203c4f66a3967f195ef32b",
+      "tokenCount": 13
+    },
+    {
+      "sha256": "127cd67a75abcd3aa46cc5bd4f676aa33a17f884d24fe6cca9165588f1ebb6b8",
+      "tokenCount": 14
+    },
+    {
+      "sha256": "bccb9bee6a69afd977922047acc1ba707845314167946df2b275fda288d87c37",
+      "tokenCount": 14
+    },
+    {
+      "sha256": "12d5c68bae8ddbbf0a5a6ba7f77fc8aff489024f2b08998c8466a76ada29b8ad",
+      "tokenCount": 15
+    },
+    {
+      "sha256": "2845b0e6d80aeff2a3502d2a356674facbbd9efd174514a268175ce1f6c99f75",
+      "tokenCount": 15
+    },
+    {
+      "sha256": "68ec5512c02f7e448cc46f5930c217148e341e75940912d869babdeec67423d7",
+      "tokenCount": 15
+    },
+    {
+      "sha256": "6fec8322e1ce9a88f094382eeff3c49f3fd5dc48db1e826886c22fd8648b2167",
+      "tokenCount": 15
+    },
+    {
+      "sha256": "8986ab9379667fb515a2becea5238855397422a68c331996454c7ad5183441d5",
+      "tokenCount": 15
+    },
+    {
+      "sha256": "add70dce12bc5c36ceeae895e2e157bca362e094e27eeaf2af104029cd28e3e9",
+      "tokenCount": 15
+    },
+    {
+      "sha256": "d2332aae6b9a3a79bc8a57827493360715f42d4659a7e1cf5fd2aa128e38a2df",
+      "tokenCount": 15
+    },
+    {
+      "sha256": "2469abd05a530a745039c1d13b1b1d774a94078b53372289be947fdc62175f50",
+      "tokenCount": 16
+    },
+    {
+      "sha256": "d21c6b279a5abb3a121d254dd5222c767d3db6898a1a5c18cada357223413136",
+      "tokenCount": 17
+    },
+    {
+      "sha256": "34cfe529a6b91c35f5681f0135becf740c7f479696a33d4798f831d257ce9dee",
+      "tokenCount": 18
+    },
+    {
+      "sha256": "6fe519dad8a649d53ada851fccbd6e50e6e55a481b2a6a362504907d214c8b31",
+      "tokenCount": 19
+    },
+    {
+      "sha256": "81399cf5e8e44ccac2eddf29b53216582232a90104b562f53d33d92b09c81aa4",
+      "tokenCount": 19
+    },
+    {
+      "sha256": "d3d8f4ac6190209093eb62a4b4ceca5b6ecb607d16bb29e7b98c1374a77faf7f",
+      "tokenCount": 19
+    },
+    {
+      "sha256": "a7341828ea52b502b389b40325a1d900bc0e028abaa3b1572a72c5b027582d47",
+      "tokenCount": 20
+    },
+    {
+      "sha256": "e507827e4a70baac39943b2febb04f211307a3428b91fc3cb016250e7263816f",
+      "tokenCount": 21
+    },
+    {
+      "sha256": "7b78eb5dbc9f3dcca55881f1a2f3d9aca562cd40f9796b9affd518ea85d300c3",
+      "tokenCount": 22
+    },
+    {
+      "sha256": "d8668d08b4315355bb681682972aed2dc96c5922960a820102f674d8c186dfb5",
+      "tokenCount": 22
+    },
+    {
+      "sha256": "39e8aefe9a45cf1bdf3a59dfbb62fdeb27d5520ee3a11c5cc36ca0e8b068fcb7",
+      "tokenCount": 30
+    }
+  ]
+}

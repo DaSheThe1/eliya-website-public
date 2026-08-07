@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.0",
+  "id": "baseline-core",
+  "version": "0.2.0",
+  "status": "stable",
+  "summary": "Semantic tokens, responsive layout, SEO, health, skip links, stored site-motion control, and fail-open reveals.",
+  "owners": [
+    "frontend",
+    "backend",
+    "coordinator"
+  ],
+  "requires": [],
+  "conflicts": [],
+  "deploymentProfiles": [
+    "vps-local-build",
+    "ghcr-vps-pull",
+    "static-pages-worker"
+  ],
+  "files": [
+    "packages/design-tokens/**",
+    "packages/ui/**",
+    "packages/accessibility/**",
+    "packages/seo/**"
+  ],
+  "readiness": {
+    "status": "prebuilt",
+    "implementationPaths": [],
+    "browserTestPaths": []
+  },
+  "validation": [
+    "pnpm typecheck",
+    "pnpm --dir app test:e2e:module"
+  ]
+}

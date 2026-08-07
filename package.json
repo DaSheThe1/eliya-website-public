@@ -1,0 +1,33 @@
+{
+  "name": "eliya-thebeautybrand",
+  "version": "0.7.1",
+  "private": true,
+  "packageManager": "pnpm@11.5.2",
+  "scripts": {
+    "dev": "pnpm --dir app dev",
+    "build": "pnpm --dir app build:static",
+    "build:release": "pnpm --dir app build:release",
+    "build:static": "pnpm --dir app build:static",
+    "worker:test": "pnpm --dir worker test",
+    "lint": "pnpm --dir app lint",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "test": "pnpm -r --if-present test",
+    "test:e2e": "pnpm --dir app test:e2e",
+    "test:e2e:module": "pnpm --dir app test:e2e:module",
+    "test:e2e:install": "pnpm --dir app test:e2e:install",
+    "contracts:validate": "node scripts/validate-brief.mjs foundation/site-brief.json && node scripts/validate-runtime.mjs foundation/site-brief.json foundation/runtime-contract.json",
+    "hygiene:check": "node scripts/check-repo-hygiene.mjs",
+    "preview:check": "node scripts/validate-module-readiness.mjs",
+    "release:check": "node scripts/validate-release.mjs foundation/site-brief.json",
+    "content:bind": "node scripts/bind-content.mjs",
+    "task:create": "node scripts/create-task.mjs",
+    "task:scope": "node scripts/check-scope.mjs",
+    "task:collisions": "node scripts/check-collisions.mjs",
+    "handoff:validate": "node scripts/validate-handoff.mjs",
+    "validate": "pnpm contracts:validate && pnpm hygiene:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  }
+}

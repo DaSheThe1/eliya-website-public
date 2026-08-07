@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0",
+  "status": "recorded-unverified",
+  "staticArtifact": {
+    "sourceCommit": "REQUIRED_FULL_STATIC_COMMIT",
+    "provenanceSha256": "REQUIRED_STATIC_PROVENANCE_SHA256"
+  },
+  "workerArtifact": {
+    "sourceRepository": "REQUIRED_PRIVATE_WORKER_REPOSITORY_REFERENCE",
+    "sourceCommit": "REQUIRED_FULL_WORKER_COMMIT",
+    "provenanceSha256": "REQUIRED_WORKER_PROVENANCE_SHA256"
+  },
+  "route": {
+    "origin": "https://REQUIRED_PUBLIC_HOST",
+    "path": "/REQUIRED_BASE_PATH/api/contact",
+    "methods": ["POST"],
+    "providerReceipt": "REQUIRED_PROTECTED_PROVIDER_DEPLOYMENT_REFERENCE",
+    "verifiedAt": "REQUIRED_ISO_TIMESTAMP"
+  },
+  "contract": {
+    "version": "1.0",
+    "submissionType": "REQUIRED_LEAD_OR_BOOKING",
+    "jsonAdapter": true,
+    "formAdapter": true,
+    "boundedBody": true,
+    "exactOriginAllowlist": true,
+    "honeypot": true,
+    "rateLimit": true,
+    "deduplication": true,
+    "upstreamTimeout": true,
+    "redactedLogs": true,
+    "hermeticParityTests": true,
+    "fictionalPostDeploySynthetic": true
+  },
+  "approval": {
+    "status": "approved",
+    "owner": "REQUIRED_SITE_OWNER",
+    "approvedAt": "REQUIRED_ISO_TIMESTAMP"
+  }
+}

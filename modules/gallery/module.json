@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0",
+  "id": "gallery",
+  "version": "0.1.0",
+  "status": "stable",
+  "summary": "Typed project and media gallery with graceful empty and missing-media states.",
+  "owners": [
+    "frontend"
+  ],
+  "requires": [
+    "baseline-core"
+  ],
+  "conflicts": [],
+  "deploymentProfiles": [
+    "vps-local-build",
+    "ghcr-vps-pull",
+    "static-pages-worker"
+  ],
+  "files": [
+    "app/src/components/sections/gallery.tsx",
+    "app/src/content/**"
+  ],
+  "readiness": {
+    "status": "prebuilt",
+    "implementationPaths": [],
+    "browserTestPaths": []
+  },
+  "validation": [
+    "pnpm --dir app typecheck",
+    "pnpm --dir app test:e2e:module"
+  ]
+}

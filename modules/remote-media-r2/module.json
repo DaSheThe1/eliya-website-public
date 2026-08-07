@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.0",
+  "id": "remote-media-r2",
+  "version": "0.1.0",
+  "status": "beta",
+  "summary": "Implementation contract for allowlisted R2 media collections with a published boundary and build-time fallback.",
+  "owners": [
+    "backend",
+    "coordinator"
+  ],
+  "requires": [
+    "baseline-core"
+  ],
+  "conflicts": [],
+  "deploymentProfiles": [
+    "static-pages-worker"
+  ],
+  "files": [
+    "modules/remote-media-r2/contract.md"
+  ],
+  "readiness": {
+    "status": "client-implementation-required",
+    "implementationPaths": [
+      "worker/src/remote-media-r2.js"
+    ],
+    "browserTestPaths": [
+      "app/e2e/modules/remote-media-r2.spec.ts"
+    ]
+  },
+  "validation": [
+    "pnpm --dir worker test",
+    "pnpm --dir app test:e2e:module e2e/modules/remote-media-r2.spec.ts"
+  ]
+}

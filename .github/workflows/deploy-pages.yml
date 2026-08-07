@@ -1,0 +1,102 @@
+name: Deploy to GitHub Pages
+
+# Builds the Hebrew landing page as a static export and publishes it to GitHub
+# Pages. Cloudflare sits in front for DNS/TLS and serves /api/contact via a
+# Worker (see worker/), so the static site needs no server of its own.
+#
+# ⚠️ THIS FILE ONLY EVER RUNS IN THE PUBLIC MIRROR. The private repo is the
+# source of truth and is never deployed from; `scripts/publish-public.sh`
+# mirrors a reviewed working tree into the public clone, and the push there is
+# what triggers this. Same shape as Pnina's, adapted to this monorepo.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Required by actions/deploy-pages: write Pages + OIDC token for the deployment.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one Pages deploy at a time; newer pushes supersede in-flight ones.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
+      # Both are read by app/next.config.ts. STATIC_EXPORT switches the app to
+      # `output: "export"`; FOUNDATION_STATIC_COMPATIBLE is the foundation's
+      # acknowledgement that server-only routes are absent by design on this
+      # profile rather than missing by accident.
+      STATIC_EXPORT: "true"
+      FOUNDATION_STATIC_COMPATIBLE: "true"
+      # The canonical host. It must agree with app/public/CNAME — that file is
+      # what tells Pages which host to answer on, and this is what canonicals,
+      # og:url, robots.txt and the sitemap are built from. They disagreeing is
+      # how every canonical on a live site becomes a 404.
+      NEXT_PUBLIC_SITE_URL: https://eliya.trickticmedia.com
+      NEXT_PUBLIC_BASE_PATH: ""
+      NEXT_PUBLIC_DEFAULT_LOCALE: he
+      DEPLOYMENT_PROFILE: static-pages-worker
+      # ⚠️ NO INTAKE SECRETS HERE, DELIBERATELY. INTAKE_WEBHOOK_URL,
+      # INTAKE_WEBHOOK_SIGNING_SECRET and INTAKE_DUPLICATE_SECRET are
+      # server-only and live in the Cloudflare Worker. On this profile the
+      # browser never holds them: the form posts to /api/contact, Cloudflare
+      # routes that to the Worker, and the Worker talks to n8n. Anything set
+      # here as NEXT_PUBLIC_* would be inlined into the bundle and published to
+      # a world-readable repo forever. INTAKE.md forbids exactly that.
+      #
+      # Analytics is cookieless Umami and is a no-op until both values are set.
+      # Blank is the correct state while O-6 is open.
+      NEXT_PUBLIC_UMAMI_SCRIPT_URL: ""
+      NEXT_PUBLIC_UMAMI_WEBSITE_ID: ""
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+        with:
+          version: 11.5.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Static export cannot compile the POST handler in app/src/app/api. The
+      # Cloudflare Worker serves /api/contact in production; this only edits the
+      # CI checkout, never the source of truth.
+      - name: Drop server-only API routes
+        run: rm -rf app/src/app/api
+
+      # Emits app/out. The root index.html is a redirect to ./he/ and carries
+      # noindex; the indexable page is /he/. app/public/CNAME is copied through
+      # by the export, which is what binds the deployment to the host above.
+      - name: Build static export
+        run: pnpm --dir app build:static
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./app/out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

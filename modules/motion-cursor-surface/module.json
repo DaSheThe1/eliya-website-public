@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0",
+  "id": "motion-cursor-surface",
+  "version": "1.0.0",
+  "status": "beta",
+  "summary": "Optional pointer-responsive decorative surface with fine-pointer, site-motion, visibility, contrast, and idle-stop gates.",
+  "owners": [
+    "frontend"
+  ],
+  "requires": [
+    "baseline-core"
+  ],
+  "conflicts": [],
+  "deploymentProfiles": [
+    "vps-local-build",
+    "ghcr-vps-pull",
+    "static-pages-worker"
+  ],
+  "files": [
+    "modules/motion-cursor-surface/**"
+  ],
+  "readiness": {
+    "status": "client-implementation-required",
+    "implementationPaths": [
+      "app/src/components/motion/cursor-surface.tsx"
+    ],
+    "browserTestPaths": [
+      "app/e2e/modules/motion-cursor-surface.spec.ts"
+    ]
+  },
+  "validation": [
+    "pnpm --dir app typecheck",
+    "pnpm --dir app test:e2e:module e2e/modules/motion-cursor-surface.spec.ts"
+  ]
+}

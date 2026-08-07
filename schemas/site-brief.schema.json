@@ -1,0 +1,561 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://foundation.local/schemas/site-brief.schema.json",
+  "title": "Landing page site brief",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "project",
+    "business",
+    "audiences",
+    "conversion",
+    "localization",
+    "content",
+    "design",
+    "routes",
+    "modules",
+    "integrations",
+    "deployment",
+    "decisions",
+    "acceptance",
+    "openItems"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slug", "workingTitle", "repository", "owners", "sensitivity"],
+      "properties": {
+        "slug": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "workingTitle": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "repository": {
+          "type": ["string", "null"],
+          "maxLength": 300
+        },
+        "owners": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        },
+        "sensitivity": {
+          "enum": ["standard", "sensitive-service", "regulated"]
+        }
+      }
+    },
+    "business": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity", "offer", "differentiators", "source"],
+      "properties": {
+        "identity": { "$ref": "#/$defs/decisionText" },
+        "offer": { "$ref": "#/$defs/decisionText" },
+        "differentiators": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/decisionText" }
+        },
+        "source": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/source" }
+        }
+      }
+    },
+    "audiences": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "description", "priority", "source"],
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "description": { "$ref": "#/$defs/decisionText" },
+          "priority": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          },
+          "source": { "$ref": "#/$defs/source" }
+        }
+      }
+    },
+    "conversion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primary", "secondary"],
+      "properties": {
+        "primary": { "$ref": "#/$defs/conversion" },
+        "secondary": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/conversion" }
+        }
+      }
+    },
+    "localization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["defaultLocale", "locales"],
+      "properties": {
+        "defaultLocale": {
+          "type": "string",
+          "pattern": "^[a-z]{2}(?:-[A-Z]{2})?$"
+        },
+        "locales": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["locale", "direction", "status"],
+            "properties": {
+              "locale": {
+                "type": "string",
+                "pattern": "^[a-z]{2}(?:-[A-Z]{2})?$"
+              },
+              "direction": { "enum": ["ltr", "rtl"] },
+              "status": {
+                "enum": ["confirmed", "placeholder", "deferred"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "content": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority",
+        "copyStatus",
+        "mediaStatus",
+        "testimonials",
+        "claims"
+      ],
+      "properties": {
+        "authority": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/source" }
+        },
+        "copyStatus": {
+          "enum": ["confirmed", "partial", "placeholder", "missing"]
+        },
+        "mediaStatus": {
+          "enum": [
+            "confirmed",
+            "not-required",
+            "partial",
+            "placeholder",
+            "missing"
+          ]
+        },
+        "testimonials": {
+          "enum": ["disabled", "samples", "verified"]
+        },
+        "claims": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "text", "status", "source", "approval"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" },
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "status": {
+                "enum": [
+                  "confirmed",
+                  "client-supplied",
+                  "derived",
+                  "placeholder",
+                  "deferred"
+                ]
+              },
+              "source": { "$ref": "#/$defs/source" },
+              "approval": { "$ref": "#/$defs/approval" }
+            }
+          }
+        }
+      }
+    },
+    "design": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "direction",
+        "references",
+        "avoid",
+        "motion",
+        "accessibility"
+      ],
+      "properties": {
+        "direction": { "$ref": "#/$defs/decisionText" },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 500
+          }
+        },
+        "avoid": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 300
+          }
+        },
+        "motion": {
+          "enum": ["none", "subtle", "expressive", "experimental"]
+        },
+        "accessibility": {
+          "enum": ["baseline", "enhanced", "regulated-review"]
+        }
+      }
+    },
+    "routes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "path", "purpose", "status"],
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "path": {
+            "type": "string",
+            "pattern": "^/(?:[a-z0-9][a-z0-9/-]*)?$"
+          },
+          "purpose": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "status": {
+            "enum": ["confirmed", "placeholder", "deferred"]
+          }
+        }
+      }
+    },
+    "modules": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "enabled", "status"],
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "enabled": { "type": "boolean" },
+          "status": {
+            "enum": ["confirmed", "derived", "placeholder", "deferred"]
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 500
+          }
+        }
+      }
+    },
+    "integrations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["intake", "analytics", "media", "privacy"],
+      "properties": {
+        "intake": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode", "destination", "fields", "dataSensitivity"],
+          "properties": {
+            "mode": { "enum": ["none", "lead", "booking"] },
+            "destination": {
+              "enum": ["none", "n8n", "external-booking", "custom"]
+            },
+            "fields": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "serviceId": { "type": "boolean" },
+                "name": { "type": "boolean" },
+                "phone": { "type": "boolean" },
+                "email": { "type": "boolean" },
+                "message": { "type": "boolean" },
+                "timeWindow": { "type": "boolean" }
+              }
+            },
+            "dataSensitivity": {
+              "enum": ["standard", "sensitive", "special-category"]
+            }
+          }
+        },
+        "analytics": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["provider", "consentRequired"],
+          "properties": {
+            "provider": {
+              "enum": ["none", "google-analytics", "umami", "custom"]
+            },
+            "consentRequired": { "type": "boolean" }
+          }
+        },
+        "media": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source", "remoteFallback"],
+          "properties": {
+            "source": { "enum": ["local", "r2", "external", "mixed"] },
+            "remoteFallback": { "type": "boolean" }
+          }
+        },
+        "privacy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["noticeStatus", "retentionConfirmed"],
+          "properties": {
+            "noticeStatus": {
+              "enum": ["confirmed", "draft", "missing", "not-required"]
+            },
+            "retentionConfirmed": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "deployment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile",
+        "domain",
+        "basePath",
+        "indexable",
+        "ownerApprovalRequired"
+      ],
+      "properties": {
+        "profile": {
+          "enum": ["vps-local-build", "ghcr-vps-pull", "static-pages-worker"]
+        },
+        "domain": {
+          "type": ["string", "null"],
+          "maxLength": 253
+        },
+        "basePath": {
+          "type": "string",
+          "pattern": "^$|^/[a-zA-Z0-9/_-]*[a-zA-Z0-9_-]$"
+        },
+        "indexable": { "type": "boolean" },
+        "ownerApprovalRequired": { "const": true },
+        "publicMirror": { "type": "boolean" }
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/decisionRecord" }
+    },
+    "acceptance": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 500
+      }
+    },
+    "openItems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "question", "blockingLevel", "owner"],
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "question": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "blockingLevel": {
+            "enum": [
+              "blocks-scaffold",
+              "blocks-preview",
+              "blocks-release",
+              "optional"
+            ]
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "reference", "checkedAt"],
+      "properties": {
+        "kind": {
+          "enum": [
+            "client",
+            "repository",
+            "website",
+            "document",
+            "agent-derived",
+            "placeholder"
+          ]
+        },
+        "reference": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "checkedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "decisionText": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "status", "source", "blockingLevel"],
+      "properties": {
+        "value": {
+          "type": ["string", "null"],
+          "maxLength": 2000
+        },
+        "status": {
+          "enum": [
+            "confirmed",
+            "client-supplied",
+            "derived",
+            "placeholder",
+            "deferred"
+          ]
+        },
+        "source": { "$ref": "#/$defs/source" },
+        "blockingLevel": {
+          "enum": [
+            "blocks-scaffold",
+            "blocks-preview",
+            "blocks-release",
+            "optional"
+          ]
+        }
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "owner", "approvedAt"],
+      "properties": {
+        "status": {
+          "enum": ["approved", "pending", "not-required"]
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "approvedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        }
+      }
+    },
+    "decisionRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "pointer",
+        "status",
+        "source",
+        "blockingLevel",
+        "approval"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "pointer": {
+          "type": "string",
+          "pattern": "^/(?:[^~/]|~[01])+(?:/(?:[^~/]|~[01])+)*$",
+          "maxLength": 500
+        },
+        "status": {
+          "enum": [
+            "confirmed",
+            "client-supplied",
+            "derived",
+            "placeholder",
+            "deferred"
+          ]
+        },
+        "source": { "$ref": "#/$defs/source" },
+        "blockingLevel": {
+          "enum": [
+            "blocks-scaffold",
+            "blocks-preview",
+            "blocks-release",
+            "optional"
+          ]
+        },
+        "approval": { "$ref": "#/$defs/approval" }
+      }
+    },
+    "conversion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "action", "status", "source"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "action": {
+          "enum": [
+            "submit-lead",
+            "book",
+            "call",
+            "whatsapp",
+            "email",
+            "navigate",
+            "download"
+          ]
+        },
+        "status": {
+          "enum": ["confirmed", "placeholder", "deferred"]
+        },
+        "source": { "$ref": "#/$defs/source" }
+      }
+    }
+  }
+}

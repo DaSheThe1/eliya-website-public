@@ -1,0 +1,1048 @@
+{
+  "schemaVersion": "1.0",
+  "project": {
+    "slug": "eliya-thebeautybrand",
+    "workingTitle": "אליה יצחק — מאמנת שיווקית ומנטלית לעסקי ביוטי",
+    "repository": "git@github.com:DaSheThe1/eliya-website.git",
+    "owners": [
+      "Daniel Shedrinsky"
+    ],
+    "sensitivity": "standard"
+  },
+  "business": {
+    "identity": {
+      "value": "אליה יצחק",
+      "status": "confirmed",
+      "source": {
+        "kind": "website",
+        "reference": "https://www.instagram.com/eliya_thebeautybrand/ — profile display name",
+        "checkedAt": "2026-08-04T17:20:00Z"
+      },
+      "blockingLevel": "blocks-scaffold"
+    },
+    "offer": {
+      "value": "שיחת ייעוץ אישית ללא עלות. אליה מלווה בעלות עסקי ביוטי בשיווק ובצד המנטלי, כדי למלא יומן בלקוחות ולהעלות מחירים.",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel, conversation 2026-08-04: the only offer on the page is a free call; she has no named program",
+        "checkedAt": "2026-08-04T18:40:00Z"
+      },
+      "blockingLevel": "blocks-scaffold"
+    },
+    "differentiators": [
+      {
+        "value": "שיווק וגם הצד המנטלי — ביטחון עצמי, תמחור, והמחסומים שמונעים מבעלת עסק להיראות",
+        "status": "confirmed",
+        "source": {
+          "kind": "website",
+          "reference": "Instagram bio: מאמנת שיווקית ומנטלית לעסקי ביוטי",
+          "checkedAt": "2026-08-04T17:20:00Z"
+        },
+        "blockingLevel": "optional"
+      },
+      {
+        "value": "מתמחה בעסקי ביוטי בלבד — לק ג'ל, בניית ציפורניים, עיצוב גבות וקוסמטיקה",
+        "status": "confirmed",
+        "source": {
+          "kind": "website",
+          "reference": "Instagram bio and client testimonials",
+          "checkedAt": "2026-08-04T17:20:00Z"
+        },
+        "blockingLevel": "optional"
+      },
+      {
+        "value": "תוצאות מדידות אצל לקוחות: יומן מלא, העלאת מחירים, וחשיפה אורגנית ברשתות",
+        "status": "client-supplied",
+        "source": {
+          "kind": "client",
+          "reference": "11 Instagram/WhatsApp screenshots supplied by Daniel 2026-08-04, assets/testimonials/raw/t01-t11.png",
+          "checkedAt": "2026-08-04T19:30:00Z"
+        },
+        "blockingLevel": "optional"
+      }
+    ],
+    "source": [
+      {
+        "kind": "website",
+        "reference": "https://www.instagram.com/eliya_thebeautybrand/",
+        "checkedAt": "2026-08-04T17:20:00Z"
+      },
+      {
+        "kind": "website",
+        "reference": "https://sparkle-thrive-growth.base44.app/ — previous site being replaced",
+        "checkedAt": "2026-08-04T17:15:00Z"
+      }
+    ]
+  },
+  "audiences": [
+    {
+      "id": "beauty-business-owners",
+      "description": {
+        "value": "בעלות עסקי ביוטי בישראל — לק ג'ל, בניית ציפורניים, עיצוב והרמת גבות, קוסמטיקה — שיש להן מקצוע חזק אבל יומן לא מלא",
+        "status": "confirmed",
+        "source": {
+          "kind": "website",
+          "reference": "Instagram bio and the professions named across the supplied testimonials",
+          "checkedAt": "2026-08-04T19:30:00Z"
+        },
+        "blockingLevel": "blocks-scaffold"
+      },
+      "priority": 1,
+      "source": {
+        "kind": "website",
+        "reference": "https://www.instagram.com/eliya_thebeautybrand/",
+        "checkedAt": "2026-08-04T17:20:00Z"
+      }
+    },
+    {
+      "id": "beauty-beginners",
+      "description": {
+        "value": "נשים בתחילת הדרך בתחום הביוטי שמפחדות להיראות ברשתות ולגבות מחיר מלא",
+        "status": "derived",
+        "source": {
+          "kind": "agent-derived",
+          "reference": "Recurring theme across testimonials t01, t03, t04 and the ל.כ written quote",
+          "checkedAt": "2026-08-04T19:30:00Z"
+        },
+        "blockingLevel": "optional"
+      },
+      "priority": 2,
+      "source": {
+        "kind": "agent-derived",
+        "reference": "Derived from supplied testimonial content",
+        "checkedAt": "2026-08-04T19:30:00Z"
+      }
+    }
+  ],
+  "conversion": {
+    "primary": {
+      "id": "lead-free-call",
+      "label": "לשיחת ייעוץ ללא עלות",
+      "action": "submit-lead",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel, 2026-08-04: the page exists to collect name and phone, not to push to WhatsApp",
+        "checkedAt": "2026-08-04T18:40:00Z"
+      }
+    },
+    "secondary": [
+      {
+        "id": "whatsapp-direct",
+        "label": "וואטסאפ",
+        "action": "whatsapp",
+        "status": "confirmed",
+        "source": {
+          "kind": "client",
+          "reference": "Daniel supplied 972547893950, taken from the CTA on her existing site",
+          "checkedAt": "2026-08-04T18:40:00Z"
+        }
+      }
+    ]
+  },
+  "localization": {
+    "defaultLocale": "he",
+    "locales": [
+      {
+        "locale": "he",
+        "direction": "rtl",
+        "status": "confirmed"
+      }
+    ]
+  },
+  "content": {
+    "authority": [
+      {
+        "kind": "client",
+        "reference": "Daniel Shedrinsky — approving authority for this speculative build; Eliya is not yet a client",
+        "checkedAt": "2026-08-04T18:40:00Z"
+      },
+      {
+        "kind": "website",
+        "reference": "https://sparkle-thrive-growth.base44.app/ — source of the three written testimonials",
+        "checkedAt": "2026-08-04T19:45:00Z"
+      }
+    ],
+    "copyStatus": "partial",
+    "mediaStatus": "partial",
+    "testimonials": "verified",
+    "claims": [
+      {
+        "id": "price-anchor",
+        "text": "מחיר עוגן ₪1,090",
+        "status": "placeholder",
+        "source": {
+          "kind": "placeholder",
+          "reference": "Daniel invented this for funnel shape 2026-08-04; not Eliya's real price",
+          "checkedAt": "2026-08-04T18:40:00Z"
+        },
+        "approval": {
+          "status": "approved",
+          "owner": "Daniel Shedrinsky",
+          "approvedAt": "2026-08-04T18:40:00Z"
+        }
+      },
+      {
+        "id": "price-offer",
+        "text": "מחיר מבצע ₪419",
+        "status": "placeholder",
+        "source": {
+          "kind": "placeholder",
+          "reference": "Daniel invented this for funnel shape 2026-08-04; not Eliya's real price",
+          "checkedAt": "2026-08-04T18:40:00Z"
+        },
+        "approval": {
+          "status": "approved",
+          "owner": "Daniel Shedrinsky",
+          "approvedAt": "2026-08-04T18:40:00Z"
+        }
+      },
+      {
+        "id": "gift-first-seven",
+        "text": "מתנה לשבע הראשונות שמשאירות פרטים",
+        "status": "placeholder",
+        "source": {
+          "kind": "placeholder",
+          "reference": "Daniel invented this for funnel shape 2026-08-04",
+          "checkedAt": "2026-08-04T18:40:00Z"
+        },
+        "approval": {
+          "status": "approved",
+          "owner": "Daniel Shedrinsky",
+          "approvedAt": "2026-08-04T18:40:00Z"
+        }
+      },
+      {
+        "id": "testimonial-rm",
+        "text": "הגעתי לאליה כשהייתי מיואשת לגמרי. תוך חודש של עבודה על הביטחון, ושיווק ברשתות היומן שלי התמלא בלקוחות חדשות אחרי שהעלתי מחיר. — ר.מ",
+        "status": "client-supplied",
+        "source": {
+          "kind": "website",
+          "reference": "https://sparkle-thrive-growth.base44.app/ — testimonial section, supplied verbatim by Daniel",
+          "checkedAt": "2026-08-04T19:45:00Z"
+        },
+        "approval": {
+          "status": "approved",
+          "owner": "Daniel Shedrinsky",
+          "approvedAt": "2026-08-04T19:45:00Z"
+        }
+      },
+      {
+        "id": "testimonial-ns",
+        "text": "תמיד פחדתי להעלות מחירים. אליה נתנה לי את הביטחון להבין כמה אני שווה. היום אני מרוויחה פי 2 בפחות שעות עבודה. — נ.ש",
+        "status": "client-supplied",
+        "source": {
+          "kind": "website",
+          "reference": "https://sparkle-thrive-growth.base44.app/ — testimonial section, supplied verbatim by Daniel",
+          "checkedAt": "2026-08-04T19:45:00Z"
+        },
+        "approval": {
+          "status": "approved",
+          "owner": "Daniel Shedrinsky",
+          "approvedAt": "2026-08-04T19:45:00Z"
+        }
+      },
+      {
+        "id": "testimonial-lk",
+        "text": "בתור מישהי שבחיים לא חשבה להצטלם, אליה הראתה לי איך להביא לקוחות בלי להרגיש פדחנית. וזה עבד מטורף. — ל.כ",
+        "status": "client-supplied",
+        "source": {
+          "kind": "website",
+          "reference": "https://sparkle-thrive-growth.base44.app/ — testimonial section, supplied verbatim by Daniel",
+          "checkedAt": "2026-08-04T19:45:00Z"
+        },
+        "approval": {
+          "status": "approved",
+          "owner": "Daniel Shedrinsky",
+          "approvedAt": "2026-08-04T19:45:00Z"
+        }
+      },
+      {
+        "id": "proof-screenshots",
+        "text": "אחת עשרה תמונות מסך מאינסטגרם ווואטסאפ המתעדות תוצאות של לקוחות — יומן מלא, העלאת מחירים, וחשיפה אורגנית",
+        "status": "client-supplied",
+        "source": {
+          "kind": "client",
+          "reference": "assets/testimonials/raw/t01-t11.png — supplied by Daniel 2026-08-04, already public on Instagram, published as-is by owner decision",
+          "checkedAt": "2026-08-04T19:30:00Z"
+        },
+        "approval": {
+          "status": "approved",
+          "owner": "Daniel Shedrinsky",
+          "approvedAt": "2026-08-04T20:10:00Z"
+        }
+      }
+    ]
+  },
+  "design": {
+    "direction": {
+      "value": "יוקרה בגוון כהה בלבד. בסיס כחול-ים כמעט שחור, אקסנט זהב חם, ניטרלי שמנת. ההשראה היא נוף פנטהאוז אל הים בשעת שקיעה, והפלטה נגזרת מתמונת ההצעה שלה על החוף. טיפוגרפיה עברית גדולה ובטוחה, הרבה שטח נשימה, בלי עומס.",
+      "status": "derived",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: luxury, penthouse or penthouse view over the sea; dark mode only",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-preview"
+    },
+    "references": [
+      "assets/about/eliya-proposal-beach-sunset.jpg — palette source: gold, cream, deep sea blue at sunset",
+      "Penthouse / sea-view luxury register described by Daniel 2026-08-04"
+    ],
+    "avoid": [
+      "Light theme of any kind — dark only, and it must not invert under Dark Reader or forced dark",
+      "Decorative eyebrow, kicker, overline or category pills above headings",
+      "Beige placeholder wireframe aesthetics",
+      "AI-sounding Hebrew marketing padding and English calques",
+      "Cropping the 9:16 hero videos, which carry burned-in Hebrew captions",
+      "Looping motion or urgency pulsing on the call to action"
+    ],
+    "motion": "expressive",
+    "accessibility": "enhanced"
+  },
+  "routes": [
+    {
+      "id": "home",
+      "path": "/",
+      "purpose": "עמוד נחיתה יחיד: הוכחה חברתית, סיפור, הצעה, וטופס השארת פרטים",
+      "status": "confirmed"
+    }
+  ],
+  "modules": [
+    {
+      "id": "baseline-core",
+      "enabled": true,
+      "status": "confirmed"
+    },
+    {
+      "id": "lead-form",
+      "enabled": true,
+      "status": "confirmed",
+      "notes": "Name and phone only"
+    },
+    {
+      "id": "booking-form",
+      "enabled": false,
+      "status": "confirmed",
+      "notes": "No booking intake; the offer is a call she initiates"
+    },
+    {
+      "id": "testimonials",
+      "enabled": true,
+      "status": "confirmed",
+      "notes": "Three written quotes from her previous site"
+    },
+    {
+      "id": "gallery",
+      "enabled": true,
+      "status": "confirmed",
+      "notes": "Eleven proof screenshots composited onto square branded cards"
+    },
+    {
+      "id": "mobile-cta",
+      "enabled": false,
+      "status": "confirmed",
+      "notes": "Disabled by Daniel 2026-08-07: the fixed bottom bar read as a footer stuck to every screen. He confirmed the header CTA staying hidden below 48rem is fine. Twelve in-page calls to action remain, plus the floating WhatsApp button."
+    },
+    {
+      "id": "consent-analytics",
+      "enabled": true,
+      "status": "confirmed",
+      "notes": "Umami cookieless, un-gated; consent covers cookies and GA only"
+    },
+    {
+      "id": "remote-media-r2",
+      "enabled": true,
+      "status": "confirmed",
+      "notes": "Bucket eliya-media, public host media-eliya.trickticmedia.com"
+    },
+    {
+      "id": "showreel",
+      "enabled": true,
+      "status": "confirmed",
+      "notes": "Required dependency of motion-hero-media; carries the two hero videos"
+    },
+    {
+      "id": "motion-hero-media",
+      "enabled": true,
+      "status": "confirmed",
+      "notes": "Both hero videos, native 9:16, muted, poster fallback, persistent pause"
+    },
+    {
+      "id": "motion-one-shot-cta",
+      "enabled": true,
+      "status": "confirmed"
+    },
+    {
+      "id": "motion-native-scroll-story",
+      "enabled": true,
+      "status": "confirmed",
+      "notes": "Interim media until she supplies her own; module contract only, no Pnina assets"
+    },
+    {
+      "id": "motion-cursor-surface",
+      "enabled": true,
+      "status": "confirmed"
+    }
+  ],
+  "integrations": {
+    "intake": {
+      "mode": "lead",
+      "destination": "n8n",
+      "fields": {
+        "name": true,
+        "phone": true,
+        "email": false,
+        "message": false,
+        "serviceId": false,
+        "timeWindow": false
+      },
+      "dataSensitivity": "standard"
+    },
+    "analytics": {
+      "provider": "umami",
+      "consentRequired": false
+    },
+    "media": {
+      "source": "r2",
+      "remoteFallback": true
+    },
+    "privacy": {
+      "noticeStatus": "draft",
+      "retentionConfirmed": false
+    }
+  },
+  "deployment": {
+    "profile": "static-pages-worker",
+    "domain": "eliya.trickticmedia.com",
+    "basePath": "",
+    "indexable": true,
+    "ownerApprovalRequired": true,
+    "publicMirror": true
+  },
+  "decisions": [
+    {
+      "id": "locale-default-he",
+      "pointer": "/localization/defaultLocale",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: Hebrew only",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-scaffold",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "locale-he-rtl",
+      "pointer": "/localization/locales/0",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: Hebrew RTL only",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-scaffold",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "content-copy-partial",
+      "pointer": "/content/copyStatus",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Three written testimonials and bio copy exist; section copy authored from her public material",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-release",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "content-media-partial",
+      "pointer": "/content/mediaStatus",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Two hero videos, three photographs and eleven proof screenshots supplied; scroll-story media outstanding",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-release",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "testimonials-verified",
+      "pointer": "/content/testimonials",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Three verbatim written quotes plus eleven public screenshots, published as supplied",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-release",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "design-direction-dark-luxury",
+      "pointer": "/design/direction",
+      "status": "derived",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: luxury penthouse/sea register, dark only",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "design-motion-expressive",
+      "pointer": "/design/motion",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: all four motion modules approved",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "design-accessibility-enhanced",
+      "pointer": "/design/accessibility",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Derived: Hebrew RTL dark-only page with video and motion needs enhanced checks",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "conversion-primary-lead",
+      "pointer": "/conversion/primary",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: the page exists to collect name and phone",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-scaffold",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "conversion-secondary-whatsapp-direct",
+      "pointer": "/conversion/secondary/0",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: WhatsApp is the secondary channel",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "optional",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "route-home",
+      "pointer": "/routes/0",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Single landing route",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-scaffold",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "module-baseline-core",
+      "pointer": "/modules/0",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: module baseline-core enabled",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "module-lead-form",
+      "pointer": "/modules/1",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: module lead-form enabled",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "module-booking-form",
+      "pointer": "/modules/2",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: module booking-form excluded",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "module-testimonials",
+      "pointer": "/modules/3",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: module testimonials enabled",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "module-gallery",
+      "pointer": "/modules/4",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: module gallery enabled",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "module-mobile-cta",
+      "pointer": "/modules/5",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: module mobile-cta enabled. REVERSED by Daniel 2026-08-07: \"disable the footer CTA ... and approve it\".",
+        "checkedAt": "2026-08-07T00:00:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-07T00:00:00Z"
+      }
+    },
+    {
+      "id": "module-consent-analytics",
+      "pointer": "/modules/6",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: module consent-analytics enabled",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "module-remote-media-r2",
+      "pointer": "/modules/7",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: module remote-media-r2 enabled",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "module-showreel",
+      "pointer": "/modules/8",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: module showreel excluded",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "module-motion-hero-media",
+      "pointer": "/modules/9",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: module motion-hero-media enabled",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "module-motion-one-shot-cta",
+      "pointer": "/modules/10",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: module motion-one-shot-cta enabled",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "module-motion-native-scroll-story",
+      "pointer": "/modules/11",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: module motion-native-scroll-story enabled",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "module-motion-cursor-surface",
+      "pointer": "/modules/12",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: module motion-cursor-surface enabled",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "integrations-intake-n8n",
+      "pointer": "/integrations/intake",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: n8n webhook, name and phone only",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-scaffold",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "integrations-analytics-umami",
+      "pointer": "/integrations/analytics",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: Umami cookieless, never consent-gated",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "integrations-media-r2",
+      "pointer": "/integrations/media",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: R2 bucket eliya-media via media-eliya.trickticmedia.com",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "integrations-privacy-draft",
+      "pointer": "/integrations/privacy",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Privacy notice drafted, retention not yet confirmed",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-release",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "deployment-profile-static",
+      "pointer": "/deployment",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: GitHub Pages + Cloudflare Worker + n8n on eliya.trickticmedia.com",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-scaffold",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "deployment-static-pages-worker",
+      "pointer": "/deployment/profile",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: GitHub Pages + Cloudflare Worker + n8n, same as the other two repos",
+        "checkedAt": "2026-08-04T18:40:00Z"
+      },
+      "blockingLevel": "blocks-scaffold",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T18:40:00Z"
+      }
+    },
+    {
+      "id": "analytics-umami-ungated",
+      "pointer": "/integrations/analytics/consentRequired",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: Umami is cookieless and must never sit behind consent; consent covers cookies and GA only",
+        "checkedAt": "2026-08-04T19:00:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:00:00Z"
+      }
+    },
+    {
+      "id": "indexable-true",
+      "pointer": "/deployment/indexable",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: indexable true, hosted on his own domain",
+        "checkedAt": "2026-08-04T18:40:00Z"
+      },
+      "blockingLevel": "blocks-release",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T18:40:00Z"
+      }
+    },
+    {
+      "id": "intake-name-phone-only",
+      "pointer": "/integrations/intake/fields",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: name and phone, nothing else",
+        "checkedAt": "2026-08-04T18:40:00Z"
+      },
+      "blockingLevel": "blocks-scaffold",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T18:40:00Z"
+      }
+    },
+    {
+      "id": "placeholder-pricing",
+      "pointer": "/content/claims",
+      "status": "placeholder",
+      "source": {
+        "kind": "placeholder",
+        "reference": "Daniel 2026-08-04: 1090 anchor, 419 offer, gift for the first seven — invented for funnel shape, not her real prices",
+        "checkedAt": "2026-08-04T18:40:00Z"
+      },
+      "blockingLevel": "blocks-release",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T18:40:00Z"
+      }
+    },
+    {
+      "id": "media-r2-bucket",
+      "pointer": "/integrations/media/source",
+      "status": "confirmed",
+      "source": {
+        "kind": "client",
+        "reference": "Daniel 2026-08-04: bucket eliya-media, public host media-eliya.trickticmedia.com",
+        "checkedAt": "2026-08-04T19:50:00Z"
+      },
+      "blockingLevel": "blocks-preview",
+      "approval": {
+        "status": "approved",
+        "owner": "Daniel Shedrinsky",
+        "approvedAt": "2026-08-04T19:50:00Z"
+      }
+    }
+  ],
+  "acceptance": [
+    "העמוד נטען בעברית RTL בלבד, בגוון כהה, ונראה זהה גם כשהדפדפן כופה מצב כהה או Dark Reader",
+    "שני סרטוני הווידאו מוצגים ביחס 9:16 מקורי, מושתקים כברירת מחדל, עם פוסטר ושליטת עצירה קבועה, ובלי חיתוך של הכיתוביות",
+    "הקריאה לפעולה הראשית היא טופס שם וטלפון; וואטסאפ הוא ערוץ משני בלבד",
+    "אחת עשרה תמונות ההוכחה מוצגות בגלריה ריבועית על רקע מעוצב, כפי שסופקו",
+    "שלוש ההמלצות הכתובות מופיעות מילה במילה כפי שנמסרו",
+    "כל תוכן חיוני נגיש גם ללא JavaScript, ללא וידאו וללא אנימציה",
+    "Umami נטען ללא באנר הסכמה; אין קוקיז ואין Google Analytics",
+    "אין תווית קישוט, גלולה או תג צבעוני מעל כותרת",
+    "המחירים מסומנים בבירור כלא סופיים",
+    "pnpm validate עובר בריפו שנוצר"
+  ],
+  "openItems": [
+    {
+      "id": "scroll-story-media",
+      "question": "Eliya has not supplied scroll-story media. Interim uses the module contract with her existing assets; she will produce dedicated media later.",
+      "blockingLevel": "blocks-release",
+      "owner": "Daniel Shedrinsky"
+    },
+    {
+      "id": "hero-video-aspect",
+      "question": "Hero videos are 9:16. Swap to 16:9 when she supplies it.",
+      "blockingLevel": "optional",
+      "owner": "Daniel Shedrinsky"
+    },
+    {
+      "id": "umami-credentials",
+      "question": "No Umami script URL or website ID exists yet. The tracker stays a no-op until both are set.",
+      "blockingLevel": "optional",
+      "owner": "Daniel Shedrinsky"
+    },
+    {
+      "id": "n8n-workflows",
+      "question": "The dev and prod n8n workflows must exist and accept {name, phone} with matching header auth.",
+      "blockingLevel": "blocks-release",
+      "owner": "Daniel Shedrinsky"
+    },
+    {
+      "id": "better-photography",
+      "question": "Only one strong photograph exists. A luxury page wants three or four.",
+      "blockingLevel": "blocks-release",
+      "owner": "Daniel Shedrinsky"
+    },
+    {
+      "id": "real-pricing",
+      "question": "Prices are invented placeholders and must be replaced with Eliya's real numbers before release.",
+      "blockingLevel": "blocks-release",
+      "owner": "Daniel Shedrinsky"
+    },
+    {
+      "id": "privacy-notice",
+      "question": "Privacy notice is a draft and retention behaviour is not confirmed.",
+      "blockingLevel": "blocks-release",
+      "owner": "Daniel Shedrinsky"
+    },
+    {
+      "id": "dns-reproxy",
+      "question": "DNS is grey-cloud for certificate issuance and must return to proxied before launch or the Worker route never fires.",
+      "blockingLevel": "blocks-release",
+      "owner": "Daniel Shedrinsky"
+    }
+  ]
+}

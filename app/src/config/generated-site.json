@@ -1,0 +1,40 @@
+{
+  "foundationVersion": "0.2.0",
+  "foundationCommit": "8ae96c89b5b9df9f2529f462de530d4e63cb8aa8",
+  "foundationSourceState": "clean",
+  "briefSha256": "cc6ae0356a58b6cdc9a8b5f6608b46ec3d5016215bda6204df90795cb201b277",
+  "identityName": "אליה יצחק",
+  "defaultLocale": "he",
+  "locales": [
+    "he"
+  ],
+  "enabledModules": [
+    "baseline-core",
+    "consent-analytics",
+    "gallery",
+    "lead-form",
+    "motion-cursor-surface",
+    "motion-hero-media",
+    "motion-native-scroll-story",
+    "motion-one-shot-cta",
+    "remote-media-r2",
+    "showreel",
+    "testimonials"
+  ],
+  "motion": "expressive",
+  "intakeMode": "lead",
+  "intakeDestination": "n8n",
+  "intakeFields": {
+    "name": true,
+    "phone": true,
+    "email": false,
+    "message": false,
+    "serviceId": false,
+    "timeWindow": false
+  },
+  "deploymentProfile": "static-pages-worker",
+  "basePath": "",
+  "siteUrl": "https://eliya.trickticmedia.com",
+  "indexable": true,
+  "contentStatus": "approved"
+}

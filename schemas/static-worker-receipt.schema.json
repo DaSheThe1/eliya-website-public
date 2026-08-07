@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://foundation.local/schemas/static-worker-receipt.schema.json",
+  "title": "Unverified static intake provider evidence record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "status",
+    "staticArtifact",
+    "workerArtifact",
+    "route",
+    "contract",
+    "approval"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "status": { "const": "recorded-unverified" },
+    "staticArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceCommit", "provenanceSha256"],
+      "properties": {
+        "sourceCommit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "provenanceSha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "workerArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sourceRepository",
+        "sourceCommit",
+        "provenanceSha256"
+      ],
+      "properties": {
+        "sourceRepository": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "sourceCommit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "provenanceSha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "origin",
+        "path",
+        "methods",
+        "providerReceipt",
+        "verifiedAt"
+      ],
+      "properties": {
+        "origin": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/[a-zA-Z0-9/_-]*[a-zA-Z0-9_-]$"
+        },
+        "methods": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": { "const": "POST" }
+        },
+        "providerReceipt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "verifiedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "submissionType",
+        "jsonAdapter",
+        "formAdapter",
+        "boundedBody",
+        "exactOriginAllowlist",
+        "honeypot",
+        "rateLimit",
+        "deduplication",
+        "upstreamTimeout",
+        "redactedLogs",
+        "hermeticParityTests",
+        "fictionalPostDeploySynthetic"
+      ],
+      "properties": {
+        "version": { "const": "1.0" },
+        "submissionType": { "enum": ["lead", "booking"] },
+        "jsonAdapter": { "const": true },
+        "formAdapter": { "const": true },
+        "boundedBody": { "const": true },
+        "exactOriginAllowlist": { "const": true },
+        "honeypot": { "const": true },
+        "rateLimit": { "const": true },
+        "deduplication": { "const": true },
+        "upstreamTimeout": { "const": true },
+        "redactedLogs": { "const": true },
+        "hermeticParityTests": { "const": true },
+        "fictionalPostDeploySynthetic": { "const": true }
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "owner", "approvedAt"],
+      "properties": {
+        "status": { "const": "approved" },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "approvedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

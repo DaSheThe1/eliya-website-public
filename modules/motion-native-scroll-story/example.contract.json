@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0",
+  "selection": {
+    "approved": true,
+    "owner": "Example content owner",
+    "reference": "Reviewed brief decision motion-story"
+  },
+  "content": {
+    "stationCount": 4,
+    "serverRenderedFirstStep": true,
+    "staticCards": true,
+    "semanticStory": true
+  },
+  "geometry": {
+    "stableBeforeHydration": true,
+    "mobileViewportUnit": "lvh",
+    "desktopViewportUnit": "svh",
+    "mobileMinimumPixels": 2400
+  },
+  "media": {
+    "cuts": [
+      {
+        "orientation": "mobile",
+        "src": "/motion/story-mobile.mp4",
+        "poster": "/motion/story-mobile-poster.webp",
+        "mimeType": "video/mp4",
+        "shortGopSeconds": 0.5,
+        "decorative": true
+      },
+      {
+        "orientation": "desktop",
+        "src": "/motion/story-desktop.mp4",
+        "poster": "/motion/story-desktop-poster.webp",
+        "mimeType": "video/mp4",
+        "shortGopSeconds": 0.5,
+        "decorative": true
+      }
+    ],
+    "coalescedSeeks": true,
+    "posterUntilPaint": true,
+    "cleanup": true
+  },
+  "eligibility": {
+    "siteMotionAttribute": "data-site-motion",
+    "motionOnByDefault": true,
+    "ignoreOsReducedMotion": true,
+    "respectSaveData": true,
+    "assignSourceAfterEligibility": true
+  },
+  "interaction": {
+    "nativeScroll": true,
+    "preventDefault": false,
+    "rootScrollSnap": false,
+    "bodyLock": false,
+    "settleAfterCompletedScroll": true,
+    "maxStationsPerTouch": 1,
+    "newTouchCancelsSettle": true,
+    "boundaryExit": true
+  },
+  "failOpen": {
+    "contentVisibleWithoutJavaScript": true,
+    "contentVisibleOnMediaFailure": true,
+    "geometryStableOnMediaFailure": true,
+    "siteOptOutMakesZeroMediaRequests": true,
+    "saveDataMakesZeroMediaRequests": true,
+    "nonLooping": true
+  }
+}

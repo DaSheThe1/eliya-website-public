@@ -1,0 +1,27 @@
+name = "REQUIRED_WORKER_NAME"
+main = "src/index.js"
+compatibility_date = "REQUIRED_REVIEWED_DATE"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = false
+preview_urls = false
+
+[[routes]]
+pattern = "https://REQUIRED_PUBLIC_HOST/REQUIRED_BASE_PATH/api/contact"
+zone_name = "REQUIRED_CLOUDFLARE_ZONE"
+
+[vars]
+ALLOWED_ORIGIN = "https://REQUIRED_PUBLIC_HOST"
+CONTRACT_VERSION = "1"
+SUBMISSION_TYPE = "REQUIRED_LEAD_OR_BOOKING"
+INTAKE_FIELDS_JSON = "REQUIRED_REVIEWED_FIELD_CONTRACT_JSON"
+
+[secrets]
+required = [
+  "N8N_WEBHOOK_URL",
+  "N8N_WEBHOOK_SIGNING_SECRET",
+  "INTAKE_DUPLICATE_SECRET"
+]
+
+# Configure reviewed durable rate-limit/deduplication bindings before removing
+# the generated implementation blocker. Store values with Cloudflare secrets;
+# never commit them or pass them through workflow inputs.
