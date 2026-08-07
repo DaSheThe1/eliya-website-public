@@ -84,8 +84,11 @@ export function Proof({ content }: { content: SiteContent }) {
             items={stills}
             nextLabel={proof.nextLabel}
             onOpen={show}
-            pauseLabel={content.hero.pauseLabel}
-            playLabel={content.hero.playLabel}
+            fullscreenLabel={proof.fullscreenLabel}
+            muteLabel={proof.muteLabel}
+            pauseLabel={proof.pauseLabel}
+            playLabel={proof.playLabel}
+            unmuteLabel={proof.unmuteLabel}
             previousLabel={proof.previousLabel}
           />
           <Gallery
@@ -94,8 +97,11 @@ export function Proof({ content }: { content: SiteContent }) {
             items={media}
             nextLabel={proof.nextLabel}
             onOpen={show}
-            pauseLabel={content.hero.pauseLabel}
-            playLabel={content.hero.playLabel}
+            fullscreenLabel={proof.fullscreenLabel}
+            muteLabel={proof.muteLabel}
+            pauseLabel={proof.pauseLabel}
+            playLabel={proof.playLabel}
+            unmuteLabel={proof.unmuteLabel}
             previousLabel={proof.previousLabel}
           />
         </div>

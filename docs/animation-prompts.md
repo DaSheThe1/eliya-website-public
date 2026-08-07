@@ -33,8 +33,17 @@ mistake, not a variation.
   all six beats. What changes is her posture, who is in the room, the light,
   the calendar and the piggy bank. Nothing else.
 - **Every frame is exactly 1536×2752.** Video interpolation needs pixel-identical
-  canvases. Generations drift (one beat 2 candidate came back 1536×2784) — check
-  the dimensions on every accepted frame before locking it.
+  canvases. Generations drift — a beat 2 candidate came back 1536×2784, and
+  beats 3 and 4 came back **1600×2642**, which is a different *aspect ratio*
+  (1.65 vs 1.79), not just a different size. Check dimensions on every accepted
+  frame. **Fix by padding the top with matching near-black, never by cropping
+  the width** — the top zone is deliberately empty so extending it is free,
+  where cropping eats into the piggy bank and calendar at the edges.
+- **Nobody ever looks at the calendar or the piggy bank.** They are graphic
+  devices floating outside the room's space, not objects the characters can see.
+  Both sit at the bottom of the frame, so directing a character to look at one
+  makes them look *down* — and two women standing still looking down reads as
+  grief. This is what wrecked the first beat 5.
 
 ## Production rule
 
@@ -410,8 +419,12 @@ she raises it and holds her nerve; she ends up with fewer hours and more money.
 | 2 | Filming, Eliya guiding | 4 tan — **unchanged** | ~8% — **unchanged** |
 | 3 | First clients. One in the chair, Eliya present | ~12 tan | ~20% |
 | 4 | Packed. Four clients, hectic, Eliya at the wall | ~30 tan, nearly full | ~45% |
-| 5 | Price raised. One client, quiet, Eliya at her shoulder | ~10, some **gold**, obvious holes | ~45% — **unchanged** |
-| 6 | Calm, one client, daylight, crowd outside, Eliya gone | ~14 all **gold**, big gaps | ~85% |
+| 5 | Price raised. One client, she checks her phone, Eliya beside her | ~10, some **gold**, obvious holes | ~45% — **unchanged** |
+| 6 | Calm, daylight, crowd outside, Eliya applauding | ~14 all **gold**, big gaps | ~85%, glowing |
+
+**The phone rhyme.** Beat 1 is her staring at a silent phone in despair; beat 5
+is her staring at the same phone in suspense — *did anyone book at the new
+price?* Same gesture, opposite meaning, across the whole arc.
 
 ## The three things that carry the argument
 
@@ -449,21 +462,24 @@ angle, same furniture in the same places, all six beats.
 
 Daniel's decision. She is physically present, not a call on a screen.
 
-**Absent at beat 1, present at beats 2 to 5, absent at beat 6.** One entrance
-and one exit, which is the whole reason she stays through the middle rather
-than appearing only at the decisions: a body that appears, vanishes, returns
-and vanishes again is four entrances and exits for the video model to invent,
-and every one of them is a place the interpolation can break.
+**Absent at beat 1, present at beats 2 to 6.** One entrance, no exit. She
+appears when the help starts and stays to the end.
 
-It also reads better. Beat 1 is before the help, beats 2 to 5 are the work
-together, beat 6 is after — she is gone and the business remains. And her being
-present at beat 4 makes beat 5 causal rather than arbitrary: she is standing
-there watching the woman drown in cheap appointments, which is *why* the price
-goes up in the next frame.
+Her being present at beat 4 makes beat 5 causal rather than arbitrary: she is
+standing there watching the woman drown in cheap appointments, which is *why*
+the price goes up in the next frame.
 
-**Her exit is covered by the time change.** Beat 5 is night, beat 6 is golden
-late afternoon. Days have passed, so nobody expects the same people in the
-room. That jump is the licence for her absence and it needs no walking-out shot.
+**Revised 2026-08-08 (Daniel).** She was originally gone at beat 6 — *the coach
+leaves and the business remains* — which made the last frame the viewer's own
+victory rather than a shared one. Daniel wanted her celebrating instead. The
+trade is real: her presence reads slightly more like "you will always need her,"
+but it is warmer, and on a page whose CTA is *book a call with me* a delighted
+coach in the final frame is the better commercial choice. It also removes the
+hardest transition in the sequence — her exit across the night-to-daylight jump.
+
+**She is visiting, not working, at beat 6.** Standing back, applauding, away
+from the treatment chair. The studio owner is centre frame and the larger
+figure. Shared joy, but the room is unmistakably hers.
 
 ### Telling the two women apart
 
@@ -768,13 +784,19 @@ following:
 The studio has emptied out. Only one client remains in the treatment
 chair. The waiting bench is empty. Nobody is at the door.
 
-The woman who owns the studio is standing still, arms at her sides,
-looking towards the calendar. Uncertain, holding her breath. Not sad,
-not happy — waiting.
+The woman who owns the studio is standing near her desk holding her
+PHONE UP in front of her, looking at its screen, waiting to see whether
+anyone has booked. Alert and hopeful rather than sad — this is
+suspense, not grief. Her head is UP and her eyes are on the phone at
+chest height.
 
-The coach in the black blazer is standing next to her at her shoulder,
-both of them facing the calendar together. Calm and steady, not
-gesturing. The studio owner stays closest to the centre of the picture.
+The coach in the black blazer stands beside her, calm and reassuring,
+looking AT HER rather than into the distance, one hand near her
+shoulder. The studio owner stays closest to the centre of the picture.
+
+⚠️ NEITHER WOMAN LOOKS DOWNWARD. Neither woman looks at the calendar or
+the piggy bank. Nobody has a sad, mournful or grieving expression. All
+eye lines are level or upward.
 
 The calendar has changed character completely. Most of the blocks are
 gone, leaving large visibly EMPTY areas in the grid. About TEN blocks
@@ -808,10 +830,14 @@ One client is lying in the treatment chair, relaxed, being worked on
 unhurried. The waiting bench is empty.
 
 The woman who owns the studio is standing upright beside the chair,
-calm and unhurried, quietly pleased. Hair tidy.
+calm and unhurried, SMILING, openly happy. Hair tidy. She is centre
+frame and she is the one this is happening to.
 
-The coach in the black blazer is GONE. There is no second woman
-anywhere in the room. The studio owner is the only person working here.
+The coach in the black blazer is standing further back and to one side,
+away from the treatment chair, APPLAUDING — hands together clapping,
+beaming, delighted for her. She is visiting to see this, not working:
+she is not touching anything and not near the client. The studio owner
+remains the centre of the picture and the larger figure.
 
 The calendar now carries about FOURTEEN blocks, and every single one of
 them is DEEP SATURATED GOLD. No pale tan blocks remain. They are spread
@@ -821,7 +847,10 @@ must be obvious at a glance, not subtle: that white space is the point
 of the picture.
 
 The piggy bank is nearly full, banknotes stacked up to its shoulders.
-Far more than the previous frame.
+Far more than the previous frame. The BANKNOTES INSIDE now glow warm
+gold and cast a soft golden light out through the glass. The vessel
+itself stays clear glass — do not turn the piggy bank gold, do not
+change what it is made of. Only the money inside glows.
 
 EVERYTHING ELSE IS IDENTICAL. Same room, same angle, same furniture in
 the same places, same interior lamps still on. No text anywhere.
@@ -848,6 +877,30 @@ committing to video:
    reads to it as "add money."
 5. Check **no gold appears before beat 5.** One beat 3 candidate arrived with
    gold blocks already in it.
+6. **Count the blocks in beats 4, 5 and 6 and check the shape is 30 → 10 → 14,
+   not a straight decline.** The first pass came back 30 → 20 → 11: beat 5
+   barely thinned and beat 6 ended up *below* it, which turns a dip-and-recover
+   into a monotonic shrink. The model resists non-monotonic change and will
+   keep continuing whatever direction the previous edit went in, so this needs
+   checking every time.
+7. **Check the piggy LEVEL rises at beat 6, not just its glow.** The first pass
+   added the gold light but left the notes at beat 5's height, which says
+   "fewer clients, same money, but prettier." The level is the instrument; the
+   glow is decoration.
+
+## Counting the instruments
+
+The rooms are the easy part and they distract from the checks that matter. When
+judging any frame, ignore the room first and read only these two:
+
+| Beat | Blocks | Piggy |
+| --- | --- | --- |
+| 1 | 4 tan | ~8% |
+| 2 | 4 tan | ~8% |
+| 3 | ~12 tan | ~20% |
+| 4 | ~30 tan | ~45% |
+| 5 | **~10**, ~4 gold, most cells EMPTY | ~45% (identical to 4) |
+| 6 | ~14, **all** gold, one row empty | ~85% |
 
 ---
 

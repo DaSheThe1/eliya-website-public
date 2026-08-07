@@ -368,6 +368,11 @@ const he = {
     positionLabel: "מעבר לפריט",
     expandLabel: "להגדלה",
     closeLabel: "סגירה",
+    playLabel: "הפעלה",
+    pauseLabel: "עצירה",
+    muteLabel: "השתקה",
+    unmuteLabel: "ביטול השתקה",
+    fullscreenLabel: "מסך מלא",
     items: [
       {
         id: "t01",

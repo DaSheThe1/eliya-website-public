@@ -73,12 +73,15 @@ function useHydrated(): boolean {
   );
 }
 
-function MediaSlide({ item, expandLabel, onExpand, playLabel, pauseLabel }: {
+function MediaSlide({ item, expandLabel, onExpand, playLabel, pauseLabel, muteLabel, unmuteLabel, fullscreenLabel }: {
   item: ProofItem;
   expandLabel: string;
   onExpand: () => void;
   playLabel: string;
   pauseLabel: string;
+  muteLabel: string;
+  unmuteLabel: string;
+  fullscreenLabel: string;
 }) {
   const { media } = item;
 
@@ -86,8 +89,11 @@ function MediaSlide({ item, expandLabel, onExpand, playLabel, pauseLabel }: {
     return (
       <TileVideo
         label={item.alt}
+        fullscreenLabel={fullscreenLabel}
+        muteLabel={muteLabel}
         pauseLabel={pauseLabel}
         playLabel={playLabel}
+        unmuteLabel={unmuteLabel}
         poster={media.poster}
         src={media.src}
       />
@@ -146,6 +152,9 @@ export function Gallery({
   expandLabel,
   playLabel,
   pauseLabel,
+  muteLabel,
+  unmuteLabel,
+  fullscreenLabel,
   onOpen,
 }: {
   items: ProofItem[];
@@ -155,6 +164,9 @@ export function Gallery({
   expandLabel: string;
   playLabel: string;
   pauseLabel: string;
+  muteLabel: string;
+  unmuteLabel: string;
+  fullscreenLabel: string;
   onOpen: (item: ProofItem) => void;
 }) {
   const trackRef = useRef<HTMLUListElement>(null);
@@ -304,9 +316,12 @@ export function Gallery({
               <MediaSlide
                 expandLabel={expandLabel}
                 item={item}
+                fullscreenLabel={fullscreenLabel}
+                muteLabel={muteLabel}
                 onExpand={() => onOpen(item)}
                 pauseLabel={pauseLabel}
                 playLabel={playLabel}
+                unmuteLabel={unmuteLabel}
               />
             </div>
             <p className="gallery__caption">{item.caption}</p>

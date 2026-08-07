@@ -42,21 +42,34 @@ import { useEffect, useRef, useState } from "react";
  * (iOS Safari forces a native control set in fullscreen, which is out of the
  * page's hands and is fine — fullscreen is the one place scrubbing belongs).
  */
+// iOS Safari has no Element.requestFullscreen; the clip expands through the
+// native player via this vendor method instead. Same shape as the hero player.
+type FullscreenVideo = HTMLVideoElement & {
+  webkitEnterFullscreen?: () => void;
+};
+
 export function TileVideo({
   src,
   poster,
   label,
   playLabel,
   pauseLabel,
+  muteLabel,
+  unmuteLabel,
+  fullscreenLabel,
 }: {
   src: string;
   poster: string;
   label: string;
   playLabel: string;
   pauseLabel: string;
+  muteLabel: string;
+  unmuteLabel: string;
+  fullscreenLabel: string;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
+  const [muted, setMuted] = useState(false);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -98,6 +111,43 @@ export function TileVideo({
     }
   }
 
+  /*
+   * ⚠️ MUTE AND FULLSCREEN WERE BOTH MISSING, AND THAT WAS AN OVERSIGHT.
+   *
+   * Daniel, 2026-08-07: *"there is no option to mute/unmute full screen on the
+   * video there."* The note at the top of this file explains at length why the
+   * browser's own control bar had to go, and then replaced it with only
+   * play/pause and a progress line — so removing the leaky Download menu also
+   * removed the volume control and the fullscreen button, which are the two
+   * controls a visitor most reasonably expects on someone else's video.
+   *
+   * These are her clients speaking. Sound is the whole point of the clip, so it
+   * plays unmuted — but a person opening a page at work, or beside someone
+   * asleep, needs to be able to silence it in one press without hunting for the
+   * tile that is talking. And a phone screenshot inside a small tile is exactly
+   * the thing you want to make bigger.
+   *
+   * `pauseEveryOtherClip` above is deliberately NOT relaxed to match. One clip
+   * at a time is correct: two of her clients talking over each other, with no
+   * way to tell which tile to press to stop it, is worse than the wait.
+   */
+  function toggleMuted() {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = !video.muted;
+    setMuted(video.muted);
+  }
+
+  function expand() {
+    const video = videoRef.current as FullscreenVideo | null;
+    if (!video) return;
+    if (video.requestFullscreen) {
+      void video.requestFullscreen().catch(() => undefined);
+    } else {
+      video.webkitEnterFullscreen?.();
+    }
+  }
+
   return (
     <div className="tile-video">
       <video
@@ -130,6 +180,40 @@ export function TileVideo({
           </span>
         ) : null}
       </button>
+
+      {/* ⚠️ THE CORNER SITS ON TOP OF THE FULL-FRAME PLAY BUTTON, so these two
+          need their own stacking context — otherwise a press meant for mute
+          lands on play/pause behind it and does both. */}
+      <div className="tile-video__corner">
+        <button
+          aria-label={muted ? unmuteLabel : muteLabel}
+          className="tile-video__icon-button"
+          onClick={toggleMuted}
+          type="button"
+        >
+          {muted ? (
+            <svg aria-hidden fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor" stroke="none" />
+              <path d="M16 9l5 6M21 9l-5 6" strokeLinecap="round" />
+            </svg>
+          ) : (
+            <svg aria-hidden fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor" stroke="none" />
+              <path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" strokeLinecap="round" />
+            </svg>
+          )}
+        </button>
+        <button
+          aria-label={fullscreenLabel}
+          className="tile-video__icon-button"
+          onClick={expand}
+          type="button"
+        >
+          <svg aria-hidden fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" strokeLinecap="round" />
+          </svg>
+        </button>
+      </div>
 
       {/* ⚠️ dir="ltr" and a left transform origin, explicitly. See the note
           above: an RTL document drains this from the wrong end otherwise. */}

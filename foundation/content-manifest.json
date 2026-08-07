@@ -134,7 +134,7 @@
     },
     {
       "path": "app/src/app/globals.css",
-      "sha256": "bac5b2371aee3907bd2661d4ae1e47ae678d3f554bff4451901b06d730e79956"
+      "sha256": "18b076cbc469ad8969394b1bd4b18f57e03c10975c8238b709f469a76e5104b5"
     },
     {
       "path": "app/src/app/icon.png",
@@ -218,7 +218,7 @@
     },
     {
       "path": "app/src/components/motion/tile-video.tsx",
-      "sha256": "0c7d5b31b1ba081856f9f765691aef489d5e9a52be338a4aba2832640db529bf"
+      "sha256": "8b46a3b59c3a5d0c4c8281ac99e5f265579546a21c08b27ed4b43a9d8c8c0a19"
     },
     {
       "path": "app/src/components/sections/about.tsx",
@@ -238,7 +238,7 @@
     },
     {
       "path": "app/src/components/sections/gallery.tsx",
-      "sha256": "d192177206f2a5ae607d7a0048823ea232d78ba5bda60e06e39932e4132d2638"
+      "sha256": "695aa5432e8ecd2591b467a0a6999895c2b201babc86191ccbcbb836c13288f9"
     },
     {
       "path": "app/src/components/sections/hero.tsx",
@@ -270,7 +270,7 @@
     },
     {
       "path": "app/src/components/sections/proof.tsx",
-      "sha256": "2b838fc7ed753fef65ddd540016f7e773d0ee083ad2a6451da8f63ba30389643"
+      "sha256": "116853ee68bd2649656e34110fc37b9a195bc7b9a51945e84e43bdbbcb894600"
     },
     {
       "path": "app/src/components/sections/showreel.tsx",
@@ -330,11 +330,11 @@
     },
     {
       "path": "app/src/content/site-content.ts",
-      "sha256": "4f275e9754ee6870bc8dce1e859ea33e77dd68e74e8e54431de370c4702317f7"
+      "sha256": "c457b13d650e67f385deabef4efd1ee3023af778691e41d0371fe1e4a11ed48a"
     },
     {
       "path": "app/src/content/types.ts",
-      "sha256": "1082b2befc5eb39d053a500f53aa1507391145ef161aa7e9a4a0e8b3f0107295"
+      "sha256": "532f3adc55ecbcaa0b4d8810d6633499112e0d37aa2d697dfd938bfd5028aa44"
     },
     {
       "path": "app/src/lib/api-response.ts",

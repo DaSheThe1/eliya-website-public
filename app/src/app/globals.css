@@ -2632,6 +2632,53 @@ main,
 /* Daniel: *"we're going to have the video play time in the bottom as the moving
    line."* An indicator, not a scrubber — no pointer events, so it cannot steal
    a tap meant for the frame behind it. */
+/*
+ * ⚠️ MUTE AND FULLSCREEN, ADDED 2026-08-08. Removing the browser's leaky
+ * control bar (its overflow menu offered Download on her clients' clips) also
+ * removed the volume control and the fullscreen button — the two a visitor most
+ * reasonably expects. See `motion/tile-video.tsx`.
+ *
+ * TOP corner, not bottom: the progress line owns the bottom edge and the page's
+ * two viewport-fixed floating buttons pass under both bottom corners as it
+ * scrolls. Same reasoning as the hero player's corner, same placement, so the
+ * two players do not disagree about where a control lives.
+ *
+ * `z-index` is load-bearing — the whole frame behind this is one big play/pause
+ * button, so without a stacking context a press meant for mute lands on the
+ * button underneath and does both.
+ */
+.tile-video__corner {
+  position: absolute;
+  top: var(--space-2);
+  inset-inline-end: var(--space-2);
+  z-index: 2;
+  display: flex;
+  gap: var(--space-1);
+}
+
+.tile-video__icon-button {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid rgb(255 255 255 / 0.18);
+  border-radius: 50%;
+  background: rgb(6 10 18 / 0.6);
+  color: var(--color-ink);
+  backdrop-filter: blur(3px);
+  cursor: pointer;
+}
+
+.tile-video__icon-button:hover {
+  background: rgb(6 10 18 / 0.82);
+}
+
+.tile-video__icon-button svg {
+  width: 1rem;
+  height: 1rem;
+}
+
 .tile-video__progress {
   position: absolute;
   inset-inline: 0;

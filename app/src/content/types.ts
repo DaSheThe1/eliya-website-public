@@ -224,6 +224,12 @@ export interface SiteContent {
     /** Accessible name for the button that opens an artefact full size. */
     expandLabel: string;
     closeLabel: string;
+    /** Gallery clip controls. The stills tracks never use these. */
+    playLabel: string;
+    pauseLabel: string;
+    muteLabel: string;
+    unmuteLabel: string;
+    fullscreenLabel: string;
   };
   testimonials: {
     titleLines: string[];
